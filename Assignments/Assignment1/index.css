@@ -49,3 +49,15 @@
   border: 2px solid red;
   width: 30%;
 }
+.link {
+  text-decoration: none;
+}
+
+a:link {
+  color: black;
+}
+
+/* visited link */
+a:visited {
+  color: grey;
+}
