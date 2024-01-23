@@ -1,0 +1,51 @@
+.image-overlay-text {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 200;
+  letter-spacing: 0.7rem;
+  margin: 0;
+  padding: 0;
+}
+.parallax {
+  /* The image used */
+  background-image: url("assets/image3.png");
+  /* Set a specific height */
+  object-fit: contain;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 70vh;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.parallax2 {
+  /* The image used */
+  background-image: url("assets/image2.png");
+  /* Set a specific height */
+  object-fit: contain;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 50vh;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+.gallery {
+  flex: 3;
+  height: 40vh;
+  position: absolute;
+  color: white;
+  object-fit: contain;
+  /* Create the parallax scrolling effect */
+  top: 10%;
+  right: 10%;
+  border: 2px solid red;
+  width: 30%;
+}
