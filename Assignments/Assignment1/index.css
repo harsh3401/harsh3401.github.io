@@ -18,36 +18,63 @@ button:hover {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  min-width: 903px;
-  width: 903px;
-  height: 70vh;
+  min-width: 1234px;
+  width: 1234px;
+  height: 75vh;
   position: relative;
 }
+.float-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1234px;
+  padding-top: 15%;
+  padding-bottom: 25%;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 2rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  position: sticky;
+  background: white;
+  top: 0;
+  height: 5rem;
+  z-index: 100;
+  width: 100%;
+  align-items: center;
+  font-family: sans-serif;
+  font-size: 0.7rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Sources referred for parallax effect: ChatGPT  & Stack overflow prompt: */
 
 .parallax2 {
-  /* The image used */
   background-image: url("assets/image2.png");
-  /* Set a specific height */
-  /* Create the parallax scrolling effect */
   background-attachment: fixed;
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 500px;
-  width: 803px;
+  height: 520px;
+  width: 1077px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
   margin-top: 8rem;
   bottom: 0;
 }
+
 .gallery {
   flex: 3;
   height: 40vh;
   position: absolute;
   color: white;
   object-fit: contain;
-  /* Create the parallax scrolling effect */
   top: 10%;
   right: 70px;
 }
@@ -62,4 +89,116 @@ a:link {
 /* visited link */
 a:visited {
   color: grey;
+}
+.consultation-button {
+  border: 1px solid white;
+  padding: 0.6rem;
+  color: white;
+  font-size: 0.7rem;
+  margin-left: 5.5rem;
+  margin-top: 1rem;
+}
+.footer-container {
+  display: flex;
+  height: 10vh;
+  background: rgb(177 147 89);
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  color: white;
+  padding-top: 3rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.8rem;
+  max-width: 1234px;
+  font-family: sans-serif;
+  margin-top: 3rem;
+}
+.discover-button {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  color: white;
+  background: transparent;
+  width: 70%;
+  font-size: 0.7rem;
+}
+.discover-button-2 {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid white;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  color: white;
+  background: transparent;
+  font-size: 0.7rem;
+}
+.memories-text {
+  position: absolute;
+  top: 220px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  letter-spacing: 0.15rem;
+  line-height: 2.2;
+  font-size: 0.9rem;
+  width: 50%;
+}
+.card-header {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  letter-spacing: 0.6rem;
+  font-size: 1.3rem;
+  font-family: sans-serif;
+}
+.card1-text {
+  position: absolute;
+  top: 220px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  letter-spacing: 0.15rem;
+  width: 70%;
+  font-size: 0.9rem;
+  line-height: 2.2;
+}
+.testimonial-inner-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  font-size: 1.6rem;
+}
+.testimonial-container {
+  font-size: 2rem;
+  width: 1100px;
+  text-align: center;
+  letter-spacing: 0.2rem;
+  margin-top: 6.8rem;
+  margin-bottom: 4rem;
+}
+.testimonial-text {
+  font-size: small;
+  letter-spacing: normal;
+  margin-top: 2rem;
+  color: rgb(177 147 89);
+}
+.main-card-container {
+  display: flex;
+  gap: 3.5rem;
+  color: white;
+  height: 40vh;
+  justify-content: flex-start;
 }
