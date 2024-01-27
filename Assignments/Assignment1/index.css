@@ -33,13 +33,14 @@ button:hover {
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
-  height: 400px;
-  width: 1234px;
+  background-size: cover;
+  height: 500px;
+  width: 803px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
-  margin-top: 18rem;
+  margin-top: 8rem;
+  bottom: 0;
 }
 .gallery {
   flex: 3;
@@ -49,6 +50,7 @@ button:hover {
   object-fit: contain;
   /* Create the parallax scrolling effect */
   top: 10%;
+  right: 70px;
 }
 .link {
   text-decoration: none;
