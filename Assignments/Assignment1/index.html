@@ -4,34 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="index.css" />
-    <title>Document</title>
+    <title>Assignment 1</title>
   </head>
-  <body style="margin: 0">
+  <body style="margin: 0;">
     <nav
       style="
         display: flex;
         justify-content: space-between;
         padding-left: 2rem;
         padding-right: 1rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
         position: sticky;
         background: white;
         z-index: 10;
         top: 0;
+        height: 3rem;
+        align-items: center;
+      max-width:903px;
+        width: 903px;
+        font-family:sans-serif;font-size:0.7rem;
+        border:2px solid red;
       "
     >
-      <h3 style="color: rgb(177 147 89)">MAIN EVENTS</h3>
-      <div style="display: flex; gap: 2rem; margin-top: 1rem">
+      <p style="color: rgb(177 147 89); margin-left:5rem">MAIN EVENTS</p>
+      <div style="display: flex; gap: 2rem;margin-right:1rem ">
         <a class="link" href="#">Home</a>
-        <a class="link" href="services.html">Services</a>
-        <a class="link" href="about.html">About</a>
-        <a class="link" href="gallery.html">Gallery</a>
-        <a class="link" href="contact.html">Contact</a>
+        <a class="link" href="page2.html#services">Services</a>
+        <a class="link" href="page2.html#about" target="_blank">About</a>
+        <a class="link" href="page2.html#gallery">Gallery</a>
+        <a class="link" href="page2.html#contact">Contact</a>
       </div>
     </nav>
-    <div>
-      <div>
+   
+
         <div class="parallax">
           <div
             style="
@@ -39,7 +45,10 @@
               flex-direction: column;
               align-items: center;
               gap: 1rem;
-              padding: 25%;
+              max-width: 903px;
+              padding-top: 15%;
+              padding-bottom: 25%;
+  
             "
           >
             <!-- add credit to stack overflow here -->
@@ -49,33 +58,37 @@
             <p class="image-overlay-text">Memories</p>
           </div>
         </div>
-      </div>
-    </div>
-    <div style="padding: 3rem; background: white">
+  
+
+    <div style="padding: 3rem; background: white;margin-top:2rem;border: 2px solid red; width:903px">
       <div
         style="
           display: flex;
-          gap: 2rem;
+          gap: 3.5rem;
           color: white;
           height: 40vh;
-          border: 2px solid red;
           justify-content: flex-start;
         "
       >
-        <div style="position: relative; border: 2px solid blue">
-          <img alt="flower" src="assets/flower.png" style="height: 40vh" />
-          <h5
+        <div style="position: relative">
+          <img
+            alt="flower"
+            src="assets/flower.png"
+            style="object-fit: cover; height: 387px;width:250px"
+          />
+          <p
             style="
               position: absolute;
-              top: 15%;
+              top: 18%;
               left: 50%;
               transform: translate(-50%, -50%);
               letter-spacing: 0.6rem;
               font-size: 1.3rem;
+              font-family:sans-serif
             "
           >
             SERVICES
-          </h5>
+          </p>
           <p
             style="
               position: absolute;
@@ -85,11 +98,13 @@
               text-align: center;
               letter-spacing: 0.15rem;
               width: 70%;
+              font-size:0.9rem;
+              line-height:2.2;
             "
           >
             Turn the dream into a reality
           </p>
-          <div
+          <button
             style="
               position: absolute;
               top: 80%;
@@ -98,39 +113,49 @@
               border: 1px solid white;
               padding-left: 2rem;
               padding-right: 2rem;
-              padding-top: 1rem;
-              padding-bottom: 1rem;
+              padding-top: 0.6rem;
+              padding-bottom: 0.6rem;
+              color:white;
+              background: transparent;
+              width:70%;
+              font-size:0.7rem;
             "
           >
             DISCOVER
-          </div>
+          </button>
         </div>
-        <img alt="couple" src="assets/image1.png" />
+        <img
+          alt="couple"
+          src="assets/image1.png"
+          style="object-fit: cover; width: 400px; height: 387px"
+        />
       </div>
       <div
         style="
-          padding: 2rem;
-          margin-left: auto;
-          margin-right: auto;
           font-size: 2rem;
-          width: 65%;
+          width: 800px;
           text-align: center;
           letter-spacing: 0.2rem;
-          margin-top: 4rem;
+          margin-top: 7rem;
           margin-bottom: 4rem;
         "
       >
-        <img src="assets/qmark.png" width="20rem" height="20rem" />
-        <div>
-          I'm a testimonial. Click to edit this text and say something nice
-          about you and your services.
+        <p style="font-size: 4rem; padding: 0; margin-bottom: 2.0rem">&#x201E;</p>
+        <div style="display:flex;flex-direction:row;justify-content:space-between;width:100%;align-items:center;font-size:1.6rem">
+          <p style="color: #b19359;font-size:3rem;">&#10229</p>
+          <div style="width: 450px; line-height: 1.65;cursor:pointer">
+            I'm a testimonial. Click to edit this text and say something nice
+            about you and your services.
+          </div><p style="color: #b19359;font-size:3rem;">&#10230</p>
         </div>
+       
         <div
           style="
             font-size: small;
             letter-spacing: normal;
-            margin-top: 1rem;
+            margin-top: 2rem;
             color: rgb(177 147 89);
+          
           "
         >
           Jimmy and Janice
@@ -141,16 +166,17 @@
           <img
             alt="flower"
             src="assets/flower.png"
-            style="height: 40vh; max-width: 100%"
+            style="object-fit: cover; height: 387px;width:250px"
           />
           <h5
             style="
               position: absolute;
-              top: 15%;
+              top: 18%;
               left: 50%;
               transform: translate(-50%, -50%);
               letter-spacing: 0.6rem;
               font-size: 1.3rem;
+              font-family:sans-serif
             "
           >
             GALLERY
@@ -163,99 +189,54 @@
               transform: translate(-50%, -50%);
               text-align: center;
               letter-spacing: 0.15rem;
+              line-height:2.2;
+              font-size: 0.9rem;
               width: 70%;
+              
             "
           >
             Unforgettable Memories
           </p>
-          <div
+          <button
             style="
               position: absolute;
               top: 80%;
               left: 50%;
               transform: translate(-50%, -50%);
               border: 1px solid white;
+       
               padding-left: 2rem;
               padding-right: 2rem;
-              padding-top: 1rem;
-              padding-bottom: 1rem;
+              padding-top: 0.6rem;
+              padding-bottom: 0.6rem;
+              color:white;
+              background: transparent;
+   
+              font-size:0.7rem;
             "
           >
             DISCOVER
-          </div>
+          </button>
         </div>
       </div>
-      <!-- <div style="position: fixed; color: white; height: 10vh">
-        
-        <div
-          style="
-            flex: 3;
-            height: 40vh;
-            position: absolute;
-            top: 25%;
-            right: 10%;
-          "
-        >
-          <img
-            alt="flower"
-            src="assets/flower.png"
-            style="width: 100%; height: 100%; position: fixed; z-index: -1"
-          />
-          <h5
-            style="
-              position: absolute;
-              top: 15%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              letter-spacing: 0.6rem;
-              font-size: 1.3rem;
-            "
-          >
-            GALLERY
-          </h5>
-          <p
-            style="
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              text-align: center;
-              letter-spacing: 0.15rem;
-              width: 70%;
-            "
-          >
-            Unforgettable Memories
-          </p>
-          <div
-            style="
-              position: absolute;
-              top: 80%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              border: 1px solid white;
-              padding-left: 2rem;
-              padding-right: 2rem;
-              padding-top: 1rem;
-              padding-bottom: 1rem;
-            "
-          >
-            DISCOVER
-          </div>
-        </div>
-      </div> -->
+
       <footer>
         <div
           style="
             display: flex;
             height: 10vh;
             background: rgb(177 147 89);
-            margin-top: 1rem;
             align-items: flex-start;
             justify-content: center;
             gap: 1rem;
             color: white;
-            padding: 2rem;
-            font-size: small;
+            padding-top: 3rem;
+            padding-bottom: 0.5rem;
+            font-size: 0.7rem;
+            max-width: 903px;
+            font-family:sans-serif;
+            margin-top: 5rem;
+
           "
         >
           <div>
@@ -273,17 +254,19 @@
           </div>
           <div style="border: 1px solid white; height: 40%"></div>
           <div>© 2023 by Main Events.</div>
-          <div
+          <button
             style="
               border: 1px solid white;
               padding: 0.6rem;
               color: white;
-              font-size: small;
-              width: 33%;
+              font-size: 0.7rem;
+              margin-left:3.5rem;
+              margin-top:1.0rem;
+ 
             "
           >
             BOOK A CONSULTATION
-          </div>
+          </button>
         </div>
       </footer>
     </div>
