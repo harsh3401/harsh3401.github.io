@@ -12,6 +12,7 @@ button {
 button:hover {
   cursor: pointer;
 }
+/* Sources referred for fixing image width issues: Stackoverflow  : https://stackoverflow.com/questions/36716925/min-width-and-max-width-not-working-on-image */
 .parallax {
   background-image: url("assets/image3.png");
   background-attachment: fixed;
@@ -52,7 +53,7 @@ button:hover {
   box-sizing: border-box;
 }
 
-/* Sources referred for parallax effect: ChatGPT  & Stack overflow prompt: */
+/* Sources referred for parallax effect: Log rocket blog : https://blog.logrocket.com/create-parallax-scrolling-css/ */
 
 .parallax2 {
   background-image: url("assets/image2.png");
