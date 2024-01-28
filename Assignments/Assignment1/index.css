@@ -18,7 +18,6 @@ button:hover {
   background-attachment: fixed;
   background-position: 25% 75%;
   background-repeat: no-repeat;
-  background-size: cover;
   min-width: 1234px;
   width: 1234px;
   height: 75vh;
@@ -60,11 +59,9 @@ button:hover {
   background-attachment: fixed;
   background-position: top;
   background-repeat: no-repeat;
-  background-size: cover;
   height: 520px;
-  width: 1077px;
-  margin-left: auto;
-  margin-right: auto;
+  min-width: 1134px;
+  width: 1134px;
   position: relative;
   margin-top: 8rem;
   bottom: 0;
@@ -108,9 +105,8 @@ a:visited {
   gap: 1rem;
   color: white;
   padding-top: 3rem;
-  padding-bottom: 0.5rem;
   font-size: 0.8rem;
-  max-width: 1234px;
+
   font-family: sans-serif;
   margin-top: 3rem;
 }
