@@ -1,0 +1,6 @@
+- [ ] Backend Apis according to spec
+- [ ] Fronted UI Components
+- [ ] Frontend Search Caching
+- [ ] Frontend ajax calls parallel and separate
+- [ ] Frontend Rendering check
+- [ ] Backend API Performance review and comparison to spec
