@@ -8,7 +8,6 @@ from dateutil.relativedelta import relativedelta
 routes=Blueprint('main_routes',__name__)
 
 
-#TODO:write middleware function for errors
 
 def error_middleware(stock_data,valid_attribute=None):
     if stock_data.status_code == 200:
@@ -29,7 +28,14 @@ def validation_middleware(ticker,URL,valid_attribute=None):
         stock_data= make_response(jsonify({"Error":"No Search String Provided"}),400)
     return stock_data
 
-
+def news_format_validator(news_object):
+    validator_keys=["image","url" ,"headline","datetime"]
+    for key in validator_keys:
+        if news_object[key] is None or news_object[key] == "":
+            return False
+    return True  
+    
+    
 
 @routes.route('/company-data', methods = ["GET"])
 def stock_ticker():
@@ -58,7 +64,7 @@ def recommendation_trends():
     return stock_data
 
 
-#TODO:Filter check for news without images
+
 @routes.route('/company-news', methods = ["GET"])
 def company_news():
     ticker=request.args.get('ticker')
@@ -67,9 +73,17 @@ def company_news():
     PREVIOUS_MONTH=TODAY+relativedelta(months=-1)
     URL="{}/company-news?symbol={}&from={}&to={}&token={}".format(os.environ.get("FINHUB_ENDPOINT"),ticker,PREVIOUS_MONTH,TODAY,os.environ.get("FINHUB_API_KEY"))
     stock_data=validation_middleware(ticker,URL)
+    valid_news_data=[]
     if isinstance(stock_data,list) and len(stock_data)>=1:
-        stock_data=stock_data[:4]
-    return stock_data
+        for stock_object in stock_data:
+            if news_format_validator(stock_object):
+                valid_news_data.append(stock_object)
+            if len(valid_news_data)==5:
+                break     
+        return valid_news_data
+    else:
+        return stock_data
+    
 
 
 @routes.route('/chart-data', methods = ["GET"])
