@@ -4,7 +4,7 @@ from routes import routes
 from dotenv import load_dotenv
 
 load_dotenv()
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static')
 app.config.from_mapping(
 SECRET_KEY=os.environ.get("SECRET_KEY"),
 DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),

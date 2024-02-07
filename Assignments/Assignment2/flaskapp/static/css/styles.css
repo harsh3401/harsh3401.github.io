@@ -1,12 +1,13 @@
 .main {
-  background-image: url("assets/back.svg");
+  background-image: url("../assets/back.svg");
   background-size: auto;
   background-repeat: no-repeat;
-  height: 1000px;
+  height: 100vh;
   padding: 0;
   width: 1440px;
   background-position: top;
   background-attachment: fixed;
+  border: 2px solid red;
   margin: auto;
   position: relative;
   text-align: center;
