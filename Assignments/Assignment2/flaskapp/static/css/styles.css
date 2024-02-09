@@ -116,3 +116,30 @@ input[type="submit"] {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 } */
+.newsCard {
+  display: flex;
+  color: black;
+  gap: 20px;
+  width: 900px;
+  margin: 10px;
+  text-align: left;
+  padding: 25px;
+  border: 2px solid green;
+  background-color: rgb(250, 250, 250);
+  align-items: center;
+}
+#news-tab-page.active {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.news-headline {
+  font-size: 20px;
+}
+.news-date {
+  font-weight: 400;
+}
+.r-tile {
+  width: 40px;
+  height: 40px;
+}
