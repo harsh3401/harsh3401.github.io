@@ -18,9 +18,101 @@ body {
   margin: 0;
   padding: 0;
 }
-div:hover > svg {
+label:hover > svg {
   color: gray;
 }
 input:focus {
   outline: none;
 }
+.tab {
+  padding-left: 10px;
+  padding-right: 10px;
+  color: black;
+  font-size: 14px;
+}
+.tab.active {
+  background-color: rgb(204, 204, 204);
+}
+.tab:hover {
+  background-color: rgba(221, 221, 221, 0.5);
+}
+.tabpage {
+  display: none;
+}
+.tabpage.active {
+  margin-top: 40px;
+  border: 2px solid red;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.colname {
+  font-size: small;
+  font-weight: 400;
+  color: black;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  gap: 10px;
+  text-align: right;
+}
+.colvalues {
+  font-size: small;
+
+  font-weight: 400;
+  gap: 10px;
+  text-align: left;
+  border-bottom: 1px solid;
+}
+.company-content {
+  display: flex;
+  align-items: center;
+}
+
+.row-container {
+  display: flex;
+  gap: 10px;
+}
+.tabpage-content {
+  margin-top: 20px;
+  gap: 10px;
+  display: flex;
+}
+
+input[type="submit"] {
+  display: none;
+}
+#tab-group {
+  display: none;
+}
+#tab-page-group {
+  display: none;
+}
+#tab-page-group.active {
+  display: block;
+}
+#tab-group.active {
+  border: 2px solid red;
+  margin-top: 200px;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 45px;
+  display: flex;
+  background-color: rgb(250, 250, 250);
+}
+
+#notfound {
+  display: none;
+}
+
+#notfound.active {
+  display: block;
+  margin-top: 25vh;
+}
+/* .colborder {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+} */
