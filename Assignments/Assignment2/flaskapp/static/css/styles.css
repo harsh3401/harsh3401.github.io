@@ -111,11 +111,14 @@ input[type="submit"] {
 #notfound.active {
   display: block;
   margin-top: 25vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  color: black;
+  background-color: rgb(233, 233, 233);
+  width: 600px;
+  border-radius: 10px;
 }
-/* .colborder {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-} */
 .newsCard {
   display: flex;
   color: black;

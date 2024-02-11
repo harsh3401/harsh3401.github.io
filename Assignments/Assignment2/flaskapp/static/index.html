@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
     <link rel="stylesheet" href="static/css/styles.css" />
-
     <title>Stock Search Assignment 2</title>
     <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
@@ -129,29 +129,25 @@
           <div
             class="tab"
             id="company-tab"
-            onclick="tabController(event,'company-tab-page')"
+            onclick="tabController('company-tab')"
           >
             <p>Company</p>
           </div>
           <div
             class="tab"
             id="summary-tab"
-            onclick="tabController(event,'summary-tab-page')"
+            onclick="tabController('summary-tab')"
           >
             <p>Stock Summary</p>
           </div>
           <div
             class="tab"
             id="charts-tab"
-            onclick="tabController(event,'charts-tab-page')"
+            onclick="tabController('charts-tab')"
           >
             <p>Charts</p>
           </div>
-          <div
-            class="tab"
-            id="news-tab"
-            onclick="tabController(event,'news-tab-page')"
-          >
+          <div class="tab" id="news-tab" onclick="tabController('news-tab')">
             <p>Latest News</p>
           </div>
         </div>
@@ -186,7 +182,7 @@
             ></div>
           </div>
           <div class="tabpage" id="charts-tab-page">
-            <div id="container"></div>
+            <div style="width: 1000px; margin: auto" id="container"></div>
           </div>
           <div class="tabpage" id="news-tab-page"></div>
           <div class="tabpage" id="company-tab-page">
@@ -216,7 +212,9 @@
             </div>
           </div>
         </div>
-        <div id="notfound">No data found for that value</div>
+        <div id="notfound">
+          Error: No record has been found, please enter a valid symbol
+        </div>
       </div>
     </form>
 

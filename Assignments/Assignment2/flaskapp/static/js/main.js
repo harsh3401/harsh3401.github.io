@@ -1,6 +1,5 @@
 // @ts-nocheck
 // gpt credits
-
 // Constants;
 const API_ENDPOINT = "http://127.0.0.1";
 const companyMappedObj = {
@@ -28,15 +27,23 @@ const recommendationDataKeys = [
   "buy",
   "strongBuy",
 ];
-function tabController(event, tabId) {
+
+// TODO: Chart cofig
+
+function tabController(tabId) {
+  const tabPageId = tabId + "-page";
   let tabs = document.getElementsByClassName("tab");
   let tabPage = document.getElementsByClassName("tabpage");
   for (let i = 0; i < tabs.length; i++) {
     tabs[i].classList.remove("active");
     tabPage[i].classList.remove("active");
   }
-  document.getElementById(tabId)?.classList.add("active");
-  event.currentTarget.classList.add("active");
+  document.getElementById(tabPageId)?.classList.add("active");
+  document.getElementById(tabId).classList.add("active");
+}
+
+function cleanup(element) {
+  element.textContent = "";
 }
 
 function setCompanyTab(companyData) {
@@ -47,6 +54,16 @@ function setCompanyTab(companyData) {
 }
 
 function setStockSummaryTab(recommendationData, stockSummaryData, ticker) {
+  // #cleanup
+  const sumc = document.getElementById("sumc");
+  const sumcp = document.getElementById("sumcp");
+  const recommendationContainer = document.getElementById(
+    "recommendation-container"
+  );
+
+  sumc.textContent = "";
+  sumcp.textContent = "";
+  recommendationContainer.textContent = "";
   for (const key of Object.keys(summaryMappedObj)) {
     document.getElementById(key).innerHTML =
       stockSummaryData[summaryMappedObj[key]];
@@ -61,7 +78,7 @@ function setStockSummaryTab(recommendationData, stockSummaryData, ticker) {
   const changep = stockSummaryData["dp"];
 
   // TODO: 0 case
-  //TODO: Extra Cleanup
+  //TODO: Extra Cleanup if same tab is allowed
   document.getElementById("sumc").insertAdjacentHTML(
     "beforeend",
     change < 0
@@ -100,7 +117,62 @@ function setStockSummaryTab(recommendationData, stockSummaryData, ticker) {
     .insertAdjacentHTML("beforeend", recommendationElements);
 }
 
-function setChartsTab(chartsData) {}
+function setChartsTab(chartsData) {
+  const chart1Data = [];
+  const chart2Data = [];
+
+  for (const charObj of chartsData) {
+    chart1Data.push([charObj["t"], charObj["c"]]);
+    chart2Data.push([charObj["t"], charObj["v"]]);
+  }
+  Highcharts.stockChart("container", {
+    rangeSelector: {
+      selected: 1,
+    },
+    yAxis: [
+      {
+        labels: {
+          align: "right",
+          x: -3,
+        },
+        title: {
+          text: "OHLC",
+        },
+        height: "60%",
+        lineWidth: 2,
+        resize: {
+          enabled: true,
+        },
+      },
+      {
+        labels: {
+          align: "right",
+          x: -3,
+        },
+        title: {
+          text: "Volume",
+        },
+        top: "65%",
+        height: "35%",
+        offset: 0,
+        lineWidth: 2,
+      },
+    ],
+    series: [
+      {
+        type: "area",
+        name: "Stock Price",
+        data: chart1Data,
+      },
+      {
+        type: "candlestick",
+        name: "Volume",
+        data: chart2Data,
+        yAxis: 1,
+      },
+    ],
+  });
+}
 function getNewsCard(newsData, index) {
   //GPT Credit
 
@@ -114,13 +186,16 @@ function getNewsCard(newsData, index) {
     "en-US",
     options
   ).format(new Date(newsData["datetime"]))}</p>
-    <a id=${"nlink" + index} href="${newsData["url"]}">See Original Post</a>
+    <a id=${"nlink" + index} href="${
+    newsData["url"]
+  }" target="_blank" rel="noopener noreferrer">See Original Post</a>
   </div>
 </div>`;
   return component;
 }
 function setNewsTab(newsData) {
   const newstabpage = document.getElementById("news-tab-page");
+  cleanup(newstabpage);
   for (let i = 0; i < 5; i++) {
     newstabpage.insertAdjacentHTML("beforeend", getNewsCard(newsData[i], i));
   }
@@ -132,6 +207,7 @@ function clearSearch() {
   document.getElementById("tab-page-group").classList.remove("active");
   document.getElementById("notfound").classList.remove("active");
 }
+
 function search(event) {
   event.preventDefault();
   const ticker =
@@ -142,6 +218,8 @@ function search(event) {
     .then((response) => {
       response.json().then(function (data) {
         if (data.hasOwnProperty("Error")) {
+          document.getElementById("tab-group").classList.remove("active");
+          document.getElementById("tab-page-group").classList.remove("active");
           document.getElementById("notfound").classList.add("active");
         } else {
           const urls = [
@@ -150,27 +228,26 @@ function search(event) {
             "/recommendation-trends",
             "/company-news",
           ];
+          document.getElementById("notfound").classList.remove("active");
           document.getElementById("tab-group").classList.add("active");
-          document.getElementById("company-tab-page").classList.add("active");
-          setCompanyTab(data);
-          document.getElementById("company-tab").classList.add("active");
 
+          setCompanyTab(data);
+          tabController("company-tab");
           //   Fetch all tabs and push  post rendering company data
           const promises = urls.map((url) => fetch(`${url}?ticker=${ticker}`));
-          console.log("Making background calls");
+
           Promise.all(promises)
             .then((responses) =>
               Promise.all(responses.map((response) => response.json()))
             )
             .then((data) => {
               // Hydrate all tabs
-              console.log(data);
+              setChartsTab(data[0]);
               setNewsTab(data[3]);
               setStockSummaryTab(data[2], data[1], ticker);
             })
             .catch((error) => {
               console.error(error);
-              console.log("Error Fetching all endpoints");
             });
           document.getElementById("tab-page-group").classList.add("active");
         }
@@ -180,27 +257,3 @@ function search(event) {
       console.error(error);
     });
 }
-
-// TODO: Chart cofig
-Highcharts.stockChart("container", {
-  plotOptions: {
-    candlestick: {
-      color: "pink",
-      lineColor: "red",
-      upColor: "lightgreen",
-      upLineColor: "green",
-    },
-  },
-
-  rangeSelector: {
-    selected: 1,
-  },
-
-  series: [
-    {
-      type: "candlestick",
-      name: "USD to EUR",
-      data: ohlcdata,
-    },
-  ],
-});
