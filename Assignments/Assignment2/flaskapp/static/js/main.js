@@ -1,7 +1,7 @@
 // @ts-nocheck
 // gpt credits
 // Constants;
-const API_ENDPOINT = "http://127.0.0.1";
+const API_ENDPOINT = "http://127.0.0.1:5000";
 const companyMappedObj = {
   cname: "name",
   cticker: "ticker",
@@ -117,28 +117,89 @@ function setStockSummaryTab(recommendationData, stockSummaryData, ticker) {
     .insertAdjacentHTML("beforeend", recommendationElements);
 }
 
-function setChartsTab(chartsData) {
+function setChartsTab(chartsData, ticker) {
   const chart1Data = [];
   const chart2Data = [];
-
+  let max_volume = 0;
   for (const charObj of chartsData) {
     chart1Data.push([charObj["t"], charObj["c"]]);
     chart2Data.push([charObj["t"], charObj["v"]]);
+    if (charObj["v"] > max_volume) {
+      max_volume = charObj["v"];
+    }
   }
+  const CHART_HEADER_DATE_STRING = `Stock Price ${ticker.toUpperCase()} ${new Date()
+    .toJSON()
+    .slice(0, 10)}`;
+
+  const MAX_VOLUME = max_volume;
   Highcharts.stockChart("container", {
+    title: {
+      text: CHART_HEADER_DATE_STRING,
+    },
+    subtitle: {
+      text: '<a href="https://polygon.io" style="text-decoration: underline; color: blue;" onmouseover="this.style.textDecoration="underline overline"; this.style.color="red";" onmouseout="this.style.textDecoration="underline"; this.style.color="blue";">Source: Polygon.io</a>',
+    },
+    chart: {
+      spacingLeft: 0,
+      spacingRight: 0,
+      alignTicks: false,
+    },
+    plotOptions: {
+      area: {
+        fillColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1,
+          },
+          stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [
+              1,
+              Highcharts.color(Highcharts.getOptions().colors[0])
+                .setOpacity(0)
+                .get("rgba"),
+            ],
+          ],
+        },
+        marker: {
+          radius: 2,
+        },
+        lineWidth: 1,
+        states: {
+          hover: {
+            lineWidth: 1,
+          },
+        },
+        threshold: null,
+      },
+    },
     rangeSelector: {
-      selected: 1,
+      selected: 4,
+      inputEnabled: false,
+      buttons: [
+        { text: "7d", type: "day", count: 7 },
+        { text: "15d", type: "day", count: 15 },
+        { text: "1m", type: "month", count: 1 },
+        { text: "3m", type: "month", count: 3 },
+        { text: "6m", type: "month", count: 6 },
+      ],
+    },
+    xAis: {
+      minPadding: 0,
     },
     yAxis: [
       {
+        opposite: false,
         labels: {
           align: "right",
           x: -3,
         },
         title: {
-          text: "OHLC",
+          text: "Stock Price",
         },
-        height: "60%",
         lineWidth: 2,
         resize: {
           enabled: true,
@@ -152,23 +213,30 @@ function setChartsTab(chartsData) {
         title: {
           text: "Volume",
         },
-        top: "65%",
-        height: "35%",
+
         offset: 0,
         lineWidth: 2,
       },
     ],
+    plotOptions: {
+      series: {
+        pointPlacement: "on",
+      },
+    },
     series: [
       {
         type: "area",
         name: "Stock Price",
         data: chart1Data,
+        yAxis: 0,
       },
       {
-        type: "candlestick",
+        type: "column",
         name: "Volume",
         data: chart2Data,
+        color: "black",
         yAxis: 1,
+        max: MAX_VOLUME,
       },
     ],
   });
@@ -242,7 +310,7 @@ function search(event) {
             )
             .then((data) => {
               // Hydrate all tabs
-              setChartsTab(data[0]);
+              setChartsTab(data[0], ticker);
               setNewsTab(data[3]);
               setStockSummaryTab(data[2], data[1], ticker);
             })
