@@ -21,6 +21,7 @@
         <p
           style="
             font-size: 25px;
+            margin-top: 0;
             padding-top: 30px;
             margin-bottom: 0;
             color: black;
@@ -68,6 +69,7 @@
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
+                style="cursor: pointer"
               >
                 <path
                   fill="currentColor"
@@ -87,6 +89,8 @@
                 height: 15px;
                 margin-left: 20px;
               "
+              onkeydown="handlePage(event)"
+              oninput="this.value = this.value.toUpperCase()"
               type="text"
               id="ticker"
               required
@@ -117,6 +121,7 @@
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 352 512"
+                style="cursor: pointer"
               >
                 <path
                   fill="currentColor"
@@ -155,27 +160,42 @@
         <div id="tab-page-group">
           <div class="tabpage" id="summary-tab-page">
             <div class="tabpage-content">
-              <div class="colname">
-                <p class="colborder">Stock Ticker Symbol</p>
-                <p class="colborder">Trading Day</p>
-                <p class="colborder">Previous Closing Price</p>
-                <p class="colborder">Opening Price</p>
-                <p class="colborder">High Price</p>
-                <p class="colborder">Low Price</p>
-                <p class="colborder">Change</p>
-                <p class="colborder">Change Percent</p>
-              </div>
-
-              <div class="colvalues">
-                <p id="sumsts" class="colborder"></p>
-                <p id="sumtd" class="colborder"></p>
-                <p id="sumpcp" class="colborder"></p>
-                <p id="sumop" class="colborder"></p>
-                <p id="sumhp" class="colborder"></p>
-                <p id="sumlp" class="colborder"></p>
-                <div id="sumc" class="colborder"></div>
-                <div id="sumcp" class="colborder"></div>
-              </div>
+              <table style="border-collapse: collapse">
+                <tr class="row-border">
+                  <td class="colname">
+                    <p>Stock Ticker Symbol</p>
+                  </td>
+                  <td class="colvalues"><p id="sumsts"></p></td>
+                </tr>
+                <tr class="row-border">
+                  <td class="colname"><p>Trading Day</p></td>
+                  <td class="colvalues"><p id="sumtd"></p></td>
+                </tr>
+                <tr class="row-border">
+                  <td class="colname"><p>Previous Closing Price</p></td>
+                  <td class="colvalues"><p id="sumpcp"></p></td>
+                </tr>
+                <tr class="row-border">
+                  <td class="colname"><p>Opening Price</p></td>
+                  <td class="colvalues"><p id="sumop"></p></td>
+                </tr>
+                <tr class="row-border">
+                  <td class="colname"><p>High Price</p></td>
+                  <td class="colvalues"><p id="sumhp"></p></td>
+                </tr>
+                <tr class="row-border">
+                  <td class="colname"><p>Low Price</p></td>
+                  <td class="colvalues"><p id="sumlp"></p></td>
+                </tr>
+                <tr class="row-border">
+                  <td class="colname"><p>Change</p></td>
+                  <td class="colvalues"><div id="sumc"></div></td>
+                </tr>
+                <tr class="row-border">
+                  <td class="colname"><p>Change Percent</p></td>
+                  <td class="colvalues"><div id="sumcp"></div></td>
+                </tr>
+              </table>
             </div>
             <div
               id="recommendation-container"
@@ -194,22 +214,30 @@
               width="75px"
               height="75px"
             />
-            <div class="tabpage-content">
-              <div class="colname">
-                <p class="colborder">Company Name</p>
-                <p class="colborder">Stock Ticker Symbol</p>
-                <p class="colborder">Stock Exchange Code</p>
-                <p class="colborder">Company Start Date</p>
-                <p class="colborder">Category</p>
-              </div>
-              <div class="colvalues">
-                <p id="cname" class="colborder"></p>
-                <p id="cticker" class="colborder"></p>
-                <p id="sec" class="colborder"></p>
-                <p id="sd" class="colborder"></p>
-                <p id="cat" class="colborder"></p>
-              </div>
-            </div>
+            <table style="border-collapse: collapse; margin-top: 10px">
+              <tr class="row-border">
+                <td class="colname">
+                  <p>Company Name</p>
+                </td>
+                <td class="colvalues"><p id="cname"></p></td>
+              </tr>
+              <tr class="row-border">
+                <td class="colname"><p>Stock Ticker Symbol</p></td>
+                <td class="colvalues"><p id="cticker"></p></td>
+              </tr>
+              <tr class="row-border">
+                <td class="colname"><p>Stock Exchange Code</p></td>
+                <td class="colvalues"><p id="sec"></p></td>
+              </tr>
+              <tr class="row-border">
+                <td class="colname"><p>Company Start Date</p></td>
+                <td class="colvalues"><p id="sd"></p></td>
+              </tr>
+              <tr class="row-border">
+                <td class="colname"><p>Category</p></td>
+                <td class="colvalues"><p id="cat"></p></td>
+              </tr>
+            </table>
           </div>
         </div>
         <div id="notfound">

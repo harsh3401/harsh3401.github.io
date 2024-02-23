@@ -28,8 +28,6 @@ const recommendationDataKeys = [
   "strongBuy",
 ];
 
-// TODO: Chart cofig
-
 function tabController(tabId) {
   const tabPageId = tabId + "-page";
   let tabs = document.getElementsByClassName("tab");
@@ -77,40 +75,68 @@ function setStockSummaryTab(recommendationData, stockSummaryData, ticker) {
   const change = stockSummaryData["d"];
   const changep = stockSummaryData["dp"];
 
-  // TODO: 0 case
-  //TODO: Extra Cleanup if same tab is allowed
   document.getElementById("sumc").insertAdjacentHTML(
     "beforeend",
     change < 0
-      ? `<div style="display:flex; align-items:center;gap:10px">
-      <p class="colborder">${change}</p>
-  <img src="static/assets/RedArrowDown.png" width="10px" height="10px" />
+      ? `<div style="display:flex; align-items:center;gap:5px">
+      <p >${change}</p>
+  <img src="static/assets/RedArrowDown.png" width="15px" height="15px" />
 </div>`
-      : `<div style="display:flex; align-items:center;gap:10px">
-      <p class="colborder">${change}</p>
-<img src="static/assets/GreenArrowUp.png" width="10px" height="10px" />
+      : `<div style="display:flex; align-items:center;gap:5px">
+      <p >${change}</p>
+<img src="static/assets/GreenArrowUp.png" width="15px" height="15px" />
 </div>`
   );
   document.getElementById("sumcp").insertAdjacentHTML(
     "beforeend",
     change < 0
-      ? `<div style="display:flex; align-items:center;gap:10px">
-      <p class="colborder">${changep}</p>
-  <img src="static/assets/RedArrowDown.png" width="10px" height="10px" />
+      ? `<div style="display:flex; align-items:center;gap:5px">
+      <p >${changep}</p>
+  <img src="static/assets/RedArrowDown.png" width="15px" height="15px" />
 </div>`
-      : `<div style="display:flex;align-items:center;gap:10px">
-      <p class="colborder">${changep}</p>
-<img src="static/assets/GreenArrowUp.png" width="10px" height="10px" />
+      : `<div style="display:flex;align-items:center;gap:5px">
+      <p >${changep}</p>
+<img src="static/assets/GreenArrowUp.png" width="15px" height="15px" />
 </div>`
   );
 
   document.getElementById("sumsts").innerHTML = ticker;
 
-  const recommendationElements = `<p style="color:red">Strong Sell</p><div class="r-tile" style="background-color: rgb(220, 63, 65)">${recommendationData["strongSell"]}</div>
-  <div class="r-tile" style="background-color: rgb(167, 100, 80)">${recommendationData["sell"]}</div>
-  <div class="r-tile" style="background-color: rgb(126, 146, 100)">${recommendationData["hold"]}</div>
-  <div class="r-tile" style="background-color: rgb(105, 199, 119)">${recommendationData["buy"]}</div>
-  <div class="r-tile" style="background-color: rgb(117, 251, 141)">${recommendationData["strongBuy"]}</div><p style="color:green">Strong Buy</p>`;
+  const recommendationElements = `<div>
+  <div style="display: flex; gap: 10px; align-items: center">
+    <p
+      class="recom-ind"
+      style="color: red; margin-right: 10px; font-weight: 400"
+    >
+      Strong Sell
+    </p>
+    <div style="display: flex; align-items: center">
+      <div class="r-tile" style="background-color: rgb(220, 63, 65)">
+        ${recommendationData["strongSell"]}
+      </div>
+      <div class="r-tile" style="background-color: rgb(167, 100, 80)">
+        ${recommendationData["sell"]}
+      </div>
+      <div class="r-tile" style="background-color: rgb(126, 146, 100)">
+        ${recommendationData["hold"]}
+      </div>
+      <div class="r-tile" style="background-color: rgb(105, 199, 119)">
+        ${recommendationData["buy"]}
+      </div>
+      <div class="r-tile" style="background-color: rgb(117, 251, 141)">
+        ${recommendationData["strongBuy"]}
+      </div>
+    </div>
+    <p
+      style="color: green; margin-left: 10px; font-weight: 400"
+      class="recom-ind"
+    >
+      Strong Buy
+    </p>
+  </div>
+  <p style="color:black;font-weight:400">Recommendation Trends</p>
+</div>
+`;
 
   document
     .getElementById("recommendation-container")
@@ -128,8 +154,12 @@ function setChartsTab(chartsData, ticker) {
       max_volume = charObj["v"];
     }
   }
-  const CHART_HEADER_DATE_STRING = `Stock Price ${ticker.toUpperCase()} ${new Date()
-    .toJSON()
+  var date = new Date();
+  var utcDate = new Date(date.toUTCString());
+  utcDate.setHours(utcDate.getHours() - 8);
+  var usDate = new Date(utcDate);
+  const CHART_HEADER_DATE_STRING = `Stock Price ${ticker.toUpperCase()} ${usDate
+    .toISOString()
     .slice(0, 10)}`;
 
   const MAX_VOLUME = max_volume;
@@ -138,15 +168,71 @@ function setChartsTab(chartsData, ticker) {
       text: CHART_HEADER_DATE_STRING,
     },
     subtitle: {
-      text: '<a href="https://polygon.io" style="text-decoration: underline; color: blue;" onmouseover="this.style.textDecoration="underline overline"; this.style.color="red";" onmouseout="this.style.textDecoration="underline"; this.style.color="blue";">Source: Polygon.io</a>',
+      text: '<a href="https://polygon.io"  style="text-decoration: underline; color: blue;" onmouseover="this.style.textDecoration="underline overline"; this.style.color="red";" onmouseout="this.style.textDecoration="underline"; this.style.color="blue";" target="_blank" >Source: Polygon.io</a>',
     },
     chart: {
       spacingLeft: 0,
       spacingRight: 0,
-      alignTicks: false,
+      alignTicks: true,
+      height: 400,
     },
+
+    rangeSelector: {
+      selected: 0,
+      inputEnabled: false,
+      buttons: [
+        { text: "7d", type: "day", count: 7 },
+        { text: "15d", type: "day", count: 15 },
+        { text: "1m", type: "month", count: 1 },
+        { text: "3m", type: "month", count: 3 },
+        { text: "6m", type: "month", count: 6 },
+      ],
+    },
+    xAis: {
+      minPadding: 0,
+    },
+    yAxis: [
+      {
+        opposite: false,
+
+        labels: {
+          align: "right",
+          x: -5,
+        },
+        title: {
+          text: "Stock Price",
+        },
+        lineWidth: 0,
+        resize: {
+          enabled: true,
+        },
+      },
+      {
+        labels: {
+          align: "left",
+          x: 3,
+        },
+        title: {
+          text: "Volume",
+        },
+        max: 2 * MAX_VOLUME,
+        offset: 0,
+        lineWidth: 0,
+        tickPosition: "inside",
+      },
+    ],
     plotOptions: {
-      area: {
+      series: {
+        pointPlacement: "on",
+      },
+    },
+    series: [
+      {
+        type: "area",
+        name: "Stock Price",
+        data: chart1Data,
+        threshold: null,
+        yAxis: 0,
         fillColor: {
           linearGradient: {
             x1: 0,
@@ -164,71 +250,6 @@ function setChartsTab(chartsData, ticker) {
             ],
           ],
         },
-        marker: {
-          radius: 2,
-        },
-        lineWidth: 1,
-        states: {
-          hover: {
-            lineWidth: 1,
-          },
-        },
-        threshold: null,
-      },
-    },
-    rangeSelector: {
-      selected: 4,
-      inputEnabled: false,
-      buttons: [
-        { text: "7d", type: "day", count: 7 },
-        { text: "15d", type: "day", count: 15 },
-        { text: "1m", type: "month", count: 1 },
-        { text: "3m", type: "month", count: 3 },
-        { text: "6m", type: "month", count: 6 },
-      ],
-    },
-    xAis: {
-      minPadding: 0,
-    },
-    yAxis: [
-      {
-        opposite: false,
-        labels: {
-          align: "right",
-          x: -3,
-        },
-        title: {
-          text: "Stock Price",
-        },
-        lineWidth: 2,
-        resize: {
-          enabled: true,
-        },
-      },
-      {
-        labels: {
-          align: "right",
-          x: -3,
-        },
-        title: {
-          text: "Volume",
-        },
-
-        offset: 0,
-        lineWidth: 2,
-      },
-    ],
-    plotOptions: {
-      series: {
-        pointPlacement: "on",
-      },
-    },
-    series: [
-      {
-        type: "area",
-        name: "Stock Price",
-        data: chart1Data,
-        yAxis: 0,
       },
       {
         type: "column",
@@ -236,14 +257,13 @@ function setChartsTab(chartsData, ticker) {
         data: chart2Data,
         color: "black",
         yAxis: 1,
-        max: MAX_VOLUME,
+        pointWidth: 5,
       },
     ],
   });
 }
 function getNewsCard(newsData, index) {
   //GPT Credit
-
   const component = `<div class="newsCard">
   <img id=${"nlink" + index} src=${
     newsData["image"]
@@ -253,7 +273,7 @@ function getNewsCard(newsData, index) {
     <p  class="news-date" id=${"ndate" + index}>${new Intl.DateTimeFormat(
     "en-US",
     options
-  ).format(new Date(newsData["datetime"]))}</p>
+  ).format(new Date(newsData["datetime"] * 1000))}</p>
     <a id=${"nlink" + index} href="${
     newsData["url"]
   }" target="_blank" rel="noopener noreferrer">See Original Post</a>
@@ -302,17 +322,19 @@ function search(event) {
           setCompanyTab(data);
           tabController("company-tab");
           //   Fetch all tabs and push  post rendering company data
-          const promises = urls.map((url) => fetch(`${url}?ticker=${ticker}`));
+          const promises = urls.map((url) =>
+            fetch(`${url}?ticker=${data["ticker"]}`)
+          );
 
           Promise.all(promises)
             .then((responses) =>
               Promise.all(responses.map((response) => response.json()))
             )
-            .then((data) => {
+            .then((data2) => {
               // Hydrate all tabs
-              setChartsTab(data[0], ticker);
-              setNewsTab(data[3]);
-              setStockSummaryTab(data[2], data[1], ticker);
+              setChartsTab(data2[0], data["ticker"]);
+              setNewsTab(data2[3]);
+              setStockSummaryTab(data2[2], data2[1], data["ticker"]);
             })
             .catch((error) => {
               console.error(error);
@@ -324,4 +346,12 @@ function search(event) {
     .catch((error) => {
       console.error(error);
     });
+}
+
+function handlePage(event) {
+  if (event.keyCode === 8) {
+    document.getElementById("tab-group").classList.remove("active");
+    document.getElementById("tab-page-group").classList.remove("active");
+    document.getElementById("notfound").classList.remove("active");
+  }
 }

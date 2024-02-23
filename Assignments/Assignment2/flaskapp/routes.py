@@ -79,7 +79,7 @@ def company_news():
             if news_format_validator(stock_object):
                 valid_news_data.append(stock_object)
             if len(valid_news_data)==5:
-                break     
+                break    
         return valid_news_data
     else:
         return stock_data
