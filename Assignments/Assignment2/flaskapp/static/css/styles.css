@@ -32,8 +32,9 @@ input:focus {
 }
 .tab.active {
   background-color: rgb(204, 204, 204);
+  cursor: none;
 }
-.tab:hover {
+.tab:hover:not(.active) {
   background-color: rgba(221, 221, 221, 0.5);
 }
 .tabpage {

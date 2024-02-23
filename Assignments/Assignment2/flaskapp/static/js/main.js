@@ -1,7 +1,7 @@
 // @ts-nocheck
-// gpt credits
+
 // Constants;
-const API_ENDPOINT = "http://127.0.0.1:5000";
+const API_ENDPOINT = "https://stock-project-assignment2.uw.r.appspot.com";
 const companyMappedObj = {
   cname: "name",
   cticker: "ticker",
@@ -87,6 +87,7 @@ function setStockSummaryTab(recommendationData, stockSummaryData, ticker) {
 <img src="static/assets/GreenArrowUp.png" width="15px" height="15px" />
 </div>`
   );
+  // Used chatgpt to get the method name and behaviour
   document.getElementById("sumcp").insertAdjacentHTML(
     "beforeend",
     change < 0
