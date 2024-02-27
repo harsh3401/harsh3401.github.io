@@ -1,10 +1,10 @@
 - [x] Backend Apis according to spec
-- [ ] Fronted UI Components
+- [x] Fronted UI Components
 - [ ] Frontend Search Caching
-- [ ] Frontend ajax calls parallel and separate
+- [x] Frontend ajax calls parallel and separate
 - [x] Frontend Rendering check
-- [ ] Backend API Performance review and comparison to spec
-- [ ] Server cli tools and deployment setup
-- [ ] Continuous integration setup
+- [x] Backend API Performance review and comparison to spec
+- [x] Server cli tools and deployment setup
+- [x] Continuous integration setup
 - [x] Individual tabs fetch functions
 - [ ] Highcharts CDN replace with self serve
