@@ -12,7 +12,7 @@
 
 ## Backend
 
-- [ ] Search API
+- [x] Search API
 - [ ] Refetch polling
 - [ ] Wallet and Other persistence Features
 - [ ] Page wise APIs
