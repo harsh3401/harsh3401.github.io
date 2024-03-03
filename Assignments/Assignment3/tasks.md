@@ -9,6 +9,7 @@
 - [ ] Charts and config
 - [ ] Responsive Design
 - [ ] Bootstrap Usage and specified points in spec
+- [ ] Stock Market Open setup for polling
 
 ## Backend
 
