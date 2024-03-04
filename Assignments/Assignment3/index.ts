@@ -1,3 +1,4 @@
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import express, { Express } from "express";
 import mongoose from "mongoose";
@@ -9,6 +10,8 @@ const PORT = process.env.PORT ?? 8080;
 const app: Express = express();
 
 // TODO:Any Fix
+app.use(bodyParser.json());
+
 app.use("/api", apiRoutes);
 app.use("/user", userRoutes);
 

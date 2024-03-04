@@ -16,11 +16,12 @@
 - [x] Search API
 - [ ] Refetch polling
 - [ ] Wallet and Other persistence Features
-- [ ] Page wise APIs
-- [ ] User Management APIs
+- [x] Page wise APIs
+- [x] User Management APIs
 - [ ] Static Serving Setup
 
 ## GCP
 
+- [ ] Express Static Deployment
 - [ ] Parallel Deployment with Azure
 - [ ] Testing App Behavior parallel-ly
