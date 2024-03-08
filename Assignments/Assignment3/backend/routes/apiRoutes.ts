@@ -1,36 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
+import { getQuote } from "../helpers/apiLayer";
+import { formatDate } from "../helpers/formatter";
+import { error_middleware } from "../helpers/middleware";
 dotenv.config();
-function formatDate(date: Date) {
-  const formattedDate = new Intl.DateTimeFormat("fr-CA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(date);
-
-  return formattedDate;
-}
-function error_middleware(
-  stock_data: any,
-  res: Response,
-  status_code: number,
-  valid_attribute: null | string = null
-) {
-  if (status_code == 200) {
-    stock_data =
-      valid_attribute === null ? stock_data : stock_data[valid_attribute];
-    console.log(stock_data);
-    if (stock_data === null) {
-      stock_data = { Error: "Stock not found" };
-      res.status(404);
-    }
-  } else {
-    stock_data = { Error: "External API error" };
-    res.status(502);
-  }
-  res.json(stock_data);
-}
 
 async function validation_middleware(
   ticker: string,
@@ -146,14 +120,7 @@ router.get("/insider-sentiment", (req: Request, res: Response) => {
 
 router.get("/quote", (req: Request, res: Response) => {
   const query = String(req.query["ticker"]);
-  //From value hardcoded
-  console.log(
-    `${process.env.FINHUB_ENDPOINT}/quote?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
-  );
-  axios
-    .get(
-      `${process.env.FINHUB_ENDPOINT}/quote?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
-    )
+  getQuote(query)
     .then((response: AxiosResponse) => {
       error_middleware(response.data, res, response.status.valueOf());
     })

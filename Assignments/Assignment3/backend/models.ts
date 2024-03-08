@@ -24,14 +24,23 @@ export class WatchList {
 
 @modelOptions({ schemaOptions: { collection: "portfolio" } })
 export class Portfolio {
-  @prop({ required: true, type: String })
-  public id!: mongoose.Types.ObjectId;
+  @prop({ type: String })
+  public id?: mongoose.Types.ObjectId;
 
   @prop({ required: true, type: String, unique: true })
   public ticker!: string;
 
-  @prop({ required: true, type: String })
-  public corporationName!: string;
+  @prop({ type: String })
+  public corporationName?: string;
+
+  @prop({ required: true, type: Number })
+  public quantity!: number;
+
+  @prop({ required: true, type: Number })
+  public averageCost!: number;
+
+  @prop({ required: true, type: Number })
+  public totalCost!: number;
 }
 
 @modelOptions({ schemaOptions: { collection: "wallet" } })
@@ -39,8 +48,12 @@ export class Wallet {
   @prop({ required: true, type: String })
   public id!: mongoose.Types.ObjectId;
 
-  @prop({ required: true, type: String, unique: true })
+  @prop({ required: true, type: Number, unique: true })
   public balance!: number;
 }
 
 export const WatchListStockModel = getModelForClass(WatchList);
+
+export const PortfolioModel = getModelForClass(Portfolio);
+
+export const WalletModel = getModelForClass(Wallet);
