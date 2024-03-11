@@ -73,9 +73,6 @@ router.post(
       if (Wallet === null) {
         return res.status(503).json({ Transaction: "Failed no wallet linked" });
       }
-
-      console.log("Wallet", Wallet);
-      console.log("Post wallet call Wallet", Wallet);
       if (Wallet && value < Wallet?.balance) {
         if (portfolioItem === null) {
           //validation
@@ -87,8 +84,8 @@ router.post(
           });
 
           Wallet.balance = Wallet.balance - value;
-          Wallet.save();
-          console.log("here");
+          await Wallet.save();
+
           return res.status(201).json({ Transaction: "success" });
         } else {
           // update the same value
@@ -100,10 +97,11 @@ router.post(
           portfolioItem.totalCost = totalCost;
           portfolioItem.averageCost = averageCost;
           portfolioItem.quantity = quantity;
-          portfolioItem.save();
+
+          await portfolioItem.save();
 
           Wallet.balance = Wallet.balance - value;
-          Wallet.save();
+          await Wallet.save();
           //return success
           return res.status(201).json({ Transaction: "success" });
         }
@@ -116,25 +114,6 @@ router.post(
 );
 
 // //sell
-// router.post(
-//   "/sell-stock",
-//   async (req: Request, res: Response): Promise<Response> => {
-//     const transactionItem: { ticker: string; quantity: number } = req.body;
-//     const portfolioItem = await PortfolioModel.find({
-//       ticker: transactionItem.ticker,
-//     });
-
-//     if (portfolioItem.length === 0) {
-//       //404 not found
-//     } else {
-//       //validation logic
-//       //finhub call for price
-//       //check portofolio item and execute transaction
-//       //Update wallet balance
-//       //post transaction cleanup for quantity and remove portfolio object if qty 0
-//     }
-//   }
-// );
 
 router.post(
   "/sell-stock",
@@ -166,13 +145,14 @@ router.post(
             const quantity = portfolioItem.quantity - transactionItem.quantity;
             const totalCost = portfolioItem.totalCost - value;
             const averageCost = totalCost / quantity;
-            if (quantity > 0) {
+            if (transactionItem.quantity < portfolioItem.quantity) {
               portfolioItem.totalCost = totalCost;
               portfolioItem.averageCost = averageCost;
               portfolioItem.quantity = quantity;
               portfolioItem.save();
-            } else {
-              portfolioItem.deleteOne();
+            } else if (transactionItem.quantity === portfolioItem.quantity) {
+              //exact match case
+              await portfolioItem.deleteOne();
             }
             Wallet.balance = Wallet.balance + value;
             Wallet.save();
@@ -208,7 +188,9 @@ router.get(
     const wallet = await WalletModel.findOne();
     if (wallet != null) {
       wallet.balance = 25000;
-      wallet.save();
+      await wallet.save();
+    } else {
+      await WalletModel.create({ balance: 25000 });
     }
     return res.status(200).json({ Reset: "Wallet Reset to 25000" });
   }

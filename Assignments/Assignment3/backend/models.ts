@@ -2,8 +2,7 @@ import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import * as mongoose from "mongoose";
 @modelOptions({ schemaOptions: { collection: "watchlist" } })
 export class WatchList {
-  @prop({ required: true, type: String })
-  public id!: mongoose.Types.ObjectId;
+  public _id!: mongoose.Types.ObjectId;
 
   @prop({ required: true, type: String, unique: true })
   public ticker!: string;
@@ -24,8 +23,7 @@ export class WatchList {
 
 @modelOptions({ schemaOptions: { collection: "portfolio" } })
 export class Portfolio {
-  @prop({ type: String })
-  public id?: mongoose.Types.ObjectId;
+  public _id?: mongoose.Types.ObjectId;
 
   @prop({ required: true, type: String, unique: true })
   public ticker!: string;
@@ -45,8 +43,7 @@ export class Portfolio {
 
 @modelOptions({ schemaOptions: { collection: "wallet" } })
 export class Wallet {
-  @prop({ required: true, type: String })
-  public id!: mongoose.Types.ObjectId;
+  public _id!: mongoose.Types.ObjectId;
 
   @prop({ required: true, type: Number, unique: true })
   public balance!: number;
