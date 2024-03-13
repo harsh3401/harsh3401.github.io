@@ -1,0 +1,115 @@
+<div
+  style="
+    margin: auto;
+    width: fit-content;
+
+    margin-top: 1%;
+  "
+>
+  <div style="margin: auto; width: fit-content; font-size: x-large">
+    STOCK SEARCH
+  </div>
+  <form>
+    <div
+      style="
+        margin-top: 20px;
+        height: 50px;
+        min-width: 420px;
+        width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: white;
+        border-radius: 17px;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        box-shadow: 1px 1px 1px 1px rgb(223, 223, 223, 0.5);
+        justify-content: space-between;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          width: 300px;
+          color: #dfdfdfcc;
+          font-weight: 300;
+        "
+      >
+        <input
+          style="
+            width: 300px;
+            padding: 0;
+            margin: 0;
+            color: gray;
+            vertical-align: bottom;
+            font-size: 15px;
+            border: 0;
+            height: 15px;
+            margin-left: 20px;
+          "
+          onkeydown="handlePage(event)"
+          oninput="this.value = this.value.toUpperCase()"
+          type="text"
+          id="ticker"
+          required
+          autocomplete="off"
+          placeholder="Enter Stock Ticker symbol"
+        />
+        <!-- <app-autocomplete-filter></app-autocomplete-filter> -->
+      </div>
+
+      <div
+        style="display: flex; align-items: center; color: #dfdfdfcc; gap: 1rem"
+      >
+        <label>
+          <input style="display: none" type="submit" />
+          <svg
+            width="15px"
+            height="15px"
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="search"
+            class="svg-inline--fa fa-search fa-w-16"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            style="cursor: pointer"
+          >
+            <path
+              fill="currentColor"
+              d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
+            ></path>
+          </svg>
+        </label>
+        <label>
+          <button
+            style="display: none"
+            type="reset"
+            onclick="clearSearch()"
+          ></button>
+          <svg
+            width="15px"
+            height="15px"
+            aria-hidden="divue"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="times"
+            class="svg-inline--fa fa-times fa-w-11"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 352 512"
+            style="cursor: pointer"
+          >
+            <path
+              fill="currentColor"
+              d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+            ></path>
+          </svg>
+        </label>
+      </div>
+    </div>
+  </form>
+</div>

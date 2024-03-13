@@ -1,6 +1,6 @@
 ## Frontend
 
-- [ ] Frontend Components Scaffolding
+- [x] Frontend Components Scaffolding
 - [ ] Frontend Page Wise Construction
 - [ ] Routing
 - [ ] DB Connection and persistence features
@@ -14,8 +14,8 @@
 ## Backend
 
 - [x] Search API
-- [ ] Refetch polling
-- [ ] Wallet and Other persistence Features
+- [ ] Refetch polling optimization ( Caching )
+- [x] Wallet and Other persistence Features
 - [x] Page wise APIs
 - [x] User Management APIs
 - [ ] Static Serving Setup
