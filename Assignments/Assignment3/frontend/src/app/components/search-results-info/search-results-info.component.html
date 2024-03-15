@@ -1,0 +1,36 @@
+<app-search-page [ticker]="route.snapshot.params['id']"></app-search-page>
+<div
+  class="d-flex justify-content-center align-items-center border border-primary gap-5"
+>
+  <div class="d-flex flex-column align-items-center">
+    <div class="d-flex">
+      <div>{{ stockConfig?.ticker }}</div>
+      <div>Star</div>
+    </div>
+    <div>{{ stockConfig?.companyName }}</div>
+    <div>{{ stockConfig?.marketName }}</div>
+    <div class="d-flex gap-2">
+      <div class="border border-primary">Buy</div>
+      <div class="border border-primary">Sell</div>
+    </div>
+  </div>
+  <div>
+    <img [src]="stockConfig?.logo" />
+    <div>
+      Market
+      {{
+        stockConfig?.marketOpen
+          ? "is open"
+          : "closed on " + stockConfig?.priceTimestampString
+      }}
+    </div>
+  </div>
+  <div class="d-flex flex-column align-items-center">
+    <div>{{ stockConfig?.stockPrice }}</div>
+    <div class="d-flex flex-column align-items-center">
+      <div>{{ stockConfig?.change }}</div>
+      <div>{{ stockConfig?.changePercent }}</div>
+    </div>
+    <div>{{ stockConfig?.priceTimestampString }}</div>
+  </div>
+</div>

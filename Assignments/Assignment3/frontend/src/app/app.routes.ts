@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { SearchPageComponent } from './search-page/search-page.component';
+import { SearchResultsInfoComponent } from './components/search-results-info/search-results-info.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
 
 export const routes: Routes = [
   {
@@ -8,20 +9,10 @@ export const routes: Routes = [
     title: 'Home Page',
   },
   { path: '', redirectTo: '/search/home', pathMatch: 'full' },
-  //   {
-  //     path: 'search/:ticker',
-  //     component: DetailsComponent,
-  //     title: 'House Details',
-  //   },
-  //   {
-  //     path: 'watchlist',
-  //     component: WatchListPage,
-  //     title: 'House Details',
-  //   },
-  //   {
-  //     path: 'portfolio',
-  //     component: PortfolioPage,
-  //     title: 'House Details',
-  //   },
+  {
+    path: 'search/:ticker',
+    component: SearchResultsInfoComponent,
+    title: 'House Details',
+  },
   { path: '**', redirectTo: '/search/home' },
 ];

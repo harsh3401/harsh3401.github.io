@@ -10,7 +10,10 @@ import { Component } from '@angular/core';
       class="fw-bold position-absolute bottom-0 w-100"
     >
       <div style="width: fit-content;margin:auto">
-        Powered by <a href=" https://finnhub.io">Finnhub.io</a>
+        Powered by
+        <a target="_blank" rel="noopener noreferrer" href="https://finnhub.io"
+          >Finnhub.io</a
+        >
       </div>
     </footer>
   `,

@@ -26,7 +26,7 @@ const router = express.Router();
 // APIS
 //TODO:Empty recommendation
 router.get("/search", (req: Request, res: Response) => {
-  const query = req.query["q"] ?? "";
+  const query = req.query["search_string"] ?? "";
   axios
     .get(
       `${process.env.FINHUB_ENDPOINT}/search?q=${query}&token=${process.env.FINHUB_API_KEY}`

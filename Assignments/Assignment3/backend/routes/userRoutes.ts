@@ -1,6 +1,11 @@
 import express, { Request, Response } from "express";
 import { getQuote } from "../helpers/apiLayer";
-import { PortfolioModel, WatchList, WatchListStockModel } from "../models";
+import {
+  Portfolio,
+  PortfolioModel,
+  WatchList,
+  WatchListStockModel,
+} from "../models";
 import { WalletModel } from "./../models";
 
 const router = express.Router();
@@ -10,7 +15,15 @@ const router = express.Router();
 router.get(
   "/watchlist",
   async (req: Request, res: Response): Promise<Response> => {
-    const watchList: WatchList[] = await WatchListStockModel.find();
+    const query = String(req.query["ticker"]) ?? null;
+    const watchList: WatchList[] = query
+      ? await WatchListStockModel.find({
+          ticker: query,
+        })
+      : await WatchListStockModel.find({});
+    if (query) {
+      return res.status(200).json({ found: watchList.length !== 0 });
+    }
     return res.status(200).json(watchList);
   }
 );
@@ -48,7 +61,19 @@ router.post(
 );
 
 //portfolio
-
+router.get(
+  "/portfolio",
+  async (req: Request, res: Response): Promise<Response> => {
+    const query = String(req.query["ticker"]) ?? null;
+    const portfolio: Portfolio[] = query
+      ? await PortfolioModel.find({ ticker: query })
+      : await PortfolioModel.find();
+    if (query) {
+      return res.status(200).json({ found: portfolio.length !== 0 });
+    }
+    return res.status(200).json(portfolio);
+  }
+);
 //buy
 router.post(
   "/buy-stock",
@@ -182,7 +207,7 @@ router.get(
 );
 // //backup not to change prod db
 //TODO:25000 hardcoded
-router.get(
+router.delete(
   "/wallet-reset",
   async (req: Request, res: Response): Promise<Response> => {
     const wallet = await WalletModel.findOne();

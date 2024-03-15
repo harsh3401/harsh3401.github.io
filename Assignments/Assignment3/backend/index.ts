@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import dotenv from "dotenv";
 import express, { Express } from "express";
 import mongoose from "mongoose";
@@ -9,6 +10,11 @@ dotenv.config();
 const PORT = process.env.PORT ?? 8080;
 const app: Express = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:4200",
+  })
+);
 // TODO:Any Fix
 app.use(bodyParser.json());
 
@@ -18,7 +24,7 @@ app.use("/user", userRoutes);
 //Swagger
 // app.use(
 //   "/doc",
-//   swaggerUi.serve,
+//   swaggerUi.serve,`
 //   swaggerUi.setup(undefined, {
 //     swaggerOptions: {
 //       url: "swagger_output.json",

@@ -15,3 +15,4 @@ pip
 *.egg-info/
 *.json
 node_modules/
+Assignments/Assignment3/frontend/src/app/environment.dev.ts

@@ -1,8 +1,8 @@
 ## Frontend
 
 - [x] Frontend Components Scaffolding
-- [ ] Frontend Page Wise Construction
-- [ ] Routing
+- [x] Frontend Page Wise Construction
+- [x] Routing
 - [ ] DB Connection and persistence features
 - [ ] Live Reloading of Stock Data ( Polling )
 - [ ] Date and Time Config checks and testing
@@ -10,6 +10,7 @@
 - [ ] Responsive Design
 - [ ] Bootstrap Usage and specified points in spec
 - [ ] Stock Market Open setup for polling
+- [ ] Service to fetch data from APIs
 
 ## Backend
 

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from './footer/footer.component';
-import { HeaderComponent } from './header/header.component';
-import { SearchPageComponent } from './search-page/search-page.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
 @Component({
   selector: 'app-root',
   standalone: true,
