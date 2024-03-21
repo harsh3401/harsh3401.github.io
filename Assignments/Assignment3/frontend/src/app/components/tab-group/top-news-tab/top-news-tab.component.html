@@ -1,0 +1,20 @@
+<div class="border border-primary mx-5 d-flex flex-wrap">
+  <div
+    class="d-flex flex-fill"
+    *ngFor="let newsObject of news"
+    style="width: 50%; border: 2px solid red"
+  >
+    <img
+      width="100px"
+      height="100px"
+      alt="News Image"
+      [src]="newsObject.image"
+    />
+    <div style="margin: auto; text-align: center; text-overflow: ellipsis">
+      <p>{{ newsObject["headline"] }}</p>
+      <!-- <p>{{ newsObject["datetime"] }}</p>
+      <a target="_blank" rel="noopener noreferrer">See Original Post</a> -->
+      <app-modal></app-modal>
+    </div>
+  </div>
+</div>

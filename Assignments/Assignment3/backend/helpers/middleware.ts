@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { news_format } from "./../../frontend/src/app/components/types";
 export function error_middleware(
   stock_data: any,
   res: Response,
@@ -18,4 +19,14 @@ export function error_middleware(
     res.status(502);
   }
   res.json(stock_data);
+}
+
+export function news_format_validator(news_object: news_format) {
+  const validator_keys = ["image", "url", "headline", "datetime"];
+  for (const key of validator_keys) {
+    if (news_object[key] === null || news_object[key] == "") {
+      return false;
+    }
+    return true;
+  }
 }

@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: 'search/:ticker',
     component: SearchResultsInfoComponent,
-    title: 'House Details',
+    title: 'Stock Details',
   },
   { path: '**', redirectTo: '/search/home' },
 ];

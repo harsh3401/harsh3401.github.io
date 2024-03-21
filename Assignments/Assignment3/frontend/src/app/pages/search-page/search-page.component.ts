@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { AutocompleteFilter } from '../../components/autocomplete-filter/autocomplete-filter.component';
 
 @Component({
@@ -10,4 +11,9 @@ import { AutocompleteFilter } from '../../components/autocomplete-filter/autocom
 })
 export class SearchPageComponent {
   @Input() ticker!: string;
+  constructor(private router: Router) {}
+  clearSearch(): void {
+    console.log('here');
+    this.router.navigate([`/search/home`]);
+  }
 }

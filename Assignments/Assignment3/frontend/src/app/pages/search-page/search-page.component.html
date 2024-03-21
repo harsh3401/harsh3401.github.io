@@ -67,11 +67,8 @@
         </svg>
       </label>
       <label>
-        <button
-          style="display: none"
-          type="reset"
-          onclick="clearSearch()"
-        ></button>
+        <!-- TODO:Reset functionality and search -->
+        <button style="display: none" type="reset"></button>
         <svg
           width="15px"
           height="15px"
@@ -84,6 +81,7 @@
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 352 512"
           style="cursor: pointer"
+          (click)="clearSearch()"
         >
           <path
             fill="currentColor"
