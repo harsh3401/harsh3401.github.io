@@ -1,10 +1,48 @@
-<p>
-  You can pass an existing component as content of the modal window. In this
-  case, if you're still using Angular 8 or older, remember to add the content
-  component in the <code>entryComponents</code> section of your
-  <code>NgModule</code>. For Angular 9 or newer, it's not needed anymore.
-</p>
-
-<button class="btn btn-lg btn-outline-primary" (click)="open()">
-  Launch demo modal
-</button>
+`
+<div class="modal-header">
+  <h4 class="modal-title">{{ newsObject["related"] }}</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body">
+  <p>{{ newsObject["headline"] }}</p>
+  <p>{{ newsObject["summary"] }}</p>
+  <div>
+    <p>Share</p>
+    <div class="d-flex gap-4">
+      <div
+        class="fb-share-button"
+        data-href="https://developers.facebook.com/docs/plugins/"
+        data-layout=""
+        data-size=""
+      >
+        <a
+          target="_blank"
+          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+          class="fb-xfbml-parse-ignore"
+          >Facebook</a
+        >
+      </div>
+      <a
+        href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+        class="twitter-share-button"
+        data-show-count="false"
+        >Twitter</a
+      >
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close('Close click')"
+  >
+    Close
+  </button>
+</div>
+`

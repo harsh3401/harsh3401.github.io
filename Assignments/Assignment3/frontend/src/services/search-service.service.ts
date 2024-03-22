@@ -38,4 +38,21 @@ export class StockSearchService {
     );
     return (await data.json()) ?? [];
   }
+  async getSMAData(search_string: string): Promise<any> {
+    const data = await fetch(
+      `${environment.apiUrl}/api/historical-data?ticker=${search_string}&range=month`
+    );
+    return (await data.json()) ?? [];
+  }
+
+  async getInsightsData(search_string: string): Promise<any[]> {
+    const urls = [
+      `${environment.apiUrl}/api/insider-sentiment?ticker=${search_string}`,
+      `${environment.apiUrl}/api/recommendation-trends?ticker=${search_string}`,
+      `${environment.apiUrl}/api/company-earnings?ticker=${search_string}`,
+    ];
+    const Promises = urls.map((url) => fetch(url));
+    const responses = await Promise.all(Promises);
+    return await Promise.all(responses.map((response) => response.json()));
+  }
 }

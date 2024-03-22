@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StockSearchService } from '../../../../services/search-service.service';
 import { ModalComponent } from '../../modal/modal.component';
+import { news_format } from '../../types';
 
 @Component({
   selector: 'app-top-news-tab',
@@ -12,9 +13,14 @@ import { ModalComponent } from '../../modal/modal.component';
   styleUrl: './top-news-tab.component.css',
 })
 export class TopNewsTabComponent {
+  @ViewChild(ModalComponent) modalComponent!: ModalComponent;
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   stockInformationService: StockSearchService = inject(StockSearchService);
   news!: any[];
+  openModal(newsObject: news_format) {
+    this.modalComponent.open(newsObject);
+  }
+
   constructor() {
     const options: any = {
       year: 'numeric', // Full numeric representation of the year (e.g., 2024)
@@ -24,7 +30,7 @@ export class TopNewsTabComponent {
     this.stockInformationService
       .getTopNews(this.route.snapshot.params['ticker'])
       .then((data) => {
-        this.news = data.map((data: any) => {
+        this.news = data.slice(4).map((data: any) => {
           return {
             datetime: new Intl.DateTimeFormat('en-US', options).format(
               new Date(data['datetime'] * 1000)

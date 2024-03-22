@@ -2,7 +2,8 @@
   <div
     class="d-flex flex-fill"
     *ngFor="let newsObject of news"
-    style="width: 50%; border: 2px solid red"
+    style="width: 50%; border: 2px solid red; background-color: grey"
+    (click)="openModal(newsObject)"
   >
     <img
       width="100px"

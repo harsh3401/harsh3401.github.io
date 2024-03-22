@@ -69,7 +69,7 @@ router.get("/recommendation-trends", (req: Request, res: Response) => {
       `${process.env.FINHUB_ENDPOINT}/stock/recommendation?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
     )
     .then((response: AxiosResponse) => {
-      error_middleware(response.data, res, response.status.valueOf(), "0");
+      error_middleware(response.data, res, response.status.valueOf());
     })
     .catch((error) => {
       console.error(error);
