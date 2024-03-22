@@ -21,6 +21,7 @@ export interface StockConfig {
   webpage: string;
   companyPeers: string;
   chartData: any;
+  walletBalance: number;
 }
 export interface news_format {
   [key: string]: String;

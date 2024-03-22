@@ -127,6 +127,7 @@ export class InsightsTabComponent {
       };
       this.chartOptions = {
         recommendation: {
+          accessibility: { enabled: false },
           chart: {
             type: 'column',
           },
@@ -198,6 +199,7 @@ export class InsightsTabComponent {
           ],
         },
         earnings: {
+          accessibility: { enabled: false },
           chart: {
             type: 'spline',
           },

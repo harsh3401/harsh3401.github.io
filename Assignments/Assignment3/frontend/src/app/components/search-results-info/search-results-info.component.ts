@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StockSearchService } from '../../../services/search-service.service';
+import { BuySellModalComponent } from '../../buy-sell-modal/buy-sell-modal.component';
 import { SearchPageComponent } from '../../pages/search-page/search-page.component';
 import { TabGroupComponent } from '../tab-group/tab-group.component';
 import { StockConfig } from '../types';
@@ -15,15 +16,27 @@ const options: any = {
 @Component({
   selector: 'app-search-results-info',
   standalone: true,
-  imports: [SearchPageComponent, CommonModule, TabGroupComponent],
   templateUrl: './search-results-info.component.html',
   styleUrl: './search-results-info.component.css',
+  imports: [
+    SearchPageComponent,
+    CommonModule,
+    TabGroupComponent,
+    BuySellModalComponent,
+  ],
 })
 export class SearchResultsInfoComponent {
+  @ViewChild(BuySellModalComponent) modalComponent!: BuySellModalComponent;
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   stockInformationService: StockSearchService = inject(StockSearchService);
   stockConfig!: StockConfig;
   new: any;
+  openBuySellModal() {
+    this.modalComponent.open(
+      this.stockConfig?.stockPrice,
+      this.stockConfig?.walletBalance
+    );
+  }
   constructor() {
     this.stockInformationService
       .getCompanyData(this.route.snapshot.params['ticker'])
@@ -56,6 +69,7 @@ export class SearchResultsInfoComponent {
           webpage: responses[0].weburl,
           companyPeers: responses[4].join(','),
           chartData: responses[5],
+          walletBalance: responses[6].balance.toFixed(2),
         };
       });
   }

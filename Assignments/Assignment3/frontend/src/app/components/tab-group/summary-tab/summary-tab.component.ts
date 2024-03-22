@@ -14,12 +14,17 @@ export class SummaryTabComponent {
   @Input()
   stockData!: StockConfig;
   highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {
-    series: [
-      {
-        data: [1, 2, 3],
-        type: 'line',
-      },
-    ],
-  };
+  chartOptions: Highcharts.Options;
+  constructor() {
+    this.chartOptions = {
+      accessibility: { enabled: false },
+      title: { text: `${this.stockData?.ticker} Hourly price Variation` },
+      series: [
+        {
+          data: [1, 2, 3],
+          type: 'line',
+        },
+      ],
+    };
+  }
 }

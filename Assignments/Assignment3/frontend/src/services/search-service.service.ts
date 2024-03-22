@@ -27,6 +27,7 @@ export class StockSearchService {
       `${environment.apiUrl}/user/watchlist?ticker=${search_string}`,
       `${environment.apiUrl}/api/company-peers?ticker=${search_string}`,
       `${environment.apiUrl}/api/historical-data?ticker=${search_string}&range=day`,
+      `${environment.apiUrl}/user/wallet-balance`,
     ];
     const Promises = urls.map((url) => fetch(url));
     const responses = await Promise.all(Promises);

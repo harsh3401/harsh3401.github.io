@@ -1,0 +1,29 @@
+`
+<div class="modal-header">
+  <h4 class="modal-title">{{ ticker }}</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  ></button>
+</div>
+<div class="modal-body">
+  <p>Current Price: {{ price }}</p>
+  <p>Money in Wallet:{{ walletBalance }}</p>
+  <div class="d-flex">
+    <p>Quantity:</p>
+    <input type="number" class="form-control" id="usr" />
+  </div>
+</div>
+<div class="modal-footer border border-primary">
+  <div>Total:</div>
+  <button
+    type="button"
+    class="btn btn-success"
+    (click)="activeModal.close('Close click')"
+  >
+    Buy
+  </button>
+</div>
+`

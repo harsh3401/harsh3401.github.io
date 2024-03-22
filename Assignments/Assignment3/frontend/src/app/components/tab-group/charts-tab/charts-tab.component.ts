@@ -36,7 +36,7 @@ export class ChartsTabComponent {
         console.log(response);
         response.map((chartObj: any) => {
           OHLC.push([
-            chartObj['t'],
+            chartObj['t'] / 1000,
             chartObj['o'],
             chartObj['h'],
             chartObj['l'],
@@ -45,53 +45,20 @@ export class ChartsTabComponent {
           volume.push([chartObj['t'], chartObj['v']]);
         });
         this.chartData = { OHLC, volume };
+        console.log(OHLC, volume);
         this.chartOptions = {
           rangeSelector: {
             selected: 2,
           },
+
           title: {
             text: 'AAPL Historical',
           },
+
           subtitle: {
             text: 'With SMA and Volume by Price technical indicators',
           },
-          series: [
-            {
-              type: 'candlestick',
-              name: 'AAPL',
-              id: 'aapl',
-              zIndex: 2,
-              data: OHLC, // Add your OHLC data here
-            },
-            {
-              type: 'column',
-              name: 'Volume',
-              id: 'volume',
-              data: volume, // Add your volume data here
-              yAxis: 1,
-            },
-            {
-              type: 'vbp',
-              linkedTo: 'aapl',
-              params: {
-                volumeSeriesID: 'volume',
-              },
-              dataLabels: {
-                enabled: false,
-              },
-              zoneLines: {
-                enabled: false,
-              },
-            },
-            {
-              type: 'sma',
-              linkedTo: 'aapl',
-              zIndex: 1,
-              marker: {
-                enabled: false,
-              },
-            },
-          ],
+
           yAxis: [
             {
               startOnTick: false,
@@ -123,16 +90,48 @@ export class ChartsTabComponent {
               lineWidth: 2,
             },
           ],
+
           tooltip: {
             split: true,
           },
-          plotOptions: {
-            series: {
-              dataGrouping: {
-                units: [],
+
+          series: [
+            {
+              type: 'candlestick',
+              name: 'AAPL',
+              id: 'aapl',
+              zIndex: 2,
+              data: OHLC,
+            },
+            {
+              type: 'column',
+              name: 'Volume',
+              id: 'volume',
+              data: volume,
+              yAxis: 1,
+            },
+            {
+              type: 'vbp',
+              linkedTo: 'aapl',
+              params: {
+                volumeSeriesID: 'volume',
+              },
+              dataLabels: {
+                enabled: false,
+              },
+              zoneLines: {
+                enabled: false,
               },
             },
-          },
+            {
+              type: 'sma',
+              linkedTo: 'aapl',
+              zIndex: 1,
+              marker: {
+                enabled: false,
+              },
+            },
+          ],
         };
       });
   }

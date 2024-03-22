@@ -30,7 +30,7 @@ export class TopNewsTabComponent {
     this.stockInformationService
       .getTopNews(this.route.snapshot.params['ticker'])
       .then((data) => {
-        this.news = data.slice(4).map((data: any) => {
+        this.news = data.slice(0, 20).map((data: any) => {
           return {
             datetime: new Intl.DateTimeFormat('en-US', options).format(
               new Date(data['datetime'] * 1000)
