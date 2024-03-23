@@ -10,10 +10,9 @@ import { AutocompleteFilter } from '../../components/autocomplete-filter/autocom
   styleUrl: './search-page.component.css',
 })
 export class SearchPageComponent {
-  @Input() ticker!: string;
+  @Input() ticker!: string | undefined;
   constructor(private router: Router) {}
   clearSearch(): void {
-    console.log('here');
     this.router.navigate([`/search/home`]);
   }
 }

@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <!-- TODO:Responsive collapse fix -->
+
     <nav
       class="ps-5 navbar navbar-expand-lg navbar-light d-flex justify-content-between"
       style="background-color: #2224a2;"
@@ -26,12 +27,11 @@ import { Component } from '@angular/core';
 
         <div class="collapse navbar-collapse flex-grow-0 " id="navbarNav">
           <a class="nav-link border  rounded-5 link-light" href="#">Search</a>
-          <a class="nav-link  link-light" href="#">Watchlist</a>
-          <a class="nav-link  link-light">Portfolio</a>
+          <a class="nav-link  link-light" href="/watchlist">Watchlist</a>
+          <a class="nav-link  link-light" href="/portfolio">Portfolio</a>
         </div>
       </div>
     </nav>
   `,
-  styleUrl: './header.component.css',
 })
 export class HeaderComponent {}

@@ -2,7 +2,7 @@ import { Component, Input, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { StockSearchService } from '../../../../services/search-service.service';
+import { StockSearchService } from '../../../services/search-service.service';
 interface Recommendation {
   buy: number; // Assuming buy property is of type string
   // Define other properties if necessary

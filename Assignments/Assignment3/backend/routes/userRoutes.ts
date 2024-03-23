@@ -15,16 +15,33 @@ const router = express.Router();
 router.get(
   "/watchlist",
   async (req: Request, res: Response): Promise<Response> => {
-    const query = String(req.query["ticker"]) ?? null;
-    const watchList: WatchList[] = query
-      ? await WatchListStockModel.find({
+    const query = req.query["ticker"];
+    const watchList: WatchList[] = !query
+      ? await WatchListStockModel.find({})
+      : await WatchListStockModel.find({
           ticker: query,
+        });
+
+    if (!query) {
+      const priceData = await Promise.all(
+        watchList.map((watchListItem: WatchList) => {
+          return getQuote(watchListItem.ticker);
         })
-      : await WatchListStockModel.find({});
-    if (query) {
-      return res.status(200).json({ found: watchList.length !== 0 });
+      );
+      const dataWithStockValue = watchList.map((watchListItem, index) => {
+        return {
+          price: priceData[index].data["c"],
+          change: priceData[index].data["d"],
+          changePercentage: priceData[index].data["dp"],
+          ticker: watchListItem.ticker,
+          corporationName: watchListItem.corporationName,
+          id: watchListItem._id,
+        };
+      });
+
+      return res.status(200).json(dataWithStockValue);
     }
-    return res.status(200).json(watchList);
+    return res.status(200).json({ found: watchList.length !== 0 });
   }
 );
 
@@ -44,19 +61,21 @@ router.delete(
 router.post(
   "/watchlist-item",
   async (req: Request, res: Response): Promise<Response> => {
-    const watchListItem: { ticker: string } = req.body;
+    const watchListItem: { ticker: string; corporationName: string } = req.body;
     const insertResponse = await WatchListStockModel.updateOne(
       {
-        ticker: watchListItem.ticker,
+        ...watchListItem,
       },
       {
         $setOnInsert: watchListItem,
       },
       { upsert: true }
     );
-    if (insertResponse.upsertedCount == 1) return res.status(201).json();
-    if (insertResponse.matchedCount == 1) return res.status(409).json();
-    return res.status(400).json();
+    if (insertResponse.upsertedCount == 1)
+      return res.status(201).json({ Transaction: true });
+    if (insertResponse.matchedCount == 1)
+      return res.status(409).json({ Transaction: false });
+    return res.status(400).json({ Transaction: false });
   }
 );
 
@@ -64,14 +83,33 @@ router.post(
 router.get(
   "/portfolio",
   async (req: Request, res: Response): Promise<Response> => {
-    const query = String(req.query["ticker"]) ?? null;
+    const query = req.query["ticker"] ?? null;
     const portfolio: Portfolio[] = query
       ? await PortfolioModel.find({ ticker: query })
       : await PortfolioModel.find();
-    if (query) {
-      return res.status(200).json({ found: portfolio.length !== 0 });
+    if (!query) {
+      const priceData = await Promise.all(
+        portfolio.map((portfolioItem: Portfolio) => {
+          return getQuote(portfolioItem.ticker);
+        })
+      );
+      const dataWithStockValue = portfolio.map((portfolioItem, index) => {
+        return {
+          price: priceData[index].data["c"],
+          change: priceData[index].data["d"],
+          changePercentage: priceData[index].data["dp"],
+          ticker: portfolioItem.ticker,
+          corporationName: portfolioItem.corporationName,
+          id: portfolioItem._id,
+          quantity: portfolioItem.quantity,
+          averageCost: portfolioItem.averageCost,
+          totalCost: portfolioItem.totalCost,
+        };
+      });
+
+      return res.status(200).json(dataWithStockValue);
     }
-    return res.status(200).json(portfolio);
+    return res.status(200).json({ found: portfolio.length !== 0 });
   }
 );
 //buy

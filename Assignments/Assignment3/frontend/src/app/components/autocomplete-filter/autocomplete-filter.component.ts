@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -14,8 +14,8 @@ import {
   distinctUntilChanged,
   switchMap,
 } from 'rxjs';
-import { StockSearchService } from '../../../services/search-service.service';
 import { StockSearchItem } from '../../../services/stock-search-item';
+import { StockSearchService } from '../../services/search-service.service';
 
 @Component({
   selector: 'app-autocomplete-filter',
@@ -32,6 +32,7 @@ import { StockSearchItem } from '../../../services/stock-search-item';
   ],
 })
 export class AutocompleteFilter implements OnInit {
+  @Input() ticker!: string | undefined;
   inputControl = new FormControl('');
   filteredList: Observable<StockSearchItem[]> = new Observable<
     [
@@ -60,7 +61,7 @@ export class AutocompleteFilter implements OnInit {
       //TODO:Hardcoded value
       queryParams: { ticker: event.option.value, companyName: 'Apple inc' },
     });
-    console.log('Selected option:', event.option.value);
+
     // Perform any action you want here
   }
 }

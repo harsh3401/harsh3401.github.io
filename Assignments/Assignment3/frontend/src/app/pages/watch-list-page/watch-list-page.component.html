@@ -1,0 +1,22 @@
+<div class="mx-5 my-5">
+  <h3>My Watchlist</h3>
+  <div *ngFor="let watchListItem of watchList" class="card px-3 py-2">
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="watchListItemDelete(watchListItem.id)"
+    ></button>
+    <div class="d-flex justify-content-between pe-5">
+      <div>
+        <p class="fs-4 fw-medium">{{ watchListItem.ticker }}</p>
+        <p>{{ watchListItem.corporationName }}</p>
+      </div>
+      <div>
+        <p>{{ watchListItem.price }}</p>
+        <p>{{ watchListItem.change }}</p>
+        <p>{{ watchListItem.changePercentage }}</p>
+      </div>
+    </div>
+  </div>
+</div>

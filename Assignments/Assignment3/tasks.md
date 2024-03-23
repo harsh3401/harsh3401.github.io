@@ -6,7 +6,7 @@
 - [x] DB Connection and persistence features
 - [ ] Live Reloading of Stock Data ( Polling )
 - [ ] Date and Time Config checks and testing
-- [ ] Charts and config
+- [x] Charts and config
 - [ ] Responsive Design
 - [ ] Bootstrap Usage and specified points in spec
 - [ ] Stock Market Open setup for polling

@@ -6,7 +6,7 @@ import SMA from 'highcharts/indicators/ema';
 import IndicatorsCore from 'highcharts/indicators/indicators';
 import VBP from 'highcharts/indicators/volume-by-price';
 import StockModule from 'highcharts/modules/stock';
-import { StockSearchService } from '../../../../services/search-service.service';
+import { StockSearchService } from '../../../services/search-service.service';
 
 // Initialize required Highcharts modules
 StockModule(Highcharts);
@@ -33,10 +33,9 @@ export class ChartsTabComponent {
     this.stockInformationService
       .getSMAData(this.route.snapshot.params['ticker'])
       .then((response) => {
-        console.log(response);
         response.map((chartObj: any) => {
           OHLC.push([
-            chartObj['t'] / 1000,
+            chartObj['t'],
             chartObj['o'],
             chartObj['h'],
             chartObj['l'],
@@ -45,7 +44,7 @@ export class ChartsTabComponent {
           volume.push([chartObj['t'], chartObj['v']]);
         });
         this.chartData = { OHLC, volume };
-        console.log(OHLC, volume);
+
         this.chartOptions = {
           rangeSelector: {
             selected: 2,

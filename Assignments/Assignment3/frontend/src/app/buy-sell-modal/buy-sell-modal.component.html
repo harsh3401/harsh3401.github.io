@@ -13,17 +13,33 @@
   <p>Money in Wallet:{{ walletBalance }}</p>
   <div class="d-flex">
     <p>Quantity:</p>
-    <input type="number" class="form-control" id="usr" />
+    <input
+      type="number"
+      class="form-control"
+      id="usr"
+      min="0"
+      [(ngModel)]="qty"
+      (ngModelChange)="setQty($event)"
+    />
   </div>
+  <p *ngIf="sell && !canSell && qty">
+    {{ "You cannot sell the stocks that you don't have!" }}
+  </p>
+  <p *ngIf="!sell && !canBuy && qty">
+    {{ "Not enough money in wallet" }}
+  </p>
 </div>
-<div class="modal-footer border border-primary">
-  <div>Total:</div>
+<div class="modal-footer border border-primary d-flex justify-content-between">
+  <div>Total: {{ (qty * price).toFixed(2) }}</div>
   <button
     type="button"
-    class="btn btn-success"
-    (click)="activeModal.close('Close click')"
+    [class]="
+      'btn btn-success ' +
+      (sell ? (canSell ? '' : 'disabled') : canBuy ? '' : 'disabled')
+    "
+    (click)="sell ? executeSell() : executeBuy()"
   >
-    Buy
+    {{ this.sell ? "Sell" : "Buy" }}
   </button>
 </div>
 `

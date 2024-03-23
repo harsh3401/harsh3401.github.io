@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { news_format } from '../app/components/types';
-import { environment } from '../app/environment.dev';
-import { StockSearchItem } from './stock-search-item';
+import { StockSearchItem } from '../../services/stock-search-item';
+import { news_format } from '../components/types';
+import { environment } from '../environment.dev';
 
 @Injectable({
   providedIn: 'root',

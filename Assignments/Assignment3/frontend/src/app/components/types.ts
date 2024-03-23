@@ -26,3 +26,23 @@ export interface StockConfig {
 export interface news_format {
   [key: string]: String;
 }
+export interface WatchListItem {
+  ticker: string;
+  corporationName: string;
+  price: number;
+  change: number;
+  changePercentage: number;
+  id: string;
+}
+
+export interface PortfolioItem {
+  ticker: string;
+  corporationName: string;
+  price: number;
+  change: number;
+  changePercentage: number;
+  id: string;
+  quantity: number;
+  averageCost: number;
+  totalCost: number;
+}

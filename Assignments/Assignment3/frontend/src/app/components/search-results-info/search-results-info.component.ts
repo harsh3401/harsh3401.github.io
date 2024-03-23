@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { StockSearchService } from '../../../services/search-service.service';
 import { BuySellModalComponent } from '../../buy-sell-modal/buy-sell-modal.component';
 import { SearchPageComponent } from '../../pages/search-page/search-page.component';
+import { StockSearchService } from '../../services/search-service.service';
+import { UserService } from '../../services/user-service.service';
 import { TabGroupComponent } from '../tab-group/tab-group.component';
 import { StockConfig } from '../types';
 
@@ -29,14 +30,38 @@ export class SearchResultsInfoComponent {
   @ViewChild(BuySellModalComponent) modalComponent!: BuySellModalComponent;
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   stockInformationService: StockSearchService = inject(StockSearchService);
+  stockUserService: UserService = inject(UserService);
   stockConfig!: StockConfig;
   new: any;
-  openBuySellModal() {
+  openBuySellModal(sell = false) {
     this.modalComponent.open(
       this.stockConfig?.stockPrice,
-      this.stockConfig?.walletBalance
+      this.stockConfig?.walletBalance,
+      sell,
+      this.stockConfig?.ticker
     );
   }
+  addToWatchList() {
+    this.stockUserService
+      .addToWatchList(this.stockConfig.ticker, this.stockConfig.companyName)
+      .then((response) => {
+        if (response.Transaction) {
+          //TODO:Fix to refetch and not re render
+          location.reload();
+        }
+      });
+  }
+  removeFromWatchList() {
+    this.stockUserService
+      .removeFromWatchList(this.stockConfig.ticker)
+      .then((response) => {
+        if (response.Transaction) {
+          //TODO:Fix to refetch and not re render
+          location.reload();
+        }
+      });
+  }
+
   constructor() {
     this.stockInformationService
       .getCompanyData(this.route.snapshot.params['ticker'])
@@ -58,8 +83,8 @@ export class SearchResultsInfoComponent {
             new Date().getTime() - new Date(responses[1].t * 1000).getTime() <
             300000,
           changePercent: responses[1].dp,
-          wishlist: responses[2].found,
-          portfolio: responses[3].found,
+          wishlist: responses[3].found,
+          portfolio: responses[2].found,
           highPrice: responses[1].h,
           lowPrice: responses[1].l,
           openPrice: responses[1].o,
