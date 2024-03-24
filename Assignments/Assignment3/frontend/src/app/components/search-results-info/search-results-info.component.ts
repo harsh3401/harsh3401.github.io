@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BuySellModalComponent } from '../../buy-sell-modal/buy-sell-modal.component';
 import { SearchPageComponent } from '../../pages/search-page/search-page.component';
@@ -26,13 +26,14 @@ const options: any = {
     BuySellModalComponent,
   ],
 })
-export class SearchResultsInfoComponent {
+export class SearchResultsInfoComponent implements OnInit {
   @ViewChild(BuySellModalComponent) modalComponent!: BuySellModalComponent;
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   stockInformationService: StockSearchService = inject(StockSearchService);
   stockUserService: UserService = inject(UserService);
   stockConfig!: StockConfig;
   new: any;
+
   openBuySellModal(sell = false) {
     this.modalComponent.open(
       this.stockConfig?.stockPrice,
@@ -46,8 +47,7 @@ export class SearchResultsInfoComponent {
       .addToWatchList(this.stockConfig.ticker, this.stockConfig.companyName)
       .then((response) => {
         if (response.Transaction) {
-          //TODO:Fix to refetch and not re render
-          location.reload();
+          this.stockConfig.wishlist = true;
         }
       });
   }
@@ -56,17 +56,15 @@ export class SearchResultsInfoComponent {
       .removeFromWatchList(this.stockConfig.ticker)
       .then((response) => {
         if (response.Transaction) {
-          //TODO:Fix to refetch and not re render
-          location.reload();
+          this.stockConfig.wishlist = false;
         }
       });
   }
 
-  constructor() {
-    this.stockInformationService
-      .getCompanyData(this.route.snapshot.params['ticker'])
-      .then((responses) => {
-        //TODO:Mapping to cleaner object
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap) => {
+      const ticker = paramMap.get('ticker');
+      this.stockInformationService.getCompanyData(ticker!).then((responses) => {
         this.stockConfig = {
           ticker: responses[0].ticker,
           logo: responses[0].logo,
@@ -77,7 +75,7 @@ export class SearchResultsInfoComponent {
           priceTimestampString: new Intl.DateTimeFormat(
             'en-US',
             options
-          ).format(new Date(new Date(responses[1].t * 1000))),
+          ).format(new Date(responses[1].t * 1000)),
           change: responses[1].d,
           marketOpen:
             new Date().getTime() - new Date(responses[1].t * 1000).getTime() <
@@ -92,10 +90,11 @@ export class SearchResultsInfoComponent {
           ipoStartDate: responses[0].ipo,
           industry: responses[0].finnhubIndustry,
           webpage: responses[0].weburl,
-          companyPeers: responses[4].join(','),
+          companyPeers: responses[4],
           chartData: responses[5],
           walletBalance: responses[6].balance.toFixed(2),
         };
       });
+    });
   }
 }

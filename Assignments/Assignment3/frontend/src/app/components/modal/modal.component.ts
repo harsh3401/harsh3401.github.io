@@ -15,6 +15,7 @@ export class NgbdModalContent {
 
   @Input()
   newsObject!: news_format;
+  https: any;
 }
 
 @Component({

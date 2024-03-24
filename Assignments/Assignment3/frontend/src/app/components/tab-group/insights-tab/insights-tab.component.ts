@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -15,7 +15,7 @@ interface Recommendation {
   templateUrl: './insights-tab.component.html',
   styleUrl: './insights-tab.component.css',
 })
-export class InsightsTabComponent {
+export class InsightsTabComponent implements OnInit {
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   stockInformationService: StockSearchService = inject(StockSearchService);
   highcharts: typeof Highcharts = Highcharts;
@@ -49,208 +49,210 @@ export class InsightsTabComponent {
       surprise: number[];
     };
   };
-  constructor() {
-    const ticker = this.route.snapshot.queryParamMap.get('ticker');
-    const companyName = this.route.snapshot.queryParamMap.get('companyName');
-    this.companyName = companyName!;
-    this.stockInformationService.getInsightsData(ticker!).then((data) => {
-      const sentimentMapped = {
-        mspr: {
-          total: 0,
-          positive: 0,
-          negative: 0,
-        },
-        change: {
-          total: 0,
-          positive: 0,
-          negative: 0,
-        },
-      };
-      data[0].forEach((sentimentObject: any) => {
-        if (sentimentObject.mspr >= 0) {
-          sentimentMapped.mspr.positive += sentimentObject.mspr;
-        } else {
-          sentimentMapped.mspr.negative += sentimentObject.mspr;
-        }
-        if (sentimentObject.change >= 0) {
-          sentimentMapped.change.positive += sentimentObject.change;
-        } else {
-          sentimentMapped.change.negative += sentimentObject.change;
-        }
-        sentimentMapped.mspr.total += sentimentObject.mspr;
-        sentimentMapped.change.total += sentimentObject.change;
-      });
-
-      const strongBuy: number[] = [];
-      const buy: number[] = [];
-      const hold: number[] = [];
-      const sell: number[] = [];
-      const strongSell: number[] = [];
-      const timeSlots: string[] = [];
-
-      data[1].forEach((recommendationObject: any) => {
-        strongBuy.push(recommendationObject.strongBuy);
-        buy.push(recommendationObject.buy);
-        sell.push(recommendationObject.sell);
-        strongSell.push(recommendationObject.strongSell);
-        hold.push(recommendationObject.hold);
-        timeSlots.push(recommendationObject.period);
-      });
-
-      const actual: number[] = [];
-      const estimate: number[] = [];
-      const period: string[] = [];
-      const surprise: number[] = [];
-
-      data[2].forEach((earningObject: any) => {
-        actual.push(earningObject.actual);
-        estimate.push(earningObject.estimate);
-        period.push(earningObject.period);
-        surprise.push(earningObject.surprise);
-      });
-
-      this.sentimentData = {
-        ...sentimentMapped,
-        recommendationData: {
-          strongBuy,
-          strongSell,
-          buy,
-          sell,
-          hold,
-        },
-        companyEarningData: {
-          actual,
-          estimate,
-          period,
-          surprise,
-        },
-      };
-      this.chartOptions = {
-        recommendation: {
-          accessibility: { enabled: false },
-          chart: {
-            type: 'column',
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap) => {
+      const ticker = paramMap.get('ticker');
+      const companyName = this.route.snapshot.queryParamMap.get('companyName');
+      this.companyName = companyName!;
+      this.stockInformationService.getInsightsData(ticker!).then((data) => {
+        const sentimentMapped = {
+          mspr: {
+            total: 0,
+            positive: 0,
+            negative: 0,
           },
-          title: {
-            text: 'Recommendation Trends',
-            align: 'left',
+          change: {
+            total: 0,
+            positive: 0,
+            negative: 0,
           },
-          xAxis: {
-            categories: timeSlots,
+        };
+        data[0].forEach((sentimentObject: any) => {
+          if (sentimentObject.mspr >= 0) {
+            sentimentMapped.mspr.positive += sentimentObject.mspr;
+          } else {
+            sentimentMapped.mspr.negative += sentimentObject.mspr;
+          }
+          if (sentimentObject.change >= 0) {
+            sentimentMapped.change.positive += sentimentObject.change;
+          } else {
+            sentimentMapped.change.negative += sentimentObject.change;
+          }
+          sentimentMapped.mspr.total += sentimentObject.mspr;
+          sentimentMapped.change.total += sentimentObject.change;
+        });
+
+        const strongBuy: number[] = [];
+        const buy: number[] = [];
+        const hold: number[] = [];
+        const sell: number[] = [];
+        const strongSell: number[] = [];
+        const timeSlots: string[] = [];
+
+        data[1].forEach((recommendationObject: any) => {
+          strongBuy.push(recommendationObject.strongBuy);
+          buy.push(recommendationObject.buy);
+          sell.push(recommendationObject.sell);
+          strongSell.push(recommendationObject.strongSell);
+          hold.push(recommendationObject.hold);
+          timeSlots.push(recommendationObject.period);
+        });
+
+        const actual: number[] = [];
+        const estimate: number[] = [];
+        const period: string[] = [];
+        const surprise: number[] = [];
+
+        data[2].forEach((earningObject: any) => {
+          actual.push(earningObject.actual);
+          estimate.push(earningObject.estimate);
+          period.push(earningObject.period);
+          surprise.push(earningObject.surprise);
+        });
+
+        this.sentimentData = {
+          ...sentimentMapped,
+          recommendationData: {
+            strongBuy,
+            strongSell,
+            buy,
+            sell,
+            hold,
           },
-          yAxis: {
-            min: 0,
+          companyEarningData: {
+            actual,
+            estimate,
+            period,
+            surprise,
+          },
+        };
+        this.chartOptions = {
+          recommendation: {
+            accessibility: { enabled: false },
+            chart: {
+              type: 'column',
+            },
             title: {
-              text: 'Analysis',
+              text: 'Recommendation Trends',
+              align: 'left',
             },
-            stackLabels: {
-              enabled: true,
+            xAxis: {
+              categories: timeSlots,
             },
-          },
-          legend: {
-            align: 'left',
-            x: 70,
-            verticalAlign: 'top',
-            y: 70,
-            floating: true,
-            borderColor: '#CCC',
-            borderWidth: 1,
-            shadow: false,
-          },
-          tooltip: {
-            headerFormat: '<b>{point.x}</b><br/>',
-            pointFormat:
-              '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
-          },
-          plotOptions: {
-            column: {
-              stacking: 'normal',
-              dataLabels: {
+            yAxis: {
+              min: 0,
+              title: {
+                text: 'Analysis',
+              },
+              stackLabels: {
                 enabled: true,
               },
             },
+            legend: {
+              align: 'left',
+              x: 70,
+              verticalAlign: 'top',
+              y: 70,
+              floating: true,
+              borderColor: '#CCC',
+              borderWidth: 1,
+              shadow: false,
+            },
+            tooltip: {
+              headerFormat: '<b>{point.x}</b><br/>',
+              pointFormat:
+                '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
+            },
+            plotOptions: {
+              column: {
+                stacking: 'normal',
+                dataLabels: {
+                  enabled: true,
+                },
+              },
+            },
+            series: [
+              {
+                type: 'column',
+                name: 'Strong Buy',
+                data: strongBuy,
+              },
+              {
+                type: 'column',
+                name: 'Buy',
+                data: buy,
+              },
+              {
+                type: 'column',
+                name: 'Hold',
+                data: hold,
+              },
+              {
+                type: 'column',
+                name: 'Sell',
+                data: sell,
+              },
+              {
+                type: 'column',
+                name: 'Strong Sell',
+                data: strongSell,
+              },
+            ],
           },
-          series: [
-            {
-              type: 'column',
-              name: 'Strong Buy',
-              data: strongBuy,
+          earnings: {
+            accessibility: { enabled: false },
+            chart: {
+              type: 'spline',
             },
-            {
-              type: 'column',
-              name: 'Buy',
-              data: buy,
-            },
-            {
-              type: 'column',
-              name: 'Hold',
-              data: hold,
-            },
-            {
-              type: 'column',
-              name: 'Sell',
-              data: sell,
-            },
-            {
-              type: 'column',
-              name: 'Strong Sell',
-              data: strongSell,
-            },
-          ],
-        },
-        earnings: {
-          accessibility: { enabled: false },
-          chart: {
-            type: 'spline',
-          },
-          title: {
-            text: 'Historical EPS Surprises',
-            align: 'left',
-          },
-
-          xAxis: {
-            labels: {
-              format: '',
-            },
-
-            categories: period.map((periodObj, index) => {
-              return `<div class="d-flex flex-column gap-2"><p>${periodObj}</p><p>${surprise[index]}</p></div>`;
-            }),
-
-            maxPadding: 0.05,
-            showLastLabel: true,
-          },
-          yAxis: {
             title: {
-              text: 'Quantity EPS',
+              text: 'Historical EPS Surprises',
+              align: 'left',
             },
 
-            lineWidth: 2,
-          },
-          legend: {
-            enabled: false,
-          },
-          tooltip: {
-            headerFormat: '<b>{series.name}</b><br/>',
-            pointFormat: '{point.x} km: {point.y}°C',
-          },
-          plotOptions: {
-            spline: {},
-          },
-          series: [
-            {
-              type: 'spline',
-              name: 'Actual',
-              data: actual,
+            xAxis: {
+              labels: {
+                format: '',
+              },
+
+              categories: period.map((periodObj, index) => {
+                return `<div class="d-flex flex-column gap-2"><p>${periodObj}</p><p>${surprise[index]}</p></div>`;
+              }),
+
+              maxPadding: 0.05,
+              showLastLabel: true,
             },
-            {
-              type: 'spline',
-              name: 'Estimate',
-              data: estimate,
+            yAxis: {
+              title: {
+                text: 'Quantity EPS',
+              },
+
+              lineWidth: 2,
             },
-          ],
-        },
-      };
+            legend: {
+              enabled: false,
+            },
+            tooltip: {
+              headerFormat: '<b>{series.name}</b><br/>',
+              pointFormat: '{point.x} km: {point.y}°C',
+            },
+            plotOptions: {
+              spline: {},
+            },
+            series: [
+              {
+                type: 'spline',
+                name: 'Actual',
+                data: actual,
+              },
+              {
+                type: 'spline',
+                name: 'Estimate',
+                data: estimate,
+              },
+            ],
+          },
+        };
+      });
     });
   }
 }

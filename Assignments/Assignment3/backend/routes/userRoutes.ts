@@ -46,14 +46,15 @@ router.get(
 );
 
 router.delete(
-  "/watchlist-item/:id",
+  "/watchlist-item",
   async (req: Request, res: Response): Promise<Response> => {
-    const watchListItemId = req.params.id;
-    const deleteResponse = await WatchListStockModel.findByIdAndDelete(
-      watchListItemId
-    );
+    const watchListItemTicker = req.body["ticker"];
+    const deleteResponse = await WatchListStockModel.findOneAndDelete({
+      ticker: watchListItemTicker,
+    });
 
-    if (deleteResponse !== null) return res.status(200).json();
+    if (deleteResponse !== null)
+      return res.status(200).json({ Transaction: true });
     return res.status(404).json();
   }
 );
@@ -139,6 +140,7 @@ router.post(
       if (Wallet && value < Wallet?.balance) {
         if (portfolioItem === null) {
           //validation
+          console.log("here 1");
           await PortfolioModel.create({
             ticker: transactionItem.ticker,
             quantity: transactionItem.quantity,
@@ -160,7 +162,7 @@ router.post(
           portfolioItem.totalCost = totalCost;
           portfolioItem.averageCost = averageCost;
           portfolioItem.quantity = quantity;
-
+          console.log("here");
           await portfolioItem.save();
 
           Wallet.balance = Wallet.balance - value;

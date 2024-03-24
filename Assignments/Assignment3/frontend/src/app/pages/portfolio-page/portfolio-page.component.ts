@@ -26,7 +26,8 @@ export class PortfolioPageComponent {
       portfolioItem.price,
       this.balance,
       sell,
-      portfolioItem.ticker
+      portfolioItem.ticker,
+      portfolioItem.quantity
     );
   }
   constructor() {

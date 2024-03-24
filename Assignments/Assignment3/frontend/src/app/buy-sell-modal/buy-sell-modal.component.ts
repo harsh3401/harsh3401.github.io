@@ -3,6 +3,7 @@ import { Component, Input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertService } from '../services/alert.service';
 import { UserService } from '../services/user-service.service';
 
 @Component({
@@ -13,8 +14,17 @@ import { UserService } from '../services/user-service.service';
   styleUrl: './buy-sell-modal.component.css',
 })
 export class BuySellModalTemplate {
+  constructor(private alertService: AlertService) {}
   executeSell() {
-    throw new Error('Method not implemented.');
+    this.stockBuyService
+      .executeSell(this.ticker, this.qty)
+      .then((tradeResult) => {
+        if (tradeResult.Transaction) {
+          this.activeModal.dismiss('Cross click');
+          //Todo:Refetch on click
+          this.alertService.showAlert('stock  bought', 'green');
+        }
+      });
   }
   executeBuy() {
     this.stockBuyService
@@ -22,13 +32,14 @@ export class BuySellModalTemplate {
       .then((tradeResult) => {
         if (tradeResult.Transaction) {
           this.activeModal.dismiss('Cross click');
-          location.reload();
+          this.alertService.showAlert('stock  bought', 'green');
           // this.router.navigate(['.'], { queryParamsHandling: 'preserve' });
         }
       });
   }
   //update to reflect state latest
   setQty($event: Event) {
+    console.log(this.qtyOwned);
     this.canSell = this.qtyOwned >= this.qty && this.qty != 0;
     this.canBuy =
       this.price * this.qty <= this.walletBalance && this.qty * this.price != 0;
@@ -60,7 +71,14 @@ export class BuySellModalTemplate {
 export class BuySellModalComponent {
   private modalService = inject(NgbModal);
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
-  open(price: number, walletBalance: number, sell = false, ticker: string) {
+
+  open(
+    price: number,
+    walletBalance: number,
+    sell = false,
+    ticker: string,
+    qtyOwned: number = 0
+  ) {
     const modalRef = this.modalService.open(BuySellModalTemplate);
     modalRef.componentInstance.walletBalance =
       typeof walletBalance === 'number'
@@ -69,5 +87,6 @@ export class BuySellModalComponent {
     modalRef.componentInstance.price = price;
     modalRef.componentInstance.ticker = ticker;
     modalRef.componentInstance.sell = sell;
+    modalRef.componentInstance.qtyOwned = qtyOwned;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -21,117 +21,120 @@ SMA(Highcharts);
   templateUrl: './charts-tab.component.html',
   styleUrl: './charts-tab.component.css',
 })
-export class ChartsTabComponent {
+export class ChartsTabComponent implements OnInit {
   stockInformationService: StockSearchService = inject(StockSearchService);
   highcharts: typeof Highcharts = Highcharts;
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   chartData!: { OHLC: any; volume: any };
-  chartOptions: Highcharts.Options = {};
-  constructor() {
+  chartOptions!: Highcharts.Options;
+  ngOnInit() {
     const OHLC: any[][] = [];
     const volume: any[][] = [];
-    this.stockInformationService
-      .getSMAData(this.route.snapshot.params['ticker'])
-      .then((response) => {
-        response.map((chartObj: any) => {
-          OHLC.push([
-            chartObj['t'],
-            chartObj['o'],
-            chartObj['h'],
-            chartObj['l'],
-            chartObj['c'],
-          ]);
-          volume.push([chartObj['t'], chartObj['v']]);
+    this.route.paramMap.subscribe((paramMap) => {
+      const ticker = paramMap.get('ticker');
+      this.stockInformationService
+        .getSMAData(this.route.snapshot.params['ticker'])
+        .then((response) => {
+          response.map((chartObj: any) => {
+            OHLC.push([
+              chartObj['t'],
+              chartObj['o'],
+              chartObj['h'],
+              chartObj['l'],
+              chartObj['c'],
+            ]);
+            volume.push([chartObj['t'], chartObj['v']]);
+          });
+          this.chartData = { OHLC, volume };
+
+          this.chartOptions = {
+            rangeSelector: {
+              selected: 2,
+            },
+
+            title: {
+              text: 'AAPL Historical',
+            },
+
+            subtitle: {
+              text: 'With SMA and Volume by Price technical indicators',
+            },
+
+            yAxis: [
+              {
+                startOnTick: false,
+                endOnTick: false,
+                labels: {
+                  align: 'right',
+                  x: -3,
+                },
+                title: {
+                  text: 'OHLC',
+                },
+                height: '60%',
+                lineWidth: 2,
+                resize: {
+                  enabled: true,
+                },
+              },
+              {
+                labels: {
+                  align: 'right',
+                  x: -3,
+                },
+                title: {
+                  text: 'Volume',
+                },
+                top: '65%',
+                height: '35%',
+                offset: 0,
+                lineWidth: 2,
+              },
+            ],
+
+            tooltip: {
+              split: true,
+            },
+
+            series: [
+              {
+                type: 'candlestick',
+                name: 'AAPL',
+                id: 'aapl',
+                zIndex: 2,
+                data: OHLC,
+              },
+              {
+                type: 'column',
+                name: 'Volume',
+                id: 'volume',
+                data: volume,
+                yAxis: 1,
+              },
+              {
+                type: 'vbp',
+                linkedTo: 'aapl',
+                params: {
+                  volumeSeriesID: 'volume',
+                },
+                dataLabels: {
+                  enabled: false,
+                },
+                zoneLines: {
+                  enabled: false,
+                },
+              },
+              {
+                type: 'sma',
+                linkedTo: 'aapl',
+                zIndex: 1,
+                marker: {
+                  enabled: false,
+                },
+              },
+            ],
+          };
         });
-        this.chartData = { OHLC, volume };
-
-        this.chartOptions = {
-          rangeSelector: {
-            selected: 2,
-          },
-
-          title: {
-            text: 'AAPL Historical',
-          },
-
-          subtitle: {
-            text: 'With SMA and Volume by Price technical indicators',
-          },
-
-          yAxis: [
-            {
-              startOnTick: false,
-              endOnTick: false,
-              labels: {
-                align: 'right',
-                x: -3,
-              },
-              title: {
-                text: 'OHLC',
-              },
-              height: '60%',
-              lineWidth: 2,
-              resize: {
-                enabled: true,
-              },
-            },
-            {
-              labels: {
-                align: 'right',
-                x: -3,
-              },
-              title: {
-                text: 'Volume',
-              },
-              top: '65%',
-              height: '35%',
-              offset: 0,
-              lineWidth: 2,
-            },
-          ],
-
-          tooltip: {
-            split: true,
-          },
-
-          series: [
-            {
-              type: 'candlestick',
-              name: 'AAPL',
-              id: 'aapl',
-              zIndex: 2,
-              data: OHLC,
-            },
-            {
-              type: 'column',
-              name: 'Volume',
-              id: 'volume',
-              data: volume,
-              yAxis: 1,
-            },
-            {
-              type: 'vbp',
-              linkedTo: 'aapl',
-              params: {
-                volumeSeriesID: 'volume',
-              },
-              dataLabels: {
-                enabled: false,
-              },
-              zoneLines: {
-                enabled: false,
-              },
-            },
-            {
-              type: 'sma',
-              linkedTo: 'aapl',
-              zIndex: 1,
-              marker: {
-                enabled: false,
-              },
-            },
-          ],
-        };
-      });
+    });
   }
 }

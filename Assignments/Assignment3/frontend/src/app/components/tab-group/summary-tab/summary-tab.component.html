@@ -1,4 +1,4 @@
-<div class="border border-primary mx-5 d-flex">
+<div class="border border-primary mx-5 d-flex h-100">
   <div class="border border-primary w-50">
     <div>
       <div>
@@ -30,9 +30,25 @@
       <div>About the company</div>
       <div>IPO Start Date: {{ stockData?.ipoStartDate }}</div>
       <div>Industry: {{ stockData?.industry }}</div>
-      <div>Webpage: {{ stockData?.webpage }}</div>
+      <div>
+        Webpage:
+        <a
+          [href]="stockData?.webpage"
+          rel="noopener noreferrer"
+          target="_blank"
+          >{{ stockData?.webpage }}</a
+        >
+      </div>
       <div>Company peers:</div>
-      <div>{{ stockData?.companyPeers }}</div>
+      <div>
+        <span
+          ><a
+            *ngFor="let peer of stockData?.companyPeers"
+            [href]="'search/' + peer"
+            >{{ peer }},</a
+          ></span
+        >
+      </div>
     </div>
   </div>
   <div class="border border-primary w-50">

@@ -13,8 +13,8 @@ import { UserService } from '../../services/user-service.service';
 export class WatchListPageComponent {
   watchList!: WatchListItem[];
   stockBuyService: UserService = inject(UserService);
-  watchListItemDelete(id: string) {
-    this.stockBuyService.deletefromWatchList(id).then((response) => {});
+  watchListItemDelete(ticker: string) {
+    this.stockBuyService.removeFromWatchList(ticker).then((response) => {});
   }
   constructor() {
     this.stockBuyService.getWatchList().then((data) => {

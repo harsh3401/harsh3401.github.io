@@ -1,5 +1,6 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -8,11 +9,11 @@ import { StockConfig } from '../../types';
 @Component({
   selector: 'app-summary-tab',
   standalone: true,
-  imports: [HighchartsChartModule],
+  imports: [HighchartsChartModule, CommonModule],
   templateUrl: './summary-tab.component.html',
   styleUrl: './summary-tab.component.css',
 })
-export class SummaryTabComponent {
+export class SummaryTabComponent implements OnInit {
   chartData!: any;
   stockInformationService: StockSearchService = inject(StockSearchService);
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
@@ -20,10 +21,10 @@ export class SummaryTabComponent {
   stockData!: StockConfig;
   highcharts: typeof Highcharts = Highcharts;
   chartOptions!: Highcharts.Options;
-  constructor() {
-    this.stockInformationService
-      .getSMAData(this.route.snapshot.params['ticker'])
-      .then((data) => {
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap) => {
+      const ticker = paramMap.get('ticker');
+      this.stockInformationService.getSMAData(ticker!).then((data) => {
         const priceData = data.map((obj: any) => {
           return obj['o'];
         });
@@ -40,5 +41,6 @@ export class SummaryTabComponent {
           ],
         };
       });
+    });
   }
 }

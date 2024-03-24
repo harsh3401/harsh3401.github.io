@@ -16,6 +16,16 @@ export class UserService {
     });
     return (await data.json()) ?? { Transaction: false };
   }
+  async executeSell(ticker: string, qty: number): Promise<any> {
+    const data = await fetch(`${environment.apiUrl}/user/sell-stock`, {
+      method: 'POST', // Specify the HTTP method
+      headers: {
+        'Content-Type': 'application/json', // Add Content-Type header
+      },
+      body: JSON.stringify({ ticker: ticker, quantity: qty }), // Collect form data as JSON string
+    });
+    return (await data.json()) ?? { Transaction: false };
+  }
 
   async addToWatchList(ticker: string, corporationName: string): Promise<any> {
     const data = await fetch(`${environment.apiUrl}/user/watchlist-item`, {
@@ -32,7 +42,7 @@ export class UserService {
   async removeFromWatchList(ticker: string): Promise<any> {
     const data = await fetch(`${environment.apiUrl}/user/watchlist-item`, {
       // Specify the HTTP method
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json', // Add Content-Type header
       },
@@ -50,16 +60,6 @@ export class UserService {
   }
   async getWalletBalance(): Promise<any> {
     const data = await fetch(`${environment.apiUrl}/user/wallet-balance`);
-    return (await data.json()) ?? [];
-  }
-  async deletefromWatchList(id: string): Promise<any> {
-    const data = await fetch(
-      `${environment.apiUrl}/user/watchlist-item/${id}`,
-      {
-        // Specify the HTTP method
-        method: 'DELETE',
-      }
-    );
     return (await data.json()) ?? [];
   }
 }
