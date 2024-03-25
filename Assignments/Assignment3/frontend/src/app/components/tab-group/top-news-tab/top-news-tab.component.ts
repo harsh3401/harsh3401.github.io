@@ -20,7 +20,9 @@ export class TopNewsTabComponent implements OnInit {
   openModal(newsObject: news_format) {
     this.modalComponent.open(newsObject);
   }
-
+  identify(_: any, newsItem: news_format) {
+    return newsItem['headline'];
+  }
   ngOnInit() {
     const options: any = {
       year: 'numeric', // Full numeric representation of the year (e.g., 2024)
@@ -29,16 +31,30 @@ export class TopNewsTabComponent implements OnInit {
     };
     this.route.paramMap.subscribe((paramMap) => {
       const ticker = paramMap.get('ticker');
-      this.stockInformationService.getTopNews(ticker!).then((data) => {
-        this.news = data.slice(0, 20).map((data: any) => {
-          return {
-            datetime: new Intl.DateTimeFormat('en-US', options).format(
-              new Date(data['datetime'] * 1000)
-            ),
-            ...data,
-          };
+      if (
+        this.stockInformationService.ticker === ticker &&
+        this.stockInformationService.news
+      ) {
+        this.news = this.stockInformationService.news;
+      } else {
+        console.log('started');
+        this.stockInformationService.getTopNews(ticker!).then((data) => {
+          let updatedNews = data.slice(0, 20);
+
+          updatedNews = updatedNews.map((data: any) => {
+            return {
+              datetime: new Intl.DateTimeFormat('en-US', options).format(
+                new Date(data['datetime'] * 1000)
+              ),
+              ...data,
+            };
+          });
+          this.news = updatedNews;
+          this.stockInformationService.news = updatedNews;
+          this.stockInformationService.ticker = ticker!;
+          console.log('ended');
         });
-      });
+      }
     });
   }
 }

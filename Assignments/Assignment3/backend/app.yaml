@@ -4,6 +4,3 @@ env: standard
 handlers:
   - url: /.*
     script: auto
-
-env_variables:
-  PORT: 8080

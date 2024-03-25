@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AutocompleteFilter } from '../../components/autocomplete-filter/autocomplete-filter.component';
 import { CustomAlertComponent } from '../../components/custom-alert/custom-alert.component';
@@ -13,12 +13,19 @@ import { AlertService } from '../../services/alert.service';
 })
 export class SearchPageComponent {
   @Input() ticker!: string | undefined;
+  @ViewChild(AutocompleteFilter) autocompleteComponent!: AutocompleteFilter;
 
   constructor(private router: Router, private alertService: AlertService) {}
   clearSearch(): void {
     this.router.navigate([`/search/home`]);
   }
-  testModal() {
-    this.alertService.showAlert('This is an alert message.', 'green');
+  searchTicker(): void {
+    console.log('here', this.autocompleteComponent.inputControl.value);
+    if (this.autocompleteComponent.inputControl.value === '') {
+      this.alertService.showAlert('Please enter a valid Ticker', 'danger');
+    }
+    this.router.navigate([
+      `/search/${this.autocompleteComponent.inputControl.value}`,
+    ]);
   }
 }

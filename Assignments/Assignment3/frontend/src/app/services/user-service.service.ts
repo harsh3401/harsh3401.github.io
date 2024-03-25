@@ -51,11 +51,11 @@ export class UserService {
     return (await data.json()) ?? { Transaction: false };
   }
   async getWatchList(): Promise<any> {
-    const data = await fetch(`${environment.apiUrl}/user/watchlist`);
+    const data = await fetch(`${environment.apiUrl}/user/watchlist-data`);
     return (await data.json()) ?? [];
   }
   async getPortfolio(): Promise<any> {
-    const data = await fetch(`${environment.apiUrl}/user/portfolio`);
+    const data = await fetch(`${environment.apiUrl}/user/portfolio-data`);
     return (await data.json()) ?? [];
   }
   async getWalletBalance(): Promise<any> {

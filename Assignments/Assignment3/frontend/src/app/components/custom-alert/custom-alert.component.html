@@ -1,7 +1,9 @@
 @if (show) {
-
-<ngb-alert type="custom" [dismissible]="true" (close)="dismissAlert()">
+<ngb-alert
+  [type]="this.type"
+  (closed)="dismissAlert()"
+  [dismissible]="this.dismissible"
+>
   {{ this.message }}
 </ngb-alert>
-<!-- Todo:time -->
 }

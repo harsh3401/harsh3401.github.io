@@ -12,12 +12,15 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: "http://localhost:4200",
+    origin:
+      process.env.ENVMNT !== "prod"
+        ? "http://localhost:4200"
+        : process.env.CORS_ENDPOINT,
   })
 );
 // TODO:Any Fix
 app.use(bodyParser.json());
-
+app.use("/", express.static("browser"));
 app.use("/api", apiRoutes);
 app.use("/user", userRoutes);
 

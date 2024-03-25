@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StockSearchItem } from '../../services/stock-search-item';
-import { news_format } from '../components/types';
+import { StockConfig, news_format } from '../components/types';
 import { environment } from '../environment.dev';
 
 @Injectable({
@@ -8,6 +8,38 @@ import { environment } from '../environment.dev';
 })
 export class StockSearchService {
   protected stockSearchList: StockSearchItem[] = [];
+  ticker!: string;
+  stockConfig!: StockConfig;
+  chartsChartOptions!: any;
+  news!: any[];
+  companyName!: string;
+  insightsChartOptions!: any;
+  summaryChartOptions!: any;
+  sentimentData!: {
+    mspr: {
+      total: number;
+      positive: number;
+      negative: number;
+    };
+    change: {
+      total: number;
+      positive: number;
+      negative: number;
+    };
+    recommendationData: {
+      strongBuy: number[];
+      buy: number[];
+      hold: number[];
+      sell: number[];
+      strongSell: number[];
+    };
+    companyEarningData: {
+      actual: number[];
+      estimate: number[];
+      period: string[];
+      surprise: number[];
+    };
+  };
   constructor() {}
 
   async getFilteredListByString(
@@ -23,11 +55,12 @@ export class StockSearchService {
     const urls = [
       `${environment.apiUrl}/api/company-details?ticker=${search_string}`,
       `${environment.apiUrl}/api/quote?ticker=${search_string}`,
-      `${environment.apiUrl}/user/portfolio?ticker=${search_string}`,
-      `${environment.apiUrl}/user/watchlist?ticker=${search_string}`,
+      `${environment.apiUrl}/user/portfolio-data?ticker=${search_string}`,
+      `${environment.apiUrl}/user/watchlist-data?ticker=${search_string}`,
       `${environment.apiUrl}/api/company-peers?ticker=${search_string}`,
       `${environment.apiUrl}/api/historical-data?ticker=${search_string}&range=day`,
       `${environment.apiUrl}/user/wallet-balance`,
+      `${environment.apiUrl}/user/portfolio-data?ticker=${search_string}`,
     ];
     const Promises = urls.map((url) => fetch(url));
     const responses = await Promise.all(Promises);
@@ -51,6 +84,7 @@ export class StockSearchService {
       `${environment.apiUrl}/api/insider-sentiment?ticker=${search_string}`,
       `${environment.apiUrl}/api/recommendation-trends?ticker=${search_string}`,
       `${environment.apiUrl}/api/company-earnings?ticker=${search_string}`,
+      `${environment.apiUrl}/api/company-details?ticker=${search_string}`,
     ];
     const Promises = urls.map((url) => fetch(url));
     const responses = await Promise.all(Promises);

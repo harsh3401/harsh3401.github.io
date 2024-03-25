@@ -1,5 +1,7 @@
 import { Response } from "express";
-import { news_format } from "./../../frontend/src/app/components/types";
+interface news_format {
+  [key: string]: String;
+}
 export function error_middleware(
   stock_data: any,
   res: Response,

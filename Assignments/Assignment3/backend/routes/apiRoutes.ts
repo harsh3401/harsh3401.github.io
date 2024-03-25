@@ -98,7 +98,10 @@ router.get("/company-news", (req: Request, res: Response) => {
           news_data.push(newsObject);
         }
       }
-      res.json(news_data);
+      if (news_data.length > 20) {
+        return res.json(news_data.splice(0, 20));
+      }
+      return res.json(news_data);
     })
     .catch((error) => {
       console.error(error);
@@ -197,6 +200,9 @@ router.get("/historical-data", (req: Request, res: Response) => {
           `${process.env.POLYGON_ENDPOINT}/${query}/range/1/day/${PREVIOUS_DATE}/${NEXT_DATE}?adjusted=true&sort=asc&apiKey=${process.env.POLYGON_API_KEY}`
         )
         .then((response: AxiosResponse) => {
+          if (response?.data?.resultsCount === 0) {
+            return res.json({});
+          }
           error_middleware(
             response.data,
             res,
@@ -206,12 +212,12 @@ router.get("/historical-data", (req: Request, res: Response) => {
         })
         .catch((error) => {
           console.error(error);
-          res.send("error");
+          return res.json({});
         });
     })
     .catch((error) => {
       console.error(error);
-      res.send("error");
+      return res.json({});
     });
 });
 

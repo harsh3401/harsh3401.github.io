@@ -1,34 +1,8 @@
-<ul class="nav nav-underline border border-primary d-flex text-center mx-5">
-  <li class="nav-item flex-fill">
-    <a class="nav-link active" id="tab-0" role="tab" (click)="switchTab($event)"
-      >Summary</a
-    >
-  </li>
-  <li class="nav-item flex-fill">
-    <a class="nav-link" id="tab-1" role="tab" (click)="switchTab($event)"
-      >Top News</a
-    >
-  </li>
-  <li class="nav-item flex-fill">
-    <a class="nav-link" id="tab-2" role="tab" (click)="switchTab($event)"
-      >Charts</a
-    >
-  </li>
-  <li class="nav-item flex-fill">
-    <a class="nav-link" id="tab-3" role="tab" (click)="switchTab($event)"
-      >Insights</a
-    >
-  </li>
-</ul>
-<div class="tab-content" id="tab-0-content">
-  <app-summary-tab [stockData]="this.stockData"></app-summary-tab>
-</div>
-<div class="tab-content d-none" id="tab-1-content">
-  <app-top-news-tab></app-top-news-tab>
-</div>
-<div class="tab-content d-none" id="tab-2-content">
-  <app-charts-tab></app-charts-tab>
-</div>
-<div class="tab-content d-none" id="tab-3-content">
-  <app-insights-tab></app-insights-tab>
-</div>
+<mat-tab-group>
+  <mat-tab label="Summary">
+    <app-summary-tab [stockData]="this.stockData"></app-summary-tab>
+  </mat-tab>
+  <mat-tab label="Top News"> <app-top-news-tab></app-top-news-tab></mat-tab>
+  <mat-tab label="Charts"><app-charts-tab></app-charts-tab> </mat-tab>
+  <mat-tab label="Insights"> <app-insights-tab></app-insights-tab></mat-tab>
+</mat-tab-group>

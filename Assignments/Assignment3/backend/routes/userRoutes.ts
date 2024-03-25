@@ -13,7 +13,7 @@ const router = express.Router();
 // add remove and view all watch list data
 
 router.get(
-  "/watchlist",
+  "/watchlist-data",
   async (req: Request, res: Response): Promise<Response> => {
     const query = req.query["ticker"];
     const watchList: WatchList[] = !query
@@ -82,7 +82,7 @@ router.post(
 
 //portfolio
 router.get(
-  "/portfolio",
+  "/portfolio-data",
   async (req: Request, res: Response): Promise<Response> => {
     const query = req.query["ticker"] ?? null;
     const portfolio: Portfolio[] = query
@@ -110,9 +110,14 @@ router.get(
 
       return res.status(200).json(dataWithStockValue);
     }
-    return res.status(200).json({ found: portfolio.length !== 0 });
+    if (portfolio.length !== 0) {
+      return res.status(200).json({ found: true, qty: portfolio[0].quantity });
+    } else {
+      return res.status(200).json({ found: false });
+    }
   }
 );
+
 //buy
 router.post(
   "/buy-stock",

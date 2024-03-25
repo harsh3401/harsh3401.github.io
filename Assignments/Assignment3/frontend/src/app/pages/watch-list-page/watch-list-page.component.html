@@ -1,6 +1,11 @@
 <div class="mx-5 my-5">
   <h3>My Watchlist</h3>
-  <div *ngFor="let watchListItem of watchList" class="card px-3 py-2">
+  <app-custom-alert></app-custom-alert>
+  <div
+    *ngFor="let watchListItem of watchList"
+    class="card px-3 py-2"
+    (click)="openSearch(watchListItem.ticker)"
+  >
     <button
       type="button"
       class="btn-close"

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { StockSearchService } from '../../services/search-service.service';
 
 @Component({
   selector: 'app-header',
@@ -26,12 +28,34 @@ import { Component } from '@angular/core';
         </button>
 
         <div class="collapse navbar-collapse flex-grow-0 " id="navbarNav">
-          <a class="nav-link border  rounded-5 link-light" href="#">Search</a>
-          <a class="nav-link  link-light" href="/watchlist">Watchlist</a>
-          <a class="nav-link  link-light" href="/portfolio">Portfolio</a>
+          <p
+            class="nav-link border  rounded-5 link-light"
+            (click)="redirectSearch('search/home')"
+          >
+            Search
+          </p>
+          <p class="nav-link  link-light" (click)="redirect('watchlist')">
+            Watchlist
+          </p>
+          <p class="nav-link  link-light" (click)="redirect('portfolio')">
+            Portfolio
+          </p>
         </div>
       </div>
     </nav>
   `,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  stockInformationService: StockSearchService = inject(StockSearchService);
+  constructor(private router: Router) {}
+  redirect(path: string) {
+    this.router.navigate([path]);
+  }
+  redirectSearch(path: string) {
+    if (this.stockInformationService.ticker) {
+      this.router.navigate([`search/${this.stockInformationService.ticker}`]);
+    } else {
+      this.router.navigate([`search/home`]);
+    }
+  }
+}

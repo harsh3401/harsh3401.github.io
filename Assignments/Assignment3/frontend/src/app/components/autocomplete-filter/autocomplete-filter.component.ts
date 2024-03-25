@@ -57,10 +57,7 @@ export class AutocompleteFilter implements OnInit {
     );
   }
   onOptionSelected(event: MatAutocompleteSelectedEvent) {
-    this.router.navigate([`/search/${event.option.value}`], {
-      //TODO:Hardcoded value
-      queryParams: { ticker: event.option.value, companyName: 'Apple inc' },
-    });
+    this.router.navigate([`/search/${event.option.value}`]);
 
     // Perform any action you want here
   }

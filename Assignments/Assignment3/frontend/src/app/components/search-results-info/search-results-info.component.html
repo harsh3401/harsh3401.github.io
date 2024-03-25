@@ -1,4 +1,6 @@
 <app-search-page [ticker]="stockConfig?.ticker"></app-search-page>
+<app-custom-alert></app-custom-alert>
+@if(this.resultsFound) {
 <div
   class="d-flex justify-content-center align-items-center border border-primary gap-5"
 >
@@ -74,5 +76,8 @@
     <div>{{ stockConfig?.priceTimestampString }}</div>
   </div>
 </div>
-<app-stock-modal></app-stock-modal>
+
 <app-tab-group [stockData]="stockConfig"></app-tab-group>
+
+}
+<app-stock-modal></app-stock-modal>

@@ -22,7 +22,12 @@ export class BuySellModalTemplate {
         if (tradeResult.Transaction) {
           this.activeModal.dismiss('Cross click');
           //Todo:Refetch on click
-          this.alertService.showAlert('stock  bought', 'green');
+          this.alertService.showAlert(
+            `${this.ticker} sold successfully`,
+            'danger',
+            true
+          );
+          this.refetch();
         }
       });
   }
@@ -32,8 +37,11 @@ export class BuySellModalTemplate {
       .then((tradeResult) => {
         if (tradeResult.Transaction) {
           this.activeModal.dismiss('Cross click');
-          this.alertService.showAlert('stock  bought', 'green');
-          // this.router.navigate(['.'], { queryParamsHandling: 'preserve' });
+          this.alertService.showAlert(
+            `${this.ticker} bought successfully`,
+            'success',
+            true
+          );
         }
       });
   }
@@ -60,6 +68,7 @@ export class BuySellModalTemplate {
   qtyOwned!: number;
   canSell!: boolean;
   canBuy!: boolean;
+  refetch: any;
 }
 
 @Component({
@@ -77,7 +86,8 @@ export class BuySellModalComponent {
     walletBalance: number,
     sell = false,
     ticker: string,
-    qtyOwned: number = 0
+    qtyOwned: number = 0,
+    refetch: any = function () {}
   ) {
     const modalRef = this.modalService.open(BuySellModalTemplate);
     modalRef.componentInstance.walletBalance =
@@ -88,5 +98,6 @@ export class BuySellModalComponent {
     modalRef.componentInstance.ticker = ticker;
     modalRef.componentInstance.sell = sell;
     modalRef.componentInstance.qtyOwned = qtyOwned;
+    modalRef.componentInstance.refetch = refetch;
   }
 }

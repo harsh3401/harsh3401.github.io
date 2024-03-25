@@ -20,27 +20,39 @@ export class SummaryTabComponent implements OnInit {
   @Input()
   stockData!: StockConfig;
   highcharts: typeof Highcharts = Highcharts;
-  chartOptions!: Highcharts.Options;
+  chartOptions!: any;
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap) => {
       const ticker = paramMap.get('ticker');
-      this.stockInformationService.getSMAData(ticker!).then((data) => {
-        const priceData = data.map((obj: any) => {
-          return obj['o'];
+      if (
+        this.stockInformationService.ticker === ticker &&
+        this.stockInformationService.summaryChartOptions
+      ) {
+        this.chartOptions = this.stockInformationService.summaryChartOptions;
+        console.log(this.stockInformationService.summaryChartOptions);
+      } else {
+        this.stockInformationService.getSMAData(ticker!).then((data) => {
+          const priceData = data.map((obj: any) => {
+            return obj['o'];
+          });
+
+          const updatedOptions = {
+            accessibility: { enabled: false },
+            title: { text: `${this.stockData?.ticker} Hourly price Variation` },
+            series: [
+              {
+                name: 'Price',
+                showInLegend: false,
+                data: priceData,
+                type: 'line',
+              },
+            ],
+          };
+          this.chartOptions = updatedOptions;
+          this.stockInformationService.summaryChartOptions = updatedOptions;
+          this.stockInformationService.ticker = ticker!;
         });
-        this.chartOptions = {
-          accessibility: { enabled: false },
-          title: { text: `${this.stockData?.ticker} Hourly price Variation` },
-          series: [
-            {
-              name: 'Price',
-              showInLegend: false,
-              data: priceData,
-              type: 'line',
-            },
-          ],
-        };
-      });
+      }
     });
   }
 }

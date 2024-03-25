@@ -8,21 +8,21 @@
 - [ ] Date and Time Config checks and testing
 - [x] Charts and config
 - [ ] Responsive Design
-- [ ] Bootstrap Usage and specified points in spec
+- [x] Bootstrap Usage and specified points in spec
 - [ ] Stock Market Open setup for polling
 - [x] Service to fetch data from APIs
 
 ## Backend
 
 - [x] Search API
-- [ ] Refetch polling optimization ( Caching )
+- [x] Refetch polling optimization ( Caching )
 - [x] Wallet and Other persistence Features
 - [x] Page wise APIs
 - [x] User Management APIs
-- [ ] Static Serving Setup
+- [x] Static Serving Setup
 
 ## GCP
 
-- [ ] Express Static Deployment
-- [ ] Parallel Deployment with Azure
-- [ ] Testing App Behavior parallel-ly
+- [x] Express Static Deployment
+- [x] Parallel Deployment with GCP
+- [x] Testing App Behavior parallel-ly

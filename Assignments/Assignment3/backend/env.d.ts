@@ -7,5 +7,6 @@ declare namespace NodeJS {
     FINHUB_API_KEY: string;
     POLYGON_API_KEY: string;
     DB_CONNECTION_STRING: string;
+    ENVMNT: string;
   }
 }

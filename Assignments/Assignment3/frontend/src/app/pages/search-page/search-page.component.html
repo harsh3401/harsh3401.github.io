@@ -9,6 +9,7 @@
   <div style="margin: auto; width: fit-content; font-size: x-large">
     STOCK SEARCH
   </div>
+  <!-- //required check -->
 
   <div
     style="
@@ -46,7 +47,7 @@
       style="display: flex; align-items: center; color: #dfdfdfcc; gap: 1rem"
     >
       <label>
-        <input style="display: none" type="submit" />
+        <input style="display: none" type="submit" (click)="searchTicker()" />
         <svg
           width="15px"
           height="15px"
@@ -89,8 +90,7 @@
           ></path>
         </svg>
       </label>
-      <button (click)="testModal()">Test</button>
     </div>
   </div>
-  <app-custom-alert [dismissable]="true" message="Test"></app-custom-alert>
 </div>
+<app-custom-alert></app-custom-alert>
