@@ -42,6 +42,7 @@ export class BuySellModalTemplate {
             'success',
             true
           );
+          this.refetch(false, this.ticker);
         }
       });
   }

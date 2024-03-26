@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, interval, takeWhile } from 'rxjs';
+import { Subscription, from, interval, map, switchMap } from 'rxjs';
 import { BuySellModalComponent } from '../../buy-sell-modal/buy-sell-modal.component';
 import { SearchPageComponent } from '../../pages/search-page/search-page.component';
 import { AlertService } from '../../services/alert.service';
@@ -91,7 +91,7 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
   refetch = (setLoad: boolean = true, ticker: string) => {
     this.loading = setLoad;
 
-    this.stockInformationService.getCompanyData('MSFT').then((responses) => {
+    this.stockInformationService.getCompanyData(ticker).then((responses) => {
       if (responses[0].hasOwnProperty('ticker')) {
         const newStockConfig = {
           ticker: responses[0].ticker,
@@ -138,73 +138,83 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loading = true;
     this.footerService.setPosition(true);
-    this.route.paramMap.subscribe((paramMap) => {
-      const ticker = paramMap.get('ticker');
-      this.stockInformationService.getMarketStatus(ticker!).then((data) => {
+    this.route.paramMap
+      .pipe(
+        switchMap((paramMap) => {
+          const ticker = paramMap.get('ticker');
+          return from(
+            this.stockInformationService.getMarketStatus(ticker!)
+          ).pipe(
+            // Pass the ticker to the subscribe method
+            map((data) => ({ ticker, data }))
+          );
+        })
+      )
+      .subscribe(({ data, ticker }) => {
         const marketStatus =
           new Date().getTime() - new Date(data.t * 1000).getTime() < 300000;
         this.marketOpen = marketStatus;
+        console.log(marketStatus);
         if (marketStatus) {
-          this.fetchMarketData = interval(15000) // Emit every 15 seconds
-            .pipe(takeWhile(() => !this.marketOpen))
+          this.fetchMarketData = interval(30000) // Emit every 30 seconds
             .subscribe(() => {
+              this.fetchMarketData?.unsubscribe();
               this.refetch(false, ticker!);
             });
         }
+        this.loading = true;
+        this.footerService.setPosition(true);
+        if (this.stockInformationService.ticker === ticker) {
+          this.stockConfig = this.stockInformationService.stockConfig;
+          this.resultsFound = true;
+          this.loading = false;
+        } else {
+          this.stockInformationService
+            .getCompanyData(ticker!)
+            .then((responses) => {
+              if (responses[0].hasOwnProperty('ticker')) {
+                const newStockConfig = {
+                  ticker: responses[0].ticker,
+                  logo: responses[0].logo,
+                  companyName: responses[0].name,
+                  marketName: responses[0].exchange,
+                  stockPrice: responses[1].c,
+                  priceTimestamp: new Date(responses[1].t * 1000),
+                  priceTimestampString: new Intl.DateTimeFormat(
+                    'en-US',
+                    options
+                  ).format(new Date(responses[1].t * 1000)),
+                  change: responses[1].d,
+                  changePercent: responses[1].dp,
+                  wishlist: responses[3].found,
+                  portfolio: responses[2].found,
+                  highPrice: responses[1].h,
+                  lowPrice: responses[1].l,
+                  openPrice: responses[1].o,
+                  prevClosePrice: responses[1].pc,
+                  ipoStartDate: responses[0].ipo,
+                  industry: responses[0].finnhubIndustry,
+                  webpage: responses[0].weburl,
+                  companyPeers: responses[4],
+                  chartData: responses[5],
+                  walletBalance: responses[6].balance.toFixed(2),
+                  qty: responses[7]?.qty ?? 0,
+                };
+                this.stockConfig = newStockConfig;
+                this.stockInformationService.stockConfig = newStockConfig;
+                this.resultsFound = true;
+                this.stockInformationService.ticker = ticker!;
+              } else {
+                this.resultsFound = false;
+                this.alertService.showAlert(
+                  'No data found. Please enter a valid Ticker',
+                  'danger'
+                );
+              }
+              this.loading = false;
+            });
+        }
       });
-      this.loading = true;
-      this.footerService.setPosition(true);
-      if (this.stockInformationService.ticker === ticker) {
-        this.stockConfig = this.stockInformationService.stockConfig;
-        this.resultsFound = true;
-        this.loading = false;
-      } else {
-        this.stockInformationService
-          .getCompanyData(ticker!)
-          .then((responses) => {
-            if (responses[0].hasOwnProperty('ticker')) {
-              const newStockConfig = {
-                ticker: responses[0].ticker,
-                logo: responses[0].logo,
-                companyName: responses[0].name,
-                marketName: responses[0].exchange,
-                stockPrice: responses[1].c,
-                priceTimestamp: new Date(responses[1].t * 1000),
-                priceTimestampString: new Intl.DateTimeFormat(
-                  'en-US',
-                  options
-                ).format(new Date(responses[1].t * 1000)),
-                change: responses[1].d,
-                changePercent: responses[1].dp,
-                wishlist: responses[3].found,
-                portfolio: responses[2].found,
-                highPrice: responses[1].h,
-                lowPrice: responses[1].l,
-                openPrice: responses[1].o,
-                prevClosePrice: responses[1].pc,
-                ipoStartDate: responses[0].ipo,
-                industry: responses[0].finnhubIndustry,
-                webpage: responses[0].weburl,
-                companyPeers: responses[4],
-                chartData: responses[5],
-                walletBalance: responses[6].balance.toFixed(2),
-                qty: responses[7]?.qty ?? 0,
-              };
-              this.stockConfig = newStockConfig;
-              this.stockInformationService.stockConfig = newStockConfig;
-              this.resultsFound = true;
-              this.stockInformationService.ticker = ticker!;
-            } else {
-              this.resultsFound = false;
-              this.alertService.showAlert(
-                'No data found. Please enter a valid Ticker',
-                'danger'
-              );
-            }
-            this.loading = false;
-          });
-      }
-    });
   }
   ngOnDestroy() {
     this.fetchMarketData?.unsubscribe(); // Unsubscribe to prevent memory leaks

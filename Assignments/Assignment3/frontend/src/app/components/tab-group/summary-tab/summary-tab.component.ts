@@ -29,44 +29,47 @@ export class SummaryTabComponent implements OnInit {
   footerService: FooterService = inject(FooterService);
   fetchError: boolean = false;
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['active'].currentValue === 0) {
+    if (changes['active'] && changes['active'].currentValue === 0) {
       this.footerService.setPosition(true);
+    }
+    if (changes['stockData']) {
+      if (JSON.stringify(this.stockData.chartData) !== '{}') {
+        console.log(this.stockData);
+        const priceData = this.stockData.chartData.map((obj: any) => {
+          return obj['o'];
+        });
+        this.chartOptions = {
+          accessibility: { enabled: false },
+          title: { text: `${this.stockData.ticker} Hourly price Variation` },
+          series: [
+            {
+              name: 'Price',
+              showInLegend: false,
+              data: priceData,
+              type: 'line',
+            },
+          ],
+        };
+      }
     }
   }
   ngOnInit() {
-    this.route.paramMap.subscribe((paramMap) => {
-      const ticker = paramMap.get('ticker');
-      if (
-        this.stockInformationService.ticker === ticker &&
-        this.stockInformationService.summaryChartOptions
-      ) {
-        this.chartOptions = this.stockInformationService.summaryChartOptions;
-      } else {
-        this.stockInformationService.getSMAData(ticker!).then((data) => {
-          if (JSON.stringify(data) === '{}') {
-            this.fetchError = true;
-          }
-          const priceData = data.map((obj: any) => {
-            return obj['o'];
-          });
-
-          const updatedOptions = {
-            accessibility: { enabled: false },
-            title: { text: `${ticker} Hourly price Variation` },
-            series: [
-              {
-                name: 'Price',
-                showInLegend: false,
-                data: priceData,
-                type: 'line',
-              },
-            ],
-          };
-          this.chartOptions = updatedOptions;
-          this.stockInformationService.summaryChartOptions = updatedOptions;
-          this.stockInformationService.ticker = ticker!;
-        });
-      }
-    });
+    if (JSON.stringify(this.stockData.chartData) !== '{}') {
+      const priceData = this.stockData.chartData.map((obj: any) => {
+        return obj['o'];
+      });
+      this.chartOptions = {
+        accessibility: { enabled: false },
+        title: { text: `${this.stockData.ticker} Hourly price Variation` },
+        series: [
+          {
+            name: 'Price',
+            showInLegend: false,
+            data: priceData,
+            type: 'line',
+          },
+        ],
+      };
+    }
   }
 }

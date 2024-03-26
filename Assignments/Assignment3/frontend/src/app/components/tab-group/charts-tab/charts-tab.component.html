@@ -1,8 +1,8 @@
 <div class="border border-primary mx-5" [id]="this.ticker">
   <highcharts-chart
     *ngIf="!this.fetchError"
-    [Highcharts]="highcharts"
-    [options]="chartOptions"
+    [Highcharts]="this.highcharts"
+    [options]="this.chartOptions"
     style="height: 500px; display: block"
   >
   </highcharts-chart>

@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { StockSearchService } from '../../services/search-service.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLinkActive],
   template: `
     <nav
       class="ps-5 navbar navbar-expand-lg navbar-dark d-flex justify-content-between "
@@ -32,15 +32,26 @@ import { StockSearchService } from '../../services/search-service.service';
           <ul class="navbar-nav">
             <li class="nav-item">
               <a
-                class="nav-link  px-3  "
+                class="nav-link  header-link px-3  "
                 routerLink="/search/:home"
                 (click)="redirectSearch()"
+                routerLink="watchlist"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
               >
                 Search
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link  px-3  " (click)="redirect('watchlist')">
+            <li
+              class="nav-item"
+              routerLink="/watchlist"
+              routerLinkActive="active-link"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                class="nav-link header-link px-3 font-col "
+                (click)="redirect('watchlist')"
+              >
                 Watchlist
               </a>
             </li>
@@ -48,6 +59,9 @@ import { StockSearchService } from '../../services/search-service.service';
               <a
                 class="nav-link header-link px-3 font-col "
                 (click)="redirect('portfolio')"
+                routerLink="watchlist"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
               >
                 Portfolio
               </a>
@@ -59,20 +73,12 @@ import { StockSearchService } from '../../services/search-service.service';
   `,
   styleUrl: './header.component.css',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   stockInformationService: StockSearchService = inject(StockSearchService);
   curRouteName: string = 'search';
   constructor(private router: Router) {}
-  ngOnInit() {
-    this.route.url.subscribe((urlSegments) => {
-      // Handle URL changes here
-      // this.curRouteName = urlSegment;
-      console.log(urlSegments);
 
-      // Perform actions based on the changed URL segment
-    });
-  }
   redirect(path: string) {
     this.router.navigate([path]);
   }
