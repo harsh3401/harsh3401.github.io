@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FooterService } from '../../../services/footer.service';
 import { StockSearchService } from '../../../services/search-service.service';
 import { ModalComponent } from '../../modal/modal.component';
 import { news_format } from '../../types';
@@ -14,7 +22,10 @@ import { news_format } from '../../types';
 })
 export class TopNewsTabComponent implements OnInit {
   @ViewChild(ModalComponent) modalComponent!: ModalComponent;
+  @Input()
+  active!: number;
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
+  footerService: FooterService = inject(FooterService);
   stockInformationService: StockSearchService = inject(StockSearchService);
   news!: any[];
   openModal(newsObject: news_format) {
@@ -23,6 +34,12 @@ export class TopNewsTabComponent implements OnInit {
   identify(_: any, newsItem: news_format) {
     return newsItem['headline'];
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['active'].currentValue === 1) {
+      this.footerService.setPosition(false);
+    }
+  }
+
   ngOnInit() {
     const options: any = {
       year: 'numeric', // Full numeric representation of the year (e.g., 2024)
@@ -37,7 +54,6 @@ export class TopNewsTabComponent implements OnInit {
       ) {
         this.news = this.stockInformationService.news;
       } else {
-        console.log('started');
         this.stockInformationService.getTopNews(ticker!).then((data) => {
           let updatedNews = data.slice(0, 20);
 
@@ -52,7 +68,6 @@ export class TopNewsTabComponent implements OnInit {
           this.news = updatedNews;
           this.stockInformationService.news = updatedNews;
           this.stockInformationService.ticker = ticker!;
-          console.log('ended');
         });
       }
     });

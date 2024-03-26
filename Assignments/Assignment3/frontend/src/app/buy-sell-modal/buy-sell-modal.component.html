@@ -1,4 +1,3 @@
-`
 <div class="modal-header">
   <h4 class="modal-title">{{ ticker }}</h4>
   <button
@@ -10,26 +9,26 @@
 </div>
 <div class="modal-body">
   <p>Current Price: {{ price }}</p>
-  <p>Money in Wallet:{{ walletBalance }}</p>
-  <div class="d-flex">
-    <p>Quantity:</p>
+  <p>Money in Wallet: ${{ walletBalance }}</p>
+  <div class="d-flex align-items-center gap-2">
+    <span>Quantity:</span>
     <input
       type="number"
-      class="form-control"
+      class="form-control ps-2"
       id="usr"
       min="0"
       [(ngModel)]="qty"
       (ngModelChange)="setQty($event)"
     />
   </div>
-  <p *ngIf="sell && !canSell && qty">
+  <p *ngIf="sell && !canSell && qty" class="text-danger fw-bold">
     {{ "You cannot sell the stocks that you don't have!" }}
   </p>
-  <p *ngIf="!sell && !canBuy && qty">
-    {{ "Not enough money in wallet" }}
+  <p *ngIf="!sell && !canBuy && qty" class="text-danger fw-bold mt-2">
+    {{ "Not enough money in wallet! " }}
   </p>
 </div>
-<div class="modal-footer border border-primary d-flex justify-content-between">
+<div class="modal-footer d-flex justify-content-between">
   <div>Total: {{ (qty * price).toFixed(2) }}</div>
   <button
     type="button"

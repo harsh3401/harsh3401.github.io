@@ -122,7 +122,11 @@ router.get(
 router.post(
   "/buy-stock",
   async (req: Request, res: Response): Promise<Response> => {
-    const transactionItem: { ticker: string; quantity: number } = req.body;
+    const transactionItem: {
+      ticker: string;
+      quantity: number;
+      corporationName: string;
+    } = req.body;
 
     if (
       transactionItem.hasOwnProperty("quantity") &&
@@ -145,12 +149,13 @@ router.post(
       if (Wallet && value < Wallet?.balance) {
         if (portfolioItem === null) {
           //validation
-          console.log("here 1");
+
           await PortfolioModel.create({
             ticker: transactionItem.ticker,
             quantity: transactionItem.quantity,
             totalCost: value,
             averageCost: STOCK_PRICE,
+            corporationName: transactionItem.corporationName,
           });
 
           Wallet.balance = Wallet.balance - value;
@@ -167,7 +172,7 @@ router.post(
           portfolioItem.totalCost = totalCost;
           portfolioItem.averageCost = averageCost;
           portfolioItem.quantity = quantity;
-          console.log("here");
+
           await portfolioItem.save();
 
           Wallet.balance = Wallet.balance - value;

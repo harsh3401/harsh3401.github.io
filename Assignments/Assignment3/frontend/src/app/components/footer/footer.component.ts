@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FooterService } from '../../services/footer.service';
 
 @Component({
   selector: 'app-footer',
@@ -6,17 +7,30 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <footer
-      style="background: rgb(216, 216, 216);border:2;"
-      class="fw-bold position-absolute bottom-0 w-100"
+      style="background: rgb(216, 216, 216);"
+      [class]="
+        position ? 'fw-bold  w-100 py-2 fixed-bottom' : 'fw-bold  w-100 py-2'
+      "
     >
-      <div style="width: fit-content;margin:auto">
-        Powered by
-        <a target="_blank" rel="noopener noreferrer" href="https://finnhub.io"
-          >Finnhub.io</a
-        >
+      <div class="container">
+        <div class="text-center">
+          Powered by
+          <a target="_blank" rel="noopener noreferrer" href="https://finnhub.io"
+            >Finnhub.io</a
+          >
+        </div>
       </div>
     </footer>
   `,
   styleUrl: './footer.component.css',
 })
-export class FooterComponent {}
+export class FooterComponent implements OnInit {
+  position!: boolean;
+  ngOnInit(): void {
+    this.position = this.footerService.positionBottom;
+    this.footerService.positionChange.subscribe((newPosition) => {
+      this.position = newPosition;
+    });
+  }
+  footerService: FooterService = inject(FooterService);
+}

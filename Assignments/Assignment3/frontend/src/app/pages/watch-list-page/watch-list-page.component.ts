@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { CustomAlertComponent } from '../../components/custom-alert/custom-alert.component';
 import { WatchListItem } from '../../components/types';
@@ -10,7 +11,7 @@ import { UserService } from '../../services/user-service.service';
 @Component({
   selector: 'app-watch-list-page',
   standalone: true,
-  imports: [CommonModule, CustomAlertComponent],
+  imports: [CommonModule, CustomAlertComponent, MatProgressSpinnerModule],
   templateUrl: './watch-list-page.component.html',
   styleUrl: './watch-list-page.component.css',
 })
@@ -19,6 +20,7 @@ export class WatchListPageComponent implements OnInit {
   @ViewChild(CustomAlertComponent) alertComponent!: CustomAlertComponent;
   stockBuyService: UserService = inject(UserService);
   stockInfoService: StockSearchService = inject(StockSearchService);
+  loading: boolean = true;
 
   watchListItemDelete(ticker: string) {
     this.stockBuyService.removeFromWatchList(ticker).then((response) => {
@@ -53,6 +55,7 @@ export class WatchListPageComponent implements OnInit {
       }
 
       this.watchList = data;
+      this.loading = false;
     });
   }
   constructor(private alertService: AlertService, private router: Router) {}

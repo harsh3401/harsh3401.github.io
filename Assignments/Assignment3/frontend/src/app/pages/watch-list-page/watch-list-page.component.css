@@ -1,0 +1,7 @@
+.spinner {
+  margin: auto;
+  margin-top: 5rem;
+}
+.card-content:hover {
+  cursor: pointer; /* Change the cursor to grab on hover */
+}

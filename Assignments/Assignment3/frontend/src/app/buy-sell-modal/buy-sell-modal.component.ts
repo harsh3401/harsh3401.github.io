@@ -27,13 +27,13 @@ export class BuySellModalTemplate {
             'danger',
             true
           );
-          this.refetch();
+          this.refetch(false, this.ticker);
         }
       });
   }
   executeBuy() {
     this.stockBuyService
-      .executeBuy(this.ticker, this.qty)
+      .executeBuy(this.ticker, this.qty, this.companyName)
       .then((tradeResult) => {
         if (tradeResult.Transaction) {
           this.activeModal.dismiss('Cross click');
@@ -47,11 +47,9 @@ export class BuySellModalTemplate {
   }
   //update to reflect state latest
   setQty($event: Event) {
-    console.log(this.qtyOwned);
     this.canSell = this.qtyOwned >= this.qty && this.qty != 0;
     this.canBuy =
       this.price * this.qty <= this.walletBalance && this.qty * this.price != 0;
-    console.log('Values are being changed');
   }
   qty: number = 0;
   activeModal = inject(NgbActiveModal);
@@ -68,6 +66,8 @@ export class BuySellModalTemplate {
   qtyOwned!: number;
   canSell!: boolean;
   canBuy!: boolean;
+  @Input()
+  companyName!: string;
   refetch: any;
 }
 
@@ -87,7 +87,8 @@ export class BuySellModalComponent {
     sell = false,
     ticker: string,
     qtyOwned: number = 0,
-    refetch: any = function () {}
+    refetch: any = function () {},
+    companyName: string = ''
   ) {
     const modalRef = this.modalService.open(BuySellModalTemplate);
     modalRef.componentInstance.walletBalance =
@@ -99,5 +100,6 @@ export class BuySellModalComponent {
     modalRef.componentInstance.sell = sell;
     modalRef.componentInstance.qtyOwned = qtyOwned;
     modalRef.componentInstance.refetch = refetch;
+    modalRef.componentInstance.companyName = companyName;
   }
 }

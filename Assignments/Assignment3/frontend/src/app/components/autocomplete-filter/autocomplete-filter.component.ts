@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -7,16 +7,18 @@ import {
 } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import {
   Observable,
   debounceTime,
   distinctUntilChanged,
+  filter,
   switchMap,
+  tap,
 } from 'rxjs';
 import { StockSearchItem } from '../../../services/stock-search-item';
 import { StockSearchService } from '../../services/search-service.service';
-
 @Component({
   selector: 'app-autocomplete-filter',
   standalone: true,
@@ -29,21 +31,15 @@ import { StockSearchService } from '../../services/search-service.service';
     MatAutocompleteModule,
     ReactiveFormsModule,
     AsyncPipe,
+    MatProgressSpinnerModule,
+    CommonModule,
   ],
 })
 export class AutocompleteFilter implements OnInit {
   @Input() ticker!: string | undefined;
   inputControl = new FormControl('');
-  filteredList: Observable<StockSearchItem[]> = new Observable<
-    [
-      {
-        description: 'Apple Stock';
-        displaySymbol: 'AAPL';
-        symbol: 'AAP';
-        type: '';
-      }
-    ]
-  >();
+  loading: boolean = false;
+  filteredList: Observable<StockSearchItem[]> = new Observable<[]>();
   constructor(
     private filterService: StockSearchService,
     private router: Router
@@ -53,7 +49,10 @@ export class AutocompleteFilter implements OnInit {
     this.filteredList = this.inputControl.valueChanges.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      switchMap((value) => this.filterService.getFilteredListByString(value!))
+      tap(() => (this.loading = true)),
+      filter((value) => value !== ''),
+      switchMap((value) => this.filterService.getFilteredListByString(value!)),
+      tap(() => (this.loading = false))
     );
   }
   onOptionSelected(event: MatAutocompleteSelectedEvent) {

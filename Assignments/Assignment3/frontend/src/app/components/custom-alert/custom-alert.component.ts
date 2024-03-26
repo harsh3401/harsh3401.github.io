@@ -32,6 +32,7 @@ export class CustomAlertComponent implements OnInit {
     this.message = message;
     this.type = type;
     this.dismissible = dismissible;
+    setTimeout(() => (this.show = false), 5000);
     // Logic to display the message in the alert component
   }
 }

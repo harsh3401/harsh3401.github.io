@@ -32,7 +32,6 @@ router.get("/search", (req: Request, res: Response) => {
       `${process.env.FINHUB_ENDPOINT}/search?q=${query}&token=${process.env.FINHUB_API_KEY}`
     )
     .then((response: AxiosResponse) => {
-      console.log(response.status.valueOf());
       error_middleware(response.data, res, response.status.valueOf(), "result");
     })
     .catch((error) => {
@@ -43,9 +42,7 @@ router.get("/search", (req: Request, res: Response) => {
 
 router.get("/company-details", (req: Request, res: Response) => {
   const query = String(req.query["ticker"]);
-  console.log(
-    `${process.env.FINHUB_ENDPOINT}/stock/profile2?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
-  );
+
   axios
     .get(
       `${process.env.FINHUB_ENDPOINT}/stock/profile2?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
@@ -61,9 +58,7 @@ router.get("/company-details", (req: Request, res: Response) => {
 
 router.get("/recommendation-trends", (req: Request, res: Response) => {
   const query = String(req.query["ticker"]);
-  console.log(
-    `${process.env.FINHUB_ENDPOINT}/stock/recommendation?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
-  );
+
   axios
     .get(
       `${process.env.FINHUB_ENDPOINT}/stock/recommendation?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
@@ -155,9 +150,7 @@ router.get("/company-peers", (req: Request, res: Response) => {
 
 router.get("/company-earnings", (req: Request, res: Response) => {
   const query = String(req.query["ticker"]);
-  console.log(
-    `${process.env.FINHUB_ENDPOINT}/stock/earnings?symbol=${query}&token=${process.env.FINHUB_API_KEY}`
-  );
+
   axios
     .get(
       `${process.env.FINHUB_ENDPOINT}/stock/earnings?symbol=${query}&token=${process.env.FINHUB_API_KEY}`

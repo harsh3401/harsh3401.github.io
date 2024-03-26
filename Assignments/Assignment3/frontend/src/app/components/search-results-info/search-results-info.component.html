@@ -1,6 +1,6 @@
 <app-search-page [ticker]="stockConfig?.ticker"></app-search-page>
 <app-custom-alert></app-custom-alert>
-@if(this.resultsFound) {
+@if(this.resultsFound && !this.loading) {
 <div
   class="d-flex justify-content-center align-items-center border border-primary gap-5"
 >
@@ -13,6 +13,7 @@
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
+          style="color: rgb(249, 222, 75)"
           fill="currentColor"
           class="bi bi-star-fill"
           viewBox="0 0 16 16"
@@ -61,7 +62,7 @@
     <div>
       Market
       {{
-        stockConfig?.marketOpen
+        marketOpen
           ? "is open"
           : "closed on " + stockConfig?.priceTimestampString
       }}
@@ -81,3 +82,4 @@
 
 }
 <app-stock-modal></app-stock-modal>
+<mat-spinner [diameter]="70" *ngIf="this.loading" class="spinner"></mat-spinner>

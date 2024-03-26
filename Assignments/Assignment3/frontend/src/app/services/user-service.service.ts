@@ -6,13 +6,17 @@ import { environment } from '../environment.dev';
 })
 export class UserService {
   constructor() {}
-  async executeBuy(ticker: string, qty: number): Promise<any> {
+  async executeBuy(
+    ticker: string,
+    qty: number,
+    corporationName: string
+  ): Promise<any> {
     const data = await fetch(`${environment.apiUrl}/user/buy-stock`, {
       method: 'POST', // Specify the HTTP method
       headers: {
         'Content-Type': 'application/json', // Add Content-Type header
       },
-      body: JSON.stringify({ ticker: ticker, quantity: qty }), // Collect form data as JSON string
+      body: JSON.stringify({ ticker: ticker, quantity: qty, corporationName }), // Collect form data as JSON string
     });
     return (await data.json()) ?? { Transaction: false };
   }

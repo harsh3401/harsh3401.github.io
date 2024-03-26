@@ -9,9 +9,7 @@ export interface StockConfig {
   changePercent: number;
   wishlist: boolean;
   portfolio: boolean;
-  marketOpen: boolean;
   priceTimestampString: string;
-  //TODO:Change chartData type
   highPrice: number;
   lowPrice: number;
   openPrice: number;

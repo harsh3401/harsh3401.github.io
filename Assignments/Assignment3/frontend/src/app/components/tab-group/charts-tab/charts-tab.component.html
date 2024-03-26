@@ -1,8 +1,12 @@
 <div class="border border-primary mx-5" [id]="this.ticker">
   <highcharts-chart
+    *ngIf="!this.fetchError"
     [Highcharts]="highcharts"
     [options]="chartOptions"
     style="height: 500px; display: block"
   >
   </highcharts-chart>
+  <div *ngIf="this.fetchError">
+    Api Error fetching the chart please refresh the page in a while
+  </div>
 </div>

@@ -1,13 +1,11 @@
 <input
   style="
-    width: 100%;
     padding: 0;
     margin: 0;
     color: gray;
-    vertical-align: bottom;
-    margin-left: 20px;
+    minwidth: 15rem;
+    width: 15rem;
     border: none;
-    height: 100%;
   "
   required
   oninput="this.value = this.value.toUpperCase()"
@@ -22,13 +20,24 @@
   [matAutocomplete]="auto"
   #searchQuery
 />
+
 <mat-autocomplete
   #auto="matAutocomplete"
   (optionSelected)="onOptionSelected($event)"
 >
+  <mat-option *ngIf="this.loading && this.inputControl.value !== ''">
+    <mat-spinner
+      *ngIf="this.loading"
+      [diameter]="20"
+      class="spinner"
+    ></mat-spinner>
+  </mat-option>
   @for (option of filteredList | async; track option) {
-  <mat-option [value]="option.displaySymbol"
-    >{{ option.displaySymbol }} | {{ option.description }}</mat-option
+  <mat-option
+    [value]="option.displaySymbol"
+    *ngIf="!this.loading && this.inputControl.value !== ''"
   >
+    {{ option.displaySymbol }} | {{ option.description }}
+  </mat-option>
   }
 </mat-autocomplete>

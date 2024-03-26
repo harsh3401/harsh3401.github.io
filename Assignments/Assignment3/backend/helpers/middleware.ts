@@ -11,7 +11,7 @@ export function error_middleware(
   if (status_code == 200) {
     stock_data =
       valid_attribute === null ? stock_data : stock_data[valid_attribute];
-    console.log(stock_data);
+
     if (stock_data === null) {
       stock_data = { Error: "Stock not found" };
       res.status(404);

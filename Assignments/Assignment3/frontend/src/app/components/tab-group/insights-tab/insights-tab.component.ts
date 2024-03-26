@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { FooterService } from '../../../services/footer.service';
 import { StockSearchService } from '../../../services/search-service.service';
 interface Recommendation {
   buy: number; // Assuming buy property is of type string
@@ -16,6 +17,7 @@ interface Recommendation {
   styleUrl: './insights-tab.component.css',
 })
 export class InsightsTabComponent implements OnInit {
+  footerService: FooterService = inject(FooterService);
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
   stockInformationService: StockSearchService = inject(StockSearchService);
   highcharts: typeof Highcharts = Highcharts;
@@ -46,6 +48,13 @@ export class InsightsTabComponent implements OnInit {
       surprise: number[];
     };
   };
+  @Input()
+  active!: number;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['active'].currentValue === 3) {
+      this.footerService.setPosition(true);
+    }
+  }
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap) => {
       const ticker = paramMap.get('ticker');

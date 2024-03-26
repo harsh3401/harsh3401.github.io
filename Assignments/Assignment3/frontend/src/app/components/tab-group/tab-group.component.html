@@ -1,8 +1,17 @@
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="onLinkClick($event)">
   <mat-tab label="Summary">
-    <app-summary-tab [stockData]="this.stockData"></app-summary-tab>
+    <app-summary-tab
+      [stockData]="this.stockData"
+      [active]="this.activeNewsTab"
+    ></app-summary-tab>
   </mat-tab>
-  <mat-tab label="Top News"> <app-top-news-tab></app-top-news-tab></mat-tab>
-  <mat-tab label="Charts"><app-charts-tab></app-charts-tab> </mat-tab>
-  <mat-tab label="Insights"> <app-insights-tab></app-insights-tab></mat-tab>
+  <mat-tab label="Top News">
+    <app-top-news-tab [active]="this.activeNewsTab"></app-top-news-tab
+  ></mat-tab>
+  <mat-tab label="Charts"
+    ><app-charts-tab [active]="this.activeNewsTab"></app-charts-tab>
+  </mat-tab>
+  <mat-tab label="Insights">
+    <app-insights-tab [active]="this.activeNewsTab"></app-insights-tab
+  ></mat-tab>
 </mat-tab-group>

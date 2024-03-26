@@ -1,52 +1,71 @@
-<div class="mx-5 my-5">
-  <h3>My Portfolio</h3>
-  <h5>Money in wallet: ${{ this.balance?.toFixed(2) }}</h5>
+<div class="my-5 mx-5">
   <app-custom-alert></app-custom-alert>
-  <div class="card" *ngFor="let portfolioItem of portfolio">
+</div>
+<h3 class="mx-5 mt-5">My Portfolio</h3>
+<div class="mx-5 my-5" *ngIf="!this.loading">
+  <h5>Money in wallet: ${{ this.balance?.toFixed(2) }}</h5>
+  <div class="card mt-4" *ngFor="let portfolioItem of portfolio">
     <div class="card-header">
-      <div class="d-flex">
-        <p class="card-title">{{ portfolioItem?.ticker }}</p>
-        <p class="px-3">{{ portfolioItem?.corporationName }}</p>
+      <div class="d-flex align-items-end">
+        <span class="fw-bold fs-5 p-0 m-0">
+          {{ portfolioItem?.ticker }}
+        </span>
+        <span class="px-2 text-bg-light fw-bolder text-secondary m-0 p-0">
+          {{ portfolioItem?.corporationName }}
+        </span>
       </div>
     </div>
     <div class="card-body">
       <table>
         <tr>
-          <th>Quantity:</th>
-          <td>{{ portfolioItem?.quantity }}</td>
-          <th>Change:</th>
-          <td>{{ portfolioItem?.change?.toFixed(2) }}</td>
+          <th class="pe-5">Quantity:</th>
+          <td class="ps-5 fw-bold">{{ formatNo(portfolioItem?.quantity) }}</td>
+          <th class="ps-5">Change:</th>
+          <td class="ps-5 fw-bold">
+            {{ formatNo(portfolioItem?.change?.toFixed(2)) }}
+          </td>
         </tr>
         <tr>
-          <th>Avg Cost:</th>
-          <td>{{ portfolioItem.averageCost.toFixed(2) }}</td>
-          <th>current price:</th>
-          <td>{{ portfolioItem.price?.toFixed(2) }}</td>
+          <th class="pe-5">Avg Cost / Share:</th>
+          <td class="ps-5 fw-bold">
+            {{ formatNo(portfolioItem.averageCost.toFixed(2)) }}
+          </td>
+          <th class="ps-5">current price:</th>
+          <td class="ps-5 fw-bold">
+            {{ formatNo(portfolioItem.price?.toFixed(2)) }}
+          </td>
         </tr>
         <tr>
-          <th>total cost:</th>
-          <td>{{ portfolioItem.totalCost?.toFixed(2) }}</td>
-          <th>market value:</th>
-          <td>{{ portfolioItem.price?.toFixed(2) }}</td>
+          <th class="pe-5">total cost:</th>
+          <td class="ps-5 fw-bold">
+            {{ formatNo(portfolioItem.totalCost?.toFixed(2)) }}
+          </td>
+          <th class="ps-5">market value:</th>
+          <td class="ps-5 fw-bold">
+            {{ formatNo(portfolioItem.price?.toFixed(2)) }}
+          </td>
         </tr>
       </table>
     </div>
     <div class="card-footer text-body-secondary">
-      <div>
+      <div class="d-flex gap-2">
         <div
           class="border border-primary btn btn-primary"
           (click)="openStockModal(false, portfolioItem)"
+          *ngIf="!marketOpen"
         >
           Buy
         </div>
         <div
-          class="border border-primary btn btn-danger"
+          class="border border-danger btn btn-danger"
           (click)="openStockModal(true, portfolioItem)"
+          *ngIf="!marketOpen"
         >
           Sell
         </div>
       </div>
     </div>
   </div>
+  <app-stock-modal></app-stock-modal>
 </div>
-<app-stock-modal></app-stock-modal>
+<mat-spinner [diameter]="70" *ngIf="this.loading" class="spinner"></mat-spinner>

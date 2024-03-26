@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, SimpleChanges, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -6,6 +7,7 @@ import SMA from 'highcharts/indicators/ema';
 import IndicatorsCore from 'highcharts/indicators/indicators';
 import VBP from 'highcharts/indicators/volume-by-price';
 import StockModule from 'highcharts/modules/stock';
+import { FooterService } from '../../../services/footer.service';
 import { StockSearchService } from '../../../services/search-service.service';
 
 // Initialize required Highcharts modules
@@ -17,7 +19,7 @@ SMA(Highcharts);
 @Component({
   selector: 'app-charts-tab',
   standalone: true,
-  imports: [HighchartsChartModule],
+  imports: [HighchartsChartModule, CommonModule],
   templateUrl: './charts-tab.component.html',
   styleUrl: './charts-tab.component.css',
 })
@@ -25,8 +27,19 @@ export class ChartsTabComponent implements OnInit {
   stockInformationService: StockSearchService = inject(StockSearchService);
   highcharts: typeof Highcharts = Highcharts;
   ticker: string = 'test';
+  footerService: FooterService = inject(FooterService);
   @Input() route: ActivatedRoute = inject(ActivatedRoute);
+  @Input()
+  index!: number;
   chartOptions!: any;
+  @Input()
+  active!: number;
+  fetchError: boolean = false;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['active'].currentValue === 2) {
+      this.footerService.setPosition(true);
+    }
+  }
   ngOnInit() {
     const OHLC: any[][] = [];
     const volume: any[][] = [];
@@ -41,6 +54,9 @@ export class ChartsTabComponent implements OnInit {
         this.stockInformationService
           .getSMAData(this.route.snapshot.params['ticker'])
           .then((response) => {
+            if (JSON.stringify(response) === '{}') {
+              this.fetchError = true;
+            }
             response.map((chartObj: any) => {
               OHLC.push([
                 chartObj['t'],

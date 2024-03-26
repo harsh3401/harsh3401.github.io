@@ -50,7 +50,13 @@ export class StockSearchService {
     );
     return (await data.json()) ?? [];
   }
-  //TODO:any fix
+
+  async getMarketStatus(search_string: string): Promise<any> {
+    const data = await fetch(
+      `${environment.apiUrl}/api/quote?ticker=${search_string}`
+    );
+    return (await data.json()) ?? [];
+  }
   async getCompanyData(search_string: string): Promise<any[]> {
     const urls = [
       `${environment.apiUrl}/api/company-details?ticker=${search_string}`,

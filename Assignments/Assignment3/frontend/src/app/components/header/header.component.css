@@ -1,0 +1,11 @@
+.header-link:hover {
+  color: white;
+  cursor: pointer;
+}
+.header-link {
+  color: gray;
+}
+.active-link {
+  color: white;
+  border: "2px solid white";
+}

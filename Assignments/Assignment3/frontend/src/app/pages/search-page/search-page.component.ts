@@ -17,10 +17,10 @@ export class SearchPageComponent {
 
   constructor(private router: Router, private alertService: AlertService) {}
   clearSearch(): void {
+    this.autocompleteComponent.inputControl.setValue('');
     this.router.navigate([`/search/home`]);
   }
   searchTicker(): void {
-    console.log('here', this.autocompleteComponent.inputControl.value);
     if (this.autocompleteComponent.inputControl.value === '') {
       this.alertService.showAlert('Please enter a valid Ticker', 'danger');
     }
