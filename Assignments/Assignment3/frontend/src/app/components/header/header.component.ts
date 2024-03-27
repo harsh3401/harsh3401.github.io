@@ -1,5 +1,10 @@
 import { Component, Input, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationStart,
+  Router,
+  RouterLinkActive,
+} from '@angular/router';
 import { StockSearchService } from '../../services/search-service.service';
 
 @Component({
@@ -30,38 +35,50 @@ import { StockSearchService } from '../../services/search-service.service';
           id="navbarNav"
         >
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li
+              class="nav-item  "
+              [className]="
+                this.curRouteName.includes('search')
+                  ? ' nav-item  border border-white rounded-pill'
+                  : 'nav-item '
+              "
+            >
               <a
                 class="nav-link  header-link px-3  "
-                routerLink="/search/:home"
+                [class.active-link]="this.curRouteName.includes('search')"
                 (click)="redirectSearch()"
-                routerLink="watchlist"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
               >
                 Search
               </a>
             </li>
             <li
               class="nav-item"
-              routerLink="/watchlist"
-              routerLinkActive="active-link"
-              [routerLinkActiveOptions]="{ exact: true }"
+              [className]="
+                this.curRouteName.includes('watchlist')
+                  ? ' nav-item  border border-white rounded-pill'
+                  : 'nav-item '
+              "
             >
               <a
+                [class.active-link]="this.curRouteName.includes('watchlist')"
                 class="nav-link header-link px-3 font-col "
                 (click)="redirect('watchlist')"
               >
                 Watchlist
               </a>
             </li>
-            <li class="nav-item">
+            <li
+              class="nav-item"
+              [className]="
+                this.curRouteName.includes('portfolio')
+                  ? ' nav-item  border border-white rounded-pill'
+                  : 'nav-item '
+              "
+            >
               <a
+                [class.active-link]="this.curRouteName.includes('portfolio')"
                 class="nav-link header-link px-3 font-col "
                 (click)="redirect('portfolio')"
-                routerLink="watchlist"
-                routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{ exact: true }"
               >
                 Portfolio
               </a>
@@ -89,5 +106,16 @@ export class HeaderComponent {
     } else {
       this.router.navigate([`search/home`]);
     }
+  }
+  ngOnInit() {
+    console.log(
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.curRouteName = event.url;
+        }
+      })
+    );
+    // this.route.paramMap.subscribe((paramMap) => {})
+    // console.log(this.route.snapshot);
   }
 }

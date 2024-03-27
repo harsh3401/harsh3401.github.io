@@ -170,67 +170,72 @@ router.get("/historical-data", (req: Request, res: Response) => {
   getQuote(query)
     .then((quote) => {
       const quoteTime = quote.data["t"];
-      console.log(new Date(quoteTime).toLocaleDateString());
-      const marketOpen =
-        new Date().getTime() - new Date(quoteTime * 1000).getTime() < 300000;
+      const marketDate = new Date(quoteTime * 1000);
+      const marketOpen = new Date().getTime() - marketDate.getTime() < 300000;
 
       let NEXT_DATE: Date | string = new Date();
       //TODO:Value check
       let PREVIOUS_DATE: Date | string = new Date(NEXT_DATE);
       //market open logic
-      const marketCloseUTC = new Date(
-        NEXT_DATE.getFullYear(),
-        NEXT_DATE.getMonth(),
-        NEXT_DATE.getDate(),
-        21,
-        0
-      );
-      const marketOpenUTC = new Date(
-        NEXT_DATE.getFullYear(),
-        NEXT_DATE.getMonth(),
-        NEXT_DATE.getDate(),
-        14,
-        30
-      );
+      // const marketCloseUTC = new Date(
+      //   NEXT_DATE.getFullYear(),
+      //   NEXT_DATE.getMonth(),
+      //   NEXT_DATE.getDate(),
+      //   21,
+      //   0
+      // );
+      // const marketOpenUTC = new Date(
+      //   NEXT_DATE.getFullYear(),
+      //   NEXT_DATE.getMonth(),
+      //   NEXT_DATE.getDate(),
+      //   14,
+      //   30
+      // );
       let param = "day";
       if (range == "day") {
         param = "hour";
         if (marketOpen) {
           PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
         } else {
-          const day = NEXT_DATE.getDay();
-          if (2 <= day && day <= 5) {
-            if (NEXT_DATE > marketCloseUTC) {
-              PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
-            }
-            if (NEXT_DATE < marketOpenUTC) {
-              PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
-              NEXT_DATE.setDate(NEXT_DATE.getDate() + 1);
-            }
-          }
-          if (day === 1) {
-            if (NEXT_DATE > marketCloseUTC) {
-              PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
-            }
-            if (NEXT_DATE < marketOpenUTC) {
-              PREVIOUS_DATE.setDate(NEXT_DATE.getDate() + 3);
-              NEXT_DATE.setDate(NEXT_DATE.getDate() + 4);
-            }
-          }
-          if (day == 6) {
-            PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 2);
-            NEXT_DATE.setDate(NEXT_DATE.getDate() - 1);
-          }
-          if (day == 0) {
-            PREVIOUS_DATE.setDate(NEXT_DATE.getDate() + 4);
-            NEXT_DATE.setDate(NEXT_DATE.getDate() + 5);
-          }
+          NEXT_DATE.setDate(marketDate.getDate());
+          PREVIOUS_DATE.setDate(marketDate.getDate() - 1);
+          // const day = NEXT_DATE.getDay();
+          // if (2 <= day && day <= 5) {
+          //   if (NEXT_DATE > marketCloseUTC) {
+          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
+          //   }
+          //   if (NEXT_DATE < marketOpenUTC) {
+          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
+          //     NEXT_DATE.setDate(NEXT_DATE.getDate() + 1);
+          //   }
+          // }
+          // if (day === 1) {
+          //   if (NEXT_DATE > marketCloseUTC) {
+          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
+          //   }
+          //   if (NEXT_DATE < marketOpenUTC) {
+          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() + 3);
+          //     NEXT_DATE.setDate(NEXT_DATE.getDate() + 4);
+          //   }
+          // }
+          // if (day == 6) {
+          //   PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 2);
+          //   NEXT_DATE.setDate(NEXT_DATE.getDate() - 1);
+          // }
+          // if (day == 0) {
+          //   PREVIOUS_DATE.setDate(NEXT_DATE.getDate() + 4);
+          //   NEXT_DATE.setDate(NEXT_DATE.getDate() + 5);
+          // }
         }
       } else {
         PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 181);
       }
+
       PREVIOUS_DATE = formatDate(PREVIOUS_DATE);
       NEXT_DATE = formatDate(NEXT_DATE);
+      console.log(
+        `${process.env.POLYGON_ENDPOINT}/${query}/range/1/${param}/${PREVIOUS_DATE}/${NEXT_DATE}?adjusted=true&sort=asc&apiKey=${process.env.POLYGON_API_KEY}`
+      );
       axios
         .get(
           `${process.env.POLYGON_ENDPOINT}/${query}/range/1/${param}/${PREVIOUS_DATE}/${NEXT_DATE}?adjusted=true&sort=asc&apiKey=${process.env.POLYGON_API_KEY}`
