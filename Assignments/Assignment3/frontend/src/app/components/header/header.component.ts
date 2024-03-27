@@ -108,10 +108,12 @@ export class HeaderComponent {
     }
   }
   ngOnInit() {
+    console.log(this.curRouteName);
     console.log(
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
-          this.curRouteName = event.url;
+          this.curRouteName = event.url === '/' ? 'search' : event.url;
+          console.log(event.url);
         }
       })
     );
