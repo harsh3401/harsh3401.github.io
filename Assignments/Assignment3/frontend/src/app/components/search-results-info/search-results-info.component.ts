@@ -156,9 +156,10 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
         this.marketOpen = marketStatus;
         console.log(marketStatus);
         if (marketStatus) {
+          this.fetchMarketData?.unsubscribe();
           this.fetchMarketData = interval(30000) // Emit every 30 seconds
             .subscribe(() => {
-              this.fetchMarketData?.unsubscribe();
+              console.log('here');
               this.refetch(false, ticker!);
             });
         }
