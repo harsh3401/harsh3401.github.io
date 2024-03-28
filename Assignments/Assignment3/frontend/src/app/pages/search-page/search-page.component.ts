@@ -22,7 +22,12 @@ export class SearchPageComponent {
   }
   searchTicker(): void {
     if (this.autocompleteComponent.inputControl.value === '') {
-      this.alertService.showAlert('Please enter a valid Ticker', 'danger');
+      this.alertService.showAlert(
+        'Please enter a valid Ticker',
+        'danger',
+        false,
+        false
+      );
     }
     this.router.navigate([
       `/search/${this.autocompleteComponent.inputControl.value}`,

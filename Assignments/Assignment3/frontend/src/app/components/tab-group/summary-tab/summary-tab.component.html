@@ -1,37 +1,45 @@
-<div class="border border-primary mx-5 d-flex h-100">
-  <div class="border border-primary w-50">
-    <div>
+<div class="d-flex h-100">
+  <div class="w-50 pt-2 d-flex flex-column justify-content-between pb-4">
+    <div style="font-size: small" class="ms-5 mt-4">
       <div>
-        <div class="d-flex">
-          <div>High Price:</div>
+        <div class="d-flex gap-1">
+          <div><b>High Price:</b></div>
           <div>{{ stockData?.highPrice }}</div>
         </div>
       </div>
       <div>
-        <div class="d-flex">
-          <div>Low Price:</div>
+        <div class="d-flex gap-1">
+          <div><b>Low Price:</b></div>
           <div>{{ stockData?.lowPrice }}</div>
         </div>
       </div>
       <div>
-        <div class="d-flex">
-          <div>Open Price:</div>
+        <div class="d-flex gap-1">
+          <div><b>Open Price:</b></div>
           <div>{{ stockData?.openPrice }}</div>
         </div>
       </div>
       <div>
-        <div class="d-flex">
-          <div>Prev Close:</div>
+        <div class="d-flex gap-1">
+          <div><b>Prev Close:</b></div>
           <div>{{ stockData?.prevClosePrice }}</div>
         </div>
       </div>
     </div>
-    <div class="text-center">
-      <div>About the company</div>
-      <div>IPO Start Date: {{ stockData?.ipoStartDate }}</div>
-      <div>Industry: {{ stockData?.industry }}</div>
+    <div class="text-center" style="font-size: small">
       <div>
-        Webpage:
+        <u><b>About the company</b></u>
+      </div>
+      <div class="mt-2">
+        <span><b>IPO Start Date:</b></span>
+        {{ stockData?.ipoStartDate }}
+      </div>
+      <div>
+        <span><b>Industry:</b> </span>
+        {{ stockData?.industry }}
+      </div>
+      <div>
+        <span><b> Webpage: </b></span>
         <a
           [href]="stockData?.webpage"
           rel="noopener noreferrer"
@@ -39,7 +47,7 @@
           >{{ stockData?.webpage }}</a
         >
       </div>
-      <div>Company peers:</div>
+      <div><b>Company peers:</b></div>
       <div>
         <span
           ><a
@@ -51,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="border border-primary w-50" [id]="this.stockData.ticker">
+  <div class="w-50" [id]="this.stockData.ticker">
     <highcharts-chart
       [Highcharts]="highcharts"
       [options]="chartOptions"

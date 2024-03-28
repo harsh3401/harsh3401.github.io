@@ -22,17 +22,22 @@ export class CustomAlertComponent implements OnInit {
     this.show = false;
   }
   ngOnInit() {
-    // Set the reference to this alert component in the service
     this.show = false;
     this.alertService.setAlertComponentRef(this);
   }
 
-  showAlert(message: string, type: string, dismissible = false) {
+  showAlert(
+    message: string,
+    type: string,
+    dismissible = false,
+    hideable = true
+  ) {
     this.show = true;
     this.message = message;
     this.type = type;
     this.dismissible = dismissible;
-    setTimeout(() => (this.show = false), 5000);
-    // Logic to display the message in the alert component
+    if (hideable) {
+      setTimeout(() => (this.show = false), 5000);
+    }
   }
 }

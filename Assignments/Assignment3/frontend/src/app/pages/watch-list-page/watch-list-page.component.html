@@ -17,7 +17,7 @@
         <div>{{ watchListItem.corporationName }}</div>
       </div>
       <div [class]="watchListItem.change > 0 ? ' text-success' : 'text-danger'">
-        <span class="fw-bold fs-5">{{ watchListItem.price }}</span>
+        <span class="fw-bold fs-5">{{ watchListItem.price.toFixed(2) }}</span>
         <div>
           <span *ngIf="watchListItem.change > 0">
             <svg
@@ -47,9 +47,11 @@
               />
             </svg>
           </span>
-          <span class="pe-1 small fw-medium">{{ watchListItem.change }}</span>
+          <span class="pe-1 small fw-medium">{{
+            watchListItem.change.toFixed(2)
+          }}</span>
           <span class="small fw-medium"
-            >({{ watchListItem.changePercentage }}%)</span
+            >({{ watchListItem.changePercentage.toFixed(2) }}%)</span
           >
         </div>
       </div>

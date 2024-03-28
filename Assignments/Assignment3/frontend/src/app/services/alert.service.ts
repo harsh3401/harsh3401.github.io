@@ -9,9 +9,14 @@ export class AlertService {
   setAlertComponentRef(ref: CustomAlertComponent) {
     this.alertComponentRef = ref;
   }
-  showAlert(message: string, type: string, dismissible = false) {
+  showAlert(
+    message: string,
+    type: string,
+    dismissible = false,
+    hideable = true
+  ) {
     if (this.alertComponentRef) {
-      this.alertComponentRef.showAlert(message, type, dismissible);
+      this.alertComponentRef.showAlert(message, type, dismissible, hideable);
     }
   }
   constructor() {}

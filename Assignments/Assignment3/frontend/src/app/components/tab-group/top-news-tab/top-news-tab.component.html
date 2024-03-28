@@ -1,8 +1,8 @@
-<div class="border border-primary mx-5 d-flex flex-wrap">
+<div class="mx-5 d-flex flex-wrap">
   <div
-    class="d-flex flex-fill"
+    class="d-flex flex-fill p-3 border border-secondary rounded"
     *ngFor="let newsObject of news; trackBy: identify"
-    style="width: 50%; background-color: grey"
+    style="width: 50%; background-color: rgb(249, 249, 249)"
     (click)="openModal(newsObject)"
   >
     <img

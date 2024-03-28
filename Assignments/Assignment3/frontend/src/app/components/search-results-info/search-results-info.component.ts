@@ -21,10 +21,15 @@ import { TabGroupComponent } from '../tab-group/tab-group.component';
 import { StockConfig } from '../types';
 
 const options: any = {
-  year: 'numeric', // Full numeric representation of the year (e.g., 2024)
-  month: 'long', // Full name of the month (e.g., February)
-  day: 'numeric', // Day of the month (e.g., 8)
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hourCycle: 'h24',
 };
+const regex = /\//g;
 @Component({
   selector: 'app-search-results-info',
   standalone: true,
@@ -70,7 +75,8 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
           this.stockConfig.wishlist = true;
           this.alertService.showAlert(
             `${this.stockConfig.ticker} added to the watchlist`,
-            'success'
+            'success',
+            true
           );
         }
       });
@@ -83,7 +89,8 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
           this.stockConfig.wishlist = false;
           this.alertService.showAlert(
             `${this.stockConfig.ticker} removed from the watchlist`,
-            'danger'
+            'danger',
+            true
           );
         }
       });
@@ -98,20 +105,20 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
           logo: responses[0].logo,
           companyName: responses[0].name,
           marketName: responses[0].exchange,
-          stockPrice: responses[1].c,
+          stockPrice: responses[1].c.toFixed(2),
           priceTimestamp: new Date(responses[1].t * 1000),
-          priceTimestampString: new Intl.DateTimeFormat(
-            'en-US',
-            options
-          ).format(new Date(responses[1].t * 1000)),
-          change: responses[1].d,
-          changePercent: responses[1].dp,
+          priceTimestampString: new Intl.DateTimeFormat('en-US', options)
+            .format(new Date(responses[1].t * 1000))
+            .replace(/\//g, '-')
+            .replace(/,/g, ''),
+          change: responses[1].d.toFixed(2),
+          changePercent: responses[1].dp.toFixed(2),
           wishlist: responses[3].found,
           portfolio: responses[2].found,
-          highPrice: responses[1].h,
-          lowPrice: responses[1].l,
-          openPrice: responses[1].o,
-          prevClosePrice: responses[1].pc,
+          highPrice: responses[1].h.toFixed(2),
+          lowPrice: responses[1].l.toFixed(2),
+          openPrice: responses[1].o.toFixed(2),
+          prevClosePrice: responses[1].pc.toFixed(2),
           ipoStartDate: responses[0].ipo,
           industry: responses[0].finnhubIndustry,
           webpage: responses[0].weburl,
@@ -179,20 +186,23 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
                   logo: responses[0].logo,
                   companyName: responses[0].name,
                   marketName: responses[0].exchange,
-                  stockPrice: responses[1].c,
+                  stockPrice: responses[1].c.toFixed(2),
                   priceTimestamp: new Date(responses[1].t * 1000),
                   priceTimestampString: new Intl.DateTimeFormat(
                     'en-US',
                     options
-                  ).format(new Date(responses[1].t * 1000)),
-                  change: responses[1].d,
-                  changePercent: responses[1].dp,
+                  )
+                    .format(new Date(responses[1].t * 1000))
+                    .replace(/\//g, '-')
+                    .replace(/,/g, ''),
+                  change: responses[1].d.toFixed(2),
+                  changePercent: responses[1].dp.toFixed(2),
                   wishlist: responses[3].found,
                   portfolio: responses[2].found,
-                  highPrice: responses[1].h,
-                  lowPrice: responses[1].l,
-                  openPrice: responses[1].o,
-                  prevClosePrice: responses[1].pc,
+                  highPrice: responses[1].h.toFixed(2),
+                  lowPrice: responses[1].l.toFixed(2),
+                  openPrice: responses[1].o.toFixed(2),
+                  prevClosePrice: responses[1].pc.toFixed(2),
                   ipoStartDate: responses[0].ipo,
                   industry: responses[0].finnhubIndustry,
                   webpage: responses[0].weburl,

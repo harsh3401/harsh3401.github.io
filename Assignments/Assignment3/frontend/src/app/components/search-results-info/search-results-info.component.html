@@ -1,25 +1,22 @@
 <app-search-page [ticker]="stockConfig?.ticker"></app-search-page>
-<div class="mx-5 mt-5 w-50">
-  <app-custom-alert></app-custom-alert>
-</div>
+
 @if(this.resultsFound && !this.loading) {
-<div
-  class="justify-content-center align-items-center border border-primary mt-4 row mx-5"
->
+<div class="justify-content-center align-items-center mt-4 row mx-5 mb-3">
+  <app-custom-alert></app-custom-alert>
   <div class="d-flex flex-column align-items-center w-30 col">
-    <div class="d-flex align-items-start p-0">
-      <div class="fw-bold fs-2 m-0 p-0 border border-black">
+    <div class="d-flex align-items-start p-0 gap-1">
+      <p class="fw-bold m-0 p-0 lh-1 fs-2">
         {{ stockConfig?.ticker }}
-      </div>
+      </p>
       <svg
         *ngIf="stockConfig?.wishlist; else emptyStar"
         xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
+        width="30"
+        height="30"
         style="color: rgb(249, 222, 75)"
         fill="currentColor"
         class="bi bi-star-fill"
-        viewBox="0 0 16 16"
+        viewBox="0 0 30 30"
         (click)="removeFromWatchList()"
       >
         <path
@@ -43,18 +40,18 @@
         </svg>
       </ng-template>
     </div>
-    <div>{{ stockConfig?.companyName }}</div>
-    <div>{{ stockConfig?.marketName }}</div>
+    <div class="text-secondary fw-bold">{{ stockConfig?.companyName }}</div>
+    <div style="font-size: x-small">{{ stockConfig?.marketName }}</div>
     <div class="d-flex gap-2">
       <div
         (click)="openBuySellModal()"
-        class="border border-primary btn btn-success"
+        class="btn btn-success"
         *ngIf="this.marketOpen"
       >
         Buy
       </div>
       <div
-        class="border border-primary btn btn-danger"
+        class="btn btn-danger"
         (click)="openBuySellModal(true)"
         *ngIf="this.marketOpen && this.stockConfig.qty > 0"
       >
@@ -62,9 +59,14 @@
       </div>
     </div>
   </div>
-  <div class="text-center col">
+  <div class="text-center col-6">
     <img width="90" [src]="stockConfig?.logo" alt="Company Logo" />
-    <div>
+    <!-- TODO:Check for the value of the timestamp -->
+    <div
+      [class]="
+        marketOpen ? 'text-success mt-5 fw-bold' : 'text-danger mt-5 fw-bold'
+      "
+    >
       Market
       {{
         marketOpen
@@ -74,12 +76,79 @@
     </div>
   </div>
   <div class="d-flex flex-column align-items-center col">
-    <div>{{ stockConfig?.stockPrice }}</div>
-    <div class="d-flex flex-column align-items-center">
-      <div>{{ stockConfig?.change }}</div>
-      <div>{{ stockConfig?.changePercent }}</div>
+    <div
+      [class]="
+        stockConfig?.change! > 0
+          ? 'fw-bold text-success fs-2'
+          : 'fw-bold text-danger fs-2'
+      "
+    >
+      {{ stockConfig?.stockPrice }}
     </div>
-    <div>{{ stockConfig?.priceTimestampString }}</div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <div class="d-flex gap-1">
+        <span
+          style="height: 16px; vertical-align: baseline"
+          *ngIf="stockConfig.change > 0"
+          [class]="
+            stockConfig.change > 0 ? ' text-success lh-1' : 'text-danger lh-1'
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-up-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"
+            />
+          </svg>
+        </span>
+        <span
+          style="height: 16px; vertical-align: baseline"
+          *ngIf="stockConfig.change < 0"
+          [class]="
+            stockConfig.change > 0 ? ' text-success lh-1' : 'text-danger lh-1'
+          "
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+            />
+          </svg>
+        </span>
+        <div
+          [class]="
+            stockConfig?.change! > 0
+              ? 'fw-bold text-success fs-4'
+              : 'fw-bold text-danger fs-4'
+          "
+        >
+          {{ stockConfig?.change }}
+        </div>
+        <div
+          [class]="
+            stockConfig?.change! > 0
+              ? 'fw-bold text-success fs-4'
+              : 'fw-bold text-danger fs-4'
+          "
+        >
+          ({{ stockConfig?.changePercent }}%)
+        </div>
+      </div>
+    </div>
+    <div class="text-secondary" style="font-size: small">
+      {{ stockConfig?.priceTimestampString }}
+    </div>
   </div>
 </div>
 

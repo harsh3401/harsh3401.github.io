@@ -7,6 +7,12 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { FooterService } from '../../../services/footer.service';
 import { StockSearchService } from '../../../services/search-service.service';
 import { StockConfig } from '../../types';
+const options: any = {
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23', // Display hours in 24-hour format
+};
+
 @Component({
   selector: 'app-summary-tab',
   standalone: true,
@@ -38,6 +44,16 @@ export class SummaryTabComponent implements OnInit {
         const priceData = this.stockData.chartData.map((obj: any) => {
           return obj['o'];
         });
+        const axisData = this.stockData.chartData
+          .map((obj: any) => {
+            return obj['t'];
+          })
+          .map((data: any) => {
+            return new Intl.DateTimeFormat(navigator.language, options).format(
+              data
+            );
+          });
+
         this.chartOptions = {
           accessibility: { enabled: false },
           title: { text: `${this.stockData.ticker} Hourly price Variation` },
@@ -47,8 +63,27 @@ export class SummaryTabComponent implements OnInit {
               showInLegend: false,
               data: priceData,
               type: 'line',
+              marker: {
+                // Add marker configuration to show data points
+                enabled: false,
+                symbol: 'circle', // Choose desired symbol for points
+              },
             },
           ],
+          xAxis: {
+            // Set categories for x-axis ticks
+            categories: axisData,
+          },
+          yAxis: {
+            opposite: true,
+            title: {
+              text: undefined,
+            },
+          },
+          chart: {
+            // Set grey background color
+            backgroundColor: '#f2f2f2',
+          },
         };
       }
     }
@@ -58,17 +93,47 @@ export class SummaryTabComponent implements OnInit {
       const priceData = this.stockData.chartData.map((obj: any) => {
         return obj['o'];
       });
+      const axisData = this.stockData.chartData
+        .map((obj: any) => {
+          return obj['t'];
+        })
+        .map((data: any) => {
+          return new Intl.DateTimeFormat(navigator.language, options).format(
+            data
+          );
+        });
+
       this.chartOptions = {
         accessibility: { enabled: false },
         title: { text: `${this.stockData.ticker} Hourly price Variation` },
         series: [
           {
+            color: this.stockData.change > 0 ? 'green' : 'red',
             name: 'Price',
             showInLegend: false,
             data: priceData,
             type: 'line',
+            marker: {
+              // Add marker configuration to show data points
+              enabled: false,
+              symbol: 'circle', // Choose desired symbol for points
+            },
           },
         ],
+        xAxis: {
+          // Set categories for x-axis ticks
+          categories: axisData,
+        },
+        yAxis: {
+          opposite: true,
+          title: {
+            text: undefined,
+          },
+        },
+        chart: {
+          // Set grey background color
+          backgroundColor: '#f2f2f2',
+        },
       };
     }
   }
