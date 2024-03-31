@@ -32,7 +32,17 @@ router.get("/search", (req: Request, res: Response) => {
       `${process.env.FINHUB_ENDPOINT}/search?q=${query}&token=${process.env.FINHUB_API_KEY}`
     )
     .then((response: AxiosResponse) => {
-      error_middleware(response.data, res, response.status.valueOf(), "result");
+      let processed_response = response.data?.result ?? [];
+
+      if (processed_response.length > 0) {
+        processed_response = processed_response.filter((obj: any) => {
+          return (
+            !obj["symbol"].includes(".") && obj["type"].includes("Common Stock")
+          );
+        });
+      }
+
+      error_middleware(processed_response, res, response.status.valueOf());
     })
     .catch((error) => {
       console.error(error);
@@ -233,9 +243,7 @@ router.get("/historical-data", (req: Request, res: Response) => {
 
       PREVIOUS_DATE = formatDate(PREVIOUS_DATE);
       NEXT_DATE = formatDate(NEXT_DATE);
-      console.log(
-        `${process.env.POLYGON_ENDPOINT}/${query}/range/1/${param}/${PREVIOUS_DATE}/${NEXT_DATE}?adjusted=true&sort=asc&apiKey=${process.env.POLYGON_API_KEY}`
-      );
+
       axios
         .get(
           `${process.env.POLYGON_ENDPOINT}/${query}/range/1/${param}/${PREVIOUS_DATE}/${NEXT_DATE}?adjusted=true&sort=asc&apiKey=${process.env.POLYGON_API_KEY}`

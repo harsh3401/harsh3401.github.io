@@ -10,10 +10,6 @@ export class WatchList {
   @prop({ required: true, type: String })
   public corporationName!: string;
 
-  //TODO:Storage Mechanism check
-  // @prop({ required: true, type: Number })
-  // public stockPrice!: number;
-
   // @prop({ required: true, type: Number })
   // public change!: number;
 

@@ -31,10 +31,10 @@ import { StockSearchService } from '../../services/search-service.service';
         </button>
 
         <div
-          class="collapse navbar-collapse flex-grow-0  gap-2 text-white"
+          class="collapse navbar-collapse flex-grow-0  gap-2 text-white mt-3"
           id="navbarNav"
         >
-          <ul class="navbar-nav">
+          <ul class="navbar-nav ">
             <li
               class="nav-item  "
               [className]="
@@ -108,16 +108,10 @@ export class HeaderComponent {
     }
   }
   ngOnInit() {
-    console.log(this.curRouteName);
-    console.log(
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationStart) {
-          this.curRouteName = event.url === '/' ? 'search' : event.url;
-          console.log(event.url);
-        }
-      })
-    );
-    // this.route.paramMap.subscribe((paramMap) => {})
-    // console.log(this.route.snapshot);
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.curRouteName = event.url === '/' ? 'search' : event.url;
+      }
+    });
   }
 }

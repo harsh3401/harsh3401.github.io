@@ -1,0 +1,7 @@
+@media (max-width: 991px) {
+  /* Small devices (tablets, phones, etc.) */
+  .custom-margin img {
+    width: 100%;
+    height: 200px; /* Set width to 100% on small screens */
+  }
+}

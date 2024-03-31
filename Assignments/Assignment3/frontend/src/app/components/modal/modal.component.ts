@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { news_format } from '../types';
 
@@ -7,15 +7,23 @@ import { news_format } from '../types';
   standalone: true,
   templateUrl: './modal.component.html',
 })
-export class NgbdModalContent {
+export class NgbdModalContent implements OnInit {
   activeModal = inject(NgbActiveModal);
 
   @Input()
   name!: string;
 
   @Input()
-  newsObject!: news_format;
+  newsObject!: any;
   https: any;
+  ngOnInit() {
+    const date = new Date(this.newsObject['datetime']);
+    const options: any = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(
+      date
+    );
+    this.newsObject['datetime'] = formattedDate;
+  }
 }
 
 @Component({

@@ -6,12 +6,7 @@ import { FooterService } from '../../services/footer.service';
   standalone: true,
   imports: [],
   template: `
-    <footer
-      style="background: rgb(216, 216, 216);"
-      [class]="
-        position ? 'fw-bold  w-100 py-2 fixed-bottom' : 'fw-bold  w-100 py-2'
-      "
-    >
+    <footer style="background: rgb(216, 216, 216);" class="fw-bold  w-100 py-2">
       <div class="container">
         <div class="text-center">
           Powered by

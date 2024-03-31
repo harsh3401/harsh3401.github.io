@@ -54,15 +54,11 @@ export class ChartsTabComponent implements OnInit {
         this.stockInformationService
           .getSMAData(this.route.snapshot.params['ticker'])
           .then((response) => {
-            console.log('here2');
             if (JSON.stringify(response) === '{}') {
-              console.log('here');
               this.fetchError = true;
               this.chartOptions = {};
               this.ticker = this.route.snapshot.params['ticker'];
             } else {
-              console.log('here 3');
-
               response.map((chartObj: any) => {
                 OHLC.push([
                   chartObj['t'],
@@ -75,8 +71,21 @@ export class ChartsTabComponent implements OnInit {
               });
 
               const updatedOptions = {
+                navigator: {
+                  enabled: true,
+                },
                 rangeSelector: {
-                  selected: 2,
+                  selected: 0,
+                  enabled: true,
+
+                  buttons: [
+                    { text: '1m', type: 'month', count: 1, title: '1m' },
+                    { text: '3m', type: 'month', count: 3, title: '3m' },
+                    { text: '6m', type: 'month', count: 6, title: '6m' },
+                    { text: 'YTD', type: 'ytd', title: 'YTD' },
+                    { text: '1y', type: 'year', count: 1, title: '1y' },
+                    { text: 'All', type: 'year', title: 'All' },
+                  ],
                 },
 
                 title: {
@@ -86,9 +95,14 @@ export class ChartsTabComponent implements OnInit {
                 subtitle: {
                   text: 'With SMA and Volume by Price technical indicators',
                 },
+                xAxis: {
+                  // Set categories for x-axis ticks
+                  type: 'datetime',
+                },
 
                 yAxis: [
                   {
+                    opposite: true,
                     startOnTick: false,
                     endOnTick: false,
                     labels: {
@@ -105,6 +119,7 @@ export class ChartsTabComponent implements OnInit {
                     },
                   },
                   {
+                    opposite: true,
                     labels: {
                       align: 'right',
                       x: -3,
@@ -118,6 +133,13 @@ export class ChartsTabComponent implements OnInit {
                     lineWidth: 2,
                   },
                 ],
+                chart: {
+                  // Set grey background color
+                  backgroundColor: '#f2f2f2',
+                  spacingLeft: 10,
+                  spacingRight: 10,
+                  alignTicks: true,
+                },
 
                 tooltip: {
                   split: true,
@@ -126,7 +148,7 @@ export class ChartsTabComponent implements OnInit {
                 series: [
                   {
                     type: 'candlestick',
-                    name: 'AAPL',
+                    name: `${ticker}`,
                     id: 'aapl',
                     zIndex: 2,
                     data: OHLC,
@@ -151,6 +173,7 @@ export class ChartsTabComponent implements OnInit {
                       enabled: false,
                     },
                   },
+
                   {
                     type: 'sma',
                     linkedTo: 'aapl',

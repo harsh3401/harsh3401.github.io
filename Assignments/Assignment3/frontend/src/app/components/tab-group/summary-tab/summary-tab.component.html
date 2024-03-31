@@ -1,6 +1,6 @@
-<div class="d-flex h-100">
-  <div class="w-50 pt-2 d-flex flex-column justify-content-between pb-4">
-    <div style="font-size: small" class="ms-5 mt-4">
+<div class="d-md-flex h-100" style="height: 100%">
+  <div class="left-content pt-2 d-flex flex-column w-100 mw-lg-50 py-2 gap-3">
+    <div style="font-size: small" class="ms-lg-5 mt-4 mx-auto text-lg-left">
       <div>
         <div class="d-flex gap-1">
           <div><b>High Price:</b></div>
@@ -48,7 +48,7 @@
         >
       </div>
       <div><b>Company peers:</b></div>
-      <div>
+      <div class="me-2">
         <span
           ><a
             *ngFor="let peer of stockData?.companyPeers"
@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="w-50" [id]="this.stockData.ticker">
+  <div [id]="this.stockData.ticker" class="right-content w-100">
     <highcharts-chart
       [Highcharts]="highcharts"
       [options]="chartOptions"

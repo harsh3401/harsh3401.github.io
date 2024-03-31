@@ -130,38 +130,23 @@ export class InsightsTabComponent implements OnInit {
               accessibility: { enabled: false },
               chart: {
                 type: 'column',
+                backgroundColor: '#f2f2f2',
               },
               title: {
                 text: 'Recommendation Trends',
-                align: 'left',
               },
               xAxis: {
                 categories: timeSlots,
               },
               yAxis: {
-                min: 0,
                 title: {
-                  text: 'Analysis',
+                  text: '#Analysis',
                 },
                 stackLabels: {
                   enabled: true,
                 },
               },
-              legend: {
-                align: 'left',
-                x: 70,
-                verticalAlign: 'top',
-                y: 70,
-                floating: true,
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false,
-              },
-              tooltip: {
-                headerFormat: '<b>{point.x}</b><br/>',
-                pointFormat:
-                  '{series.name}: {point.y}<br/>Total: {point.stackTotal}',
-              },
+
               plotOptions: {
                 column: {
                   stacking: 'normal',
@@ -175,26 +160,31 @@ export class InsightsTabComponent implements OnInit {
                   type: 'column',
                   name: 'Strong Buy',
                   data: strongBuy,
+                  color: 'rgb(50	,100	,61	)',
                 },
                 {
                   type: 'column',
                   name: 'Buy',
                   data: buy,
+                  color: 'rgb(85,	173,	91	)',
                 },
                 {
                   type: 'column',
                   name: 'Hold',
                   data: hold,
+                  color: 'rgb(169	,129,	59		)',
                 },
                 {
                   type: 'column',
                   name: 'Sell',
                   data: sell,
+                  color: 'rgb(224	,88	,82	)',
                 },
                 {
                   type: 'column',
                   name: 'Strong Sell',
                   data: strongSell,
+                  color: 'rgb(	112	,47	,48	)',
                 },
               ],
             },
@@ -202,10 +192,11 @@ export class InsightsTabComponent implements OnInit {
               accessibility: { enabled: false },
               chart: {
                 type: 'spline',
+
+                backgroundColor: '#f2f2f2',
               },
               title: {
                 text: 'Historical EPS Surprises',
-                align: 'left',
               },
 
               xAxis: {
@@ -214,7 +205,7 @@ export class InsightsTabComponent implements OnInit {
                 },
 
                 categories: period.map((periodObj, index) => {
-                  return `<div class="d-flex flex-column gap-2"><p>${periodObj}</p><p>${surprise[index]}</p></div>`;
+                  return `<p>${periodObj}</p><br/><p>Surprise: ${surprise[index]}</p>`;
                 }),
 
                 maxPadding: 0.05,
@@ -225,18 +216,13 @@ export class InsightsTabComponent implements OnInit {
                   text: 'Quantity EPS',
                 },
 
-                lineWidth: 2,
+                lineWidth: 0,
               },
-              legend: {
-                enabled: false,
-              },
-              tooltip: {
-                headerFormat: '<b>{series.name}</b><br/>',
-                pointFormat: '{point.x} km: {point.y}°C',
-              },
+
               plotOptions: {
                 spline: {},
               },
+
               series: [
                 {
                   type: 'spline',
@@ -270,6 +256,7 @@ export class InsightsTabComponent implements OnInit {
 
           this.sentimentData = sentimentData;
           this.chartOptions = chartOptions;
+          this.companyName = data[3].name;
           this.stockInformationService.sentimentData = sentimentData;
           this.stockInformationService.insightsChartOptions = chartOptions;
           this.stockInformationService.companyName = data[3].name;

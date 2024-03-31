@@ -1,0 +1,14 @@
+/* On large screens, divide the halves equally */
+@media (min-width: 992px) {
+  .left-content {
+    width: 50%;
+  }
+}
+
+/* On small screens, both components take up 100% width */
+@media (max-width: 991px) {
+  .right-content,
+  .left-content {
+    width: 100%;
+  }
+}

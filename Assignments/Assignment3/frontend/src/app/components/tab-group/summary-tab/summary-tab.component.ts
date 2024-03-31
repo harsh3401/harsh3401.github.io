@@ -40,19 +40,12 @@ export class SummaryTabComponent implements OnInit {
     }
     if (changes['stockData']) {
       if (JSON.stringify(this.stockData.chartData) !== '{}') {
-        console.log(this.stockData);
         const priceData = this.stockData.chartData.map((obj: any) => {
           return obj['o'];
         });
-        const axisData = this.stockData.chartData
-          .map((obj: any) => {
-            return obj['t'];
-          })
-          .map((data: any) => {
-            return new Intl.DateTimeFormat(navigator.language, options).format(
-              data
-            );
-          });
+        const axisData = this.stockData.chartData.map((obj: any) => {
+          return obj['t'];
+        });
 
         this.chartOptions = {
           accessibility: { enabled: false },
@@ -61,7 +54,9 @@ export class SummaryTabComponent implements OnInit {
             {
               name: 'Price',
               showInLegend: false,
-              data: priceData,
+              data: priceData.map((data: any, index: number) => {
+                return [data, axisData[index]];
+              }),
               type: 'line',
               marker: {
                 // Add marker configuration to show data points
@@ -72,7 +67,7 @@ export class SummaryTabComponent implements OnInit {
           ],
           xAxis: {
             // Set categories for x-axis ticks
-            categories: axisData,
+            type: 'datetime',
           },
           yAxis: {
             opposite: true,
@@ -93,15 +88,9 @@ export class SummaryTabComponent implements OnInit {
       const priceData = this.stockData.chartData.map((obj: any) => {
         return obj['o'];
       });
-      const axisData = this.stockData.chartData
-        .map((obj: any) => {
-          return obj['t'];
-        })
-        .map((data: any) => {
-          return new Intl.DateTimeFormat(navigator.language, options).format(
-            data
-          );
-        });
+      const axisData = this.stockData.chartData.map((obj: any) => {
+        return obj['t'];
+      });
 
       this.chartOptions = {
         accessibility: { enabled: false },
@@ -111,7 +100,9 @@ export class SummaryTabComponent implements OnInit {
             color: this.stockData.change > 0 ? 'green' : 'red',
             name: 'Price',
             showInLegend: false,
-            data: priceData,
+            data: priceData.map((data: any, index: number) => {
+              return [axisData[index], data];
+            }),
             type: 'line',
             marker: {
               // Add marker configuration to show data points
@@ -122,7 +113,7 @@ export class SummaryTabComponent implements OnInit {
         ],
         xAxis: {
           // Set categories for x-axis ticks
-          categories: axisData,
+          type: 'datetime',
         },
         yAxis: {
           opposite: true,

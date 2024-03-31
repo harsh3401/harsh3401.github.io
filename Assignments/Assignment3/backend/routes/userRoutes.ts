@@ -124,6 +124,7 @@ router.post(
   async (req: Request, res: Response): Promise<Response> => {
     const transactionItem: {
       ticker: string;
+      price: number;
       quantity: number;
       corporationName: string;
     } = req.body;
@@ -136,10 +137,8 @@ router.post(
         ticker: transactionItem.ticker,
       });
       //validation logic
-      const quoteResponse = await getQuote(transactionItem.ticker);
-      //hardcoded
-      const STOCK_PRICE = quoteResponse.data["c"];
-      const value = STOCK_PRICE * transactionItem.quantity;
+
+      const value = transactionItem.price * transactionItem.quantity;
       //Qry hardcoded
       //wallet hardcoded bug
       const Wallet = await WalletModel.findOne({});
@@ -154,7 +153,7 @@ router.post(
             ticker: transactionItem.ticker,
             quantity: transactionItem.quantity,
             totalCost: value,
-            averageCost: STOCK_PRICE,
+            averageCost: transactionItem.price,
             corporationName: transactionItem.corporationName,
           });
 
@@ -193,7 +192,8 @@ router.post(
 router.post(
   "/sell-stock",
   async (req: Request, res: Response): Promise<Response> => {
-    const transactionItem: { ticker: string; quantity: number } = req.body;
+    const transactionItem: { ticker: string; quantity: number; price: number } =
+      req.body;
     //validation logic
     if (
       transactionItem.hasOwnProperty("quantity") &&
@@ -211,10 +211,8 @@ router.post(
           return res.status(404).json({ Error: "Not enough stock" });
         } else {
           //finhub call for price
-          const quoteResponse = await getQuote(transactionItem.ticker);
-          //hardcoded
-          const STOCK_PRICE = quoteResponse.data["c"];
-          const value = STOCK_PRICE * transactionItem.quantity;
+
+          const value = transactionItem.price * transactionItem.quantity;
           const Wallet = await WalletModel.findOne();
           if (Wallet) {
             const quantity = portfolioItem.quantity - transactionItem.quantity;

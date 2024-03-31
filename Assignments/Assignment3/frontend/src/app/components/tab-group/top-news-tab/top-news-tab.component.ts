@@ -65,6 +65,7 @@ export class TopNewsTabComponent implements OnInit {
               ...data,
             };
           });
+
           this.news = updatedNews;
           this.stockInformationService.news = updatedNews;
           this.stockInformationService.ticker = ticker!;

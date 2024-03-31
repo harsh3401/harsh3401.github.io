@@ -1,0 +1,18 @@
+.app-container {
+  min-height: 100vh; /* Ensure container takes up at least the height of the viewport */
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-grow-1 {
+  flex-grow: 1; /* Allow content area to grow and fill remaining space */
+}
+
+footer {
+  background: rgb(216, 216, 216);
+  font-weight: bold;
+  width: 100%;
+  padding: 10px 0;
+  position: sticky;
+  bottom: 0;
+}

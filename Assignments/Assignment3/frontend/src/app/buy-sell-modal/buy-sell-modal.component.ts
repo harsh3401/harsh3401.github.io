@@ -17,11 +17,11 @@ export class BuySellModalTemplate {
   constructor(private alertService: AlertService) {}
   executeSell() {
     this.stockBuyService
-      .executeSell(this.ticker, this.qty)
+      .executeSell(this.ticker, this.qty, this.price)
       .then((tradeResult) => {
         if (tradeResult.Transaction) {
           this.activeModal.dismiss('Cross click');
-          //Todo:Refetch on click
+
           this.alertService.showAlert(
             `${this.ticker} sold successfully`,
             'danger',
@@ -33,7 +33,7 @@ export class BuySellModalTemplate {
   }
   executeBuy() {
     this.stockBuyService
-      .executeBuy(this.ticker, this.qty, this.companyName)
+      .executeBuy(this.ticker, this.qty, this.companyName, this.price)
       .then((tradeResult) => {
         if (tradeResult.Transaction) {
           this.activeModal.dismiss('Cross click');

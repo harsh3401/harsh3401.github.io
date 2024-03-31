@@ -9,24 +9,30 @@ export class UserService {
   async executeBuy(
     ticker: string,
     qty: number,
-    corporationName: string
+    corporationName: string,
+    price: number
   ): Promise<any> {
     const data = await fetch(`${environment.apiUrl}/user/buy-stock`, {
       method: 'POST', // Specify the HTTP method
       headers: {
         'Content-Type': 'application/json', // Add Content-Type header
       },
-      body: JSON.stringify({ ticker: ticker, quantity: qty, corporationName }), // Collect form data as JSON string
+      body: JSON.stringify({
+        ticker,
+        quantity: qty,
+        corporationName,
+        price,
+      }), // Collect form data as JSON string
     });
     return (await data.json()) ?? { Transaction: false };
   }
-  async executeSell(ticker: string, qty: number): Promise<any> {
+  async executeSell(ticker: string, qty: number, price: number): Promise<any> {
     const data = await fetch(`${environment.apiUrl}/user/sell-stock`, {
       method: 'POST', // Specify the HTTP method
       headers: {
         'Content-Type': 'application/json', // Add Content-Type header
       },
-      body: JSON.stringify({ ticker: ticker, quantity: qty }), // Collect form data as JSON string
+      body: JSON.stringify({ ticker: ticker, quantity: qty, price }), // Collect form data as JSON string
     });
     return (await data.json()) ?? { Transaction: false };
   }
@@ -42,7 +48,7 @@ export class UserService {
     });
     return (await data.json()) ?? { Transaction: false };
   }
-  //TODO:Change functionality
+
   async removeFromWatchList(ticker: string): Promise<any> {
     const data = await fetch(`${environment.apiUrl}/user/watchlist-item`, {
       // Specify the HTTP method

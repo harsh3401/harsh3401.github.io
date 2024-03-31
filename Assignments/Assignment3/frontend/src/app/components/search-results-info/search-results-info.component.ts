@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, from, interval, map, switchMap } from 'rxjs';
 import { BuySellModalComponent } from '../../buy-sell-modal/buy-sell-modal.component';
+import { formatDate } from '../../helpers/helpers';
 import { SearchPageComponent } from '../../pages/search-page/search-page.component';
 import { AlertService } from '../../services/alert.service';
 import { FooterService } from '../../services/footer.service';
@@ -100,17 +101,14 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
 
     this.stockInformationService.getCompanyData(ticker).then((responses) => {
       if (responses[0].hasOwnProperty('ticker')) {
-        const newStockConfig = {
+        const newStockConfig: any = {
           ticker: responses[0].ticker,
           logo: responses[0].logo,
           companyName: responses[0].name,
           marketName: responses[0].exchange,
           stockPrice: responses[1].c.toFixed(2),
-          priceTimestamp: new Date(responses[1].t * 1000),
-          priceTimestampString: new Intl.DateTimeFormat('en-US', options)
-            .format(new Date(responses[1].t * 1000))
-            .replace(/\//g, '-')
-            .replace(/,/g, ''),
+          priceTimestamp: formatDate(new Date(responses[1].t * 1000)),
+          priceTimestampString: formatDate(new Date(responses[1].t * 1000)),
           change: responses[1].d.toFixed(2),
           changePercent: responses[1].dp.toFixed(2),
           wishlist: responses[3].found,
@@ -161,12 +159,11 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
         const marketStatus =
           new Date().getTime() - new Date(data.t * 1000).getTime() < 300000;
         this.marketOpen = marketStatus;
-        console.log(marketStatus);
+
         if (marketStatus) {
-          this.fetchMarketData?.unsubscribe();
-          this.fetchMarketData = interval(30000) // Emit every 30 seconds
+          this.fetchMarketData?.unsubscribe(); //TODO: check for param change
+          this.fetchMarketData = interval(30000) //TODO: 15s Emit every 30 seconds
             .subscribe(() => {
-              console.log('here');
               this.refetch(false, ticker!);
             });
         }
@@ -181,20 +178,16 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
             .getCompanyData(ticker!)
             .then((responses) => {
               if (responses[0].hasOwnProperty('ticker')) {
-                const newStockConfig = {
+                const newStockConfig: any = {
                   ticker: responses[0].ticker,
                   logo: responses[0].logo,
                   companyName: responses[0].name,
                   marketName: responses[0].exchange,
                   stockPrice: responses[1].c.toFixed(2),
-                  priceTimestamp: new Date(responses[1].t * 1000),
-                  priceTimestampString: new Intl.DateTimeFormat(
-                    'en-US',
-                    options
-                  )
-                    .format(new Date(responses[1].t * 1000))
-                    .replace(/\//g, '-')
-                    .replace(/,/g, ''),
+                  priceTimestamp: formatDate(new Date(responses[1].t * 1000)),
+                  priceTimestampString: formatDate(
+                    new Date(responses[1].t * 1000)
+                  ),
                   change: responses[1].d.toFixed(2),
                   changePercent: responses[1].dp.toFixed(2),
                   wishlist: responses[3].found,

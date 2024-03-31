@@ -1,4 +1,11 @@
-<div style="margin: auto; width: fit-content; margin-top: 2rem; height: auto">
+<div
+  style="
+    margin: auto;
+    width: fit-content;
+    margin-top: 2rem;
+    height: calc(15vh-2rem);
+  "
+>
   <div style="margin: auto; width: fit-content; font-size: x-large">
     STOCK SEARCH
   </div>
@@ -6,14 +13,14 @@
 
   <div
     style="
-      margin-top: 2rem;
-      height: 30px;
+      margin-top: 1rem;
+      height: 2.5rem;
       background-color: white;
-      border-radius: 17px;
+      border-radius: 2rem;
       display: flex;
       align-items: center;
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 1rem;
+      padding-right: 2rem;
       box-shadow: 1px 1px 1px 1px rgb(223, 223, 223, 0.5);
       justify-content: space-between;
       border: 3px solid #2224a2;
@@ -27,10 +34,51 @@
         align-items: center;
         color: #dfdfdfcc;
         font-weight: 300;
-        width: 100%;
       "
     >
-      <app-autocomplete-filter [ticker]="this.ticker"></app-autocomplete-filter>
+      <input
+        style="
+          padding: 0;
+          margin: 0;
+          color: gray;
+          width: 100%;
+          min-width: 15rem;
+          border: 0;
+        "
+        required
+        oninput="this.value = this.value.toUpperCase()"
+        [value]="this.ticker"
+        id="ticker"
+        autocomplete="off"
+        placeholder="Enter Stock Ticker symbol"
+        type="text"
+        aria-label="Number"
+        matInput
+        [formControl]="inputControl"
+        [matAutocomplete]="auto"
+        #searchQuery
+      />
+
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="onOptionSelected($event)"
+      >
+        <mat-option *ngIf="this.loading && this.inputControl.value !== ''">
+          <mat-spinner
+            *ngIf="this.loading"
+            [diameter]="20"
+            class="spinner"
+          ></mat-spinner>
+        </mat-option>
+        @for (option of filteredList | async; track option) {
+        <mat-option
+          [value]="option.displaySymbol"
+          *ngIf="!this.loading && this.inputControl.value !== ''"
+        >
+          {{ option.displaySymbol }} | {{ option.description }}
+        </mat-option>
+        }
+      </mat-autocomplete>
     </div>
 
     <div style="display: flex; align-items: center; gap: 1rem">
@@ -56,7 +104,6 @@
         </svg>
       </label>
       <label>
-        <!-- TODO:Reset functionality and search -->
         <button style="display: none" type="reset"></button>
         <svg
           width="15px"

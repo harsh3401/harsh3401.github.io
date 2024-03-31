@@ -1,4 +1,7 @@
-<mat-tab-group (selectedTabChange)="onLinkClick($event)" class="mx-5">
+<mat-tab-group
+  (selectedTabChange)="onLinkClick($event)"
+  class="mx-2 mx-lg-5 border-1 border-black"
+>
   <mat-tab label="Summary">
     <app-summary-tab
       [stockData]="this.stockData"
