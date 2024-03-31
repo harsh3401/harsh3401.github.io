@@ -9,6 +9,7 @@ dotenv.config();
 
 const PORT = process.env.PORT ?? 8080;
 const app: Express = express();
+const path = require("path");
 
 app.use(
   cors({
@@ -20,13 +21,10 @@ app.use(
 );
 
 app.use(bodyParser.json());
-app.use("/", express.static("browser"));
+// app.use("/", express.static("browser"));
 app.use("/api", apiRoutes);
 app.use("/user", userRoutes);
 
-app.get("*", (req, res) => {
-  res.sendFile("/dist/browser/index.html");
-});
 const start = async (): Promise<void> => {
   try {
     await mongoose.connect(process.env.DB_CONNECTION_STRING!);

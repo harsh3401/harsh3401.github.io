@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, SimpleChanges, inject } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { FooterService } from '../../../services/footer.service';
@@ -34,6 +34,7 @@ export class SummaryTabComponent implements OnInit {
   chartOptions!: any;
   footerService: FooterService = inject(FooterService);
   fetchError: boolean = false;
+  constructor(private router: Router) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes['active'] && changes['active'].currentValue === 0) {
       this.footerService.setPosition(true);
@@ -82,6 +83,9 @@ export class SummaryTabComponent implements OnInit {
         };
       }
     }
+  }
+  navigateToPeer(peer: any) {
+    this.router.navigate([`search/${peer}`]);
   }
   ngOnInit() {
     if (JSON.stringify(this.stockData.chartData) !== '{}') {

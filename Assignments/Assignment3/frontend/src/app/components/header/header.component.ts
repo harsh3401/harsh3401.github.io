@@ -14,7 +14,7 @@ import { StockSearchService } from '../../services/search-service.service';
   template: `
     <nav
       class="ps-5 navbar navbar-expand-lg navbar-dark d-flex justify-content-between "
-      style="background-color: #2224a2;"
+      style="background-color: #2224a2; "
     >
       <div class="container-fluid">
         <a class="navbar-brand  link-light" href="#">Stock Search</a>
@@ -31,7 +31,7 @@ import { StockSearchService } from '../../services/search-service.service';
         </button>
 
         <div
-          class="collapse navbar-collapse flex-grow-0  gap-2 text-white mt-3"
+          class="collapse navbar-collapse flex-grow-0  gap-2 text-white "
           id="navbarNav"
         >
           <ul class="navbar-nav ">

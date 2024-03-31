@@ -1,11 +1,10 @@
 <app-search-page [ticker]="stockConfig?.ticker"></app-search-page>
-
+<app-custom-alert></app-custom-alert>
 @if(this.resultsFound && !this.loading) {
 
 <div
   class="justify-content-center align-items-lg-center align-items-start mt-4 row mx-1 mx-lg-5 mb-3"
 >
-  <app-custom-alert></app-custom-alert>
   <div class="d-flex flex-column align-items-center col text-center">
     <div class="d-flex align-items-start p-0 gap-1">
       <p class="fw-bold m-0 p-0 lh-1 fs-2">
@@ -134,7 +133,7 @@
       </div>
     </div>
     <div class="text-secondary" style="font-size: x-small">
-      {{ stockConfig?.priceTimestampString }}
+      {{ stockConfig.currentTimeStamp }}
     </div>
   </div>
   <div

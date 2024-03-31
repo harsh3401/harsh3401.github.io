@@ -57,6 +57,16 @@ export class StockSearchService {
     );
     return (await data.json()) ?? [];
   }
+  async getUpdatedUserData(search_string: string): Promise<any[]> {
+    const urls = [
+      `${environment.apiUrl}/user/portfolio-data?ticker=${search_string}`,
+      `${environment.apiUrl}/user/watchlist-data?ticker=${search_string}`,
+      `${environment.apiUrl}/user/wallet-balance`,
+    ];
+    const Promises = urls.map((url) => fetch(url));
+    const responses = await Promise.all(Promises);
+    return await Promise.all(responses.map((response) => response.json()));
+  }
   async getCompanyData(search_string: string): Promise<any[]> {
     const urls = [
       `${environment.apiUrl}/api/company-details?ticker=${search_string}`,
@@ -66,7 +76,6 @@ export class StockSearchService {
       `${environment.apiUrl}/api/company-peers?ticker=${search_string}`,
       `${environment.apiUrl}/api/historical-data?ticker=${search_string}&range=day`,
       `${environment.apiUrl}/user/wallet-balance`,
-      `${environment.apiUrl}/user/portfolio-data?ticker=${search_string}`,
     ];
     const Promises = urls.map((url) => fetch(url));
     const responses = await Promise.all(Promises);

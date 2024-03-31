@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, from, interval, map, switchMap } from 'rxjs';
 import { BuySellModalComponent } from '../../buy-sell-modal/buy-sell-modal.component';
 import { formatDate } from '../../helpers/helpers';
@@ -56,7 +56,7 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
   resultsFound: boolean = false;
   marketOpen: boolean = false;
   loading: boolean = false;
-  constructor(private alertService: AlertService) {}
+  constructor(private alertService: AlertService, private router: Router) {}
   openBuySellModal(sell = false) {
     this.modalComponent.open(
       this.stockConfig?.stockPrice,
@@ -67,6 +67,13 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
       this.refetch,
       this.stockConfig.companyName
     );
+  }
+  formatnewLocalDate(date: any) {
+    var utcDate = new Date(date.toUTCString());
+    utcDate.setHours(utcDate.getHours() - 7);
+    var usDate = new Date(utcDate).toISOString().slice(0, 10);
+    var usTime = new Date(utcDate).toLocaleTimeString();
+    return usDate + ' ' + usTime;
   }
   addToWatchList() {
     this.stockUserService
@@ -107,8 +114,11 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
           companyName: responses[0].name,
           marketName: responses[0].exchange,
           stockPrice: responses[1].c.toFixed(2),
-          priceTimestamp: formatDate(new Date(responses[1].t * 1000)),
+          priceTimestamp: this.formatnewLocalDate(
+            new Date(responses[1].t * 1000)
+          ),
           priceTimestampString: formatDate(new Date(responses[1].t * 1000)),
+          currentTimeStamp: this.formatnewLocalDate(new Date()),
           change: responses[1].d.toFixed(2),
           changePercent: responses[1].dp.toFixed(2),
           wishlist: responses[3].found,
@@ -128,12 +138,13 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
         this.stockConfig = newStockConfig;
         this.stockInformationService.stockConfig = newStockConfig;
         this.resultsFound = true;
-        this.stockInformationService.ticker = this.stockConfig.ticker!;
       } else {
         this.resultsFound = false;
         this.alertService.showAlert(
           'No data found. Please enter a valid Ticker',
-          'danger'
+          'danger',
+          false,
+          false
         );
       }
       this.loading = false;
@@ -149,10 +160,7 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
           const ticker = paramMap.get('ticker');
           return from(
             this.stockInformationService.getMarketStatus(ticker!)
-          ).pipe(
-            // Pass the ticker to the subscribe method
-            map((data) => ({ ticker, data }))
-          );
+          ).pipe(map((data) => ({ ticker, data })));
         })
       )
       .subscribe(({ data, ticker }) => {
@@ -168,11 +176,27 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
             });
         }
         this.loading = true;
-        this.footerService.setPosition(true);
-        if (this.stockInformationService.ticker === ticker) {
-          this.stockConfig = this.stockInformationService.stockConfig;
-          this.resultsFound = true;
+
+        if (
+          this.stockInformationService.stockConfig?.ticker
+            ? this.stockInformationService.stockConfig?.ticker === ticker
+            : false
+        ) {
           this.loading = false;
+          this.stockInformationService
+            .getUpdatedUserData(ticker!)
+            .then((responses) => {
+              const newConfig = {
+                ...this.stockInformationService.stockConfig,
+                wishlist: responses[1].found,
+                portfolio: responses[0].found,
+                walletBalance: responses[2].balance.toFixed(2),
+                qty: responses[0]?.qty ?? 0,
+              };
+
+              this.stockConfig = newConfig;
+              this.resultsFound = true;
+            });
         } else {
           this.stockInformationService
             .getCompanyData(ticker!)
@@ -184,8 +208,11 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
                   companyName: responses[0].name,
                   marketName: responses[0].exchange,
                   stockPrice: responses[1].c.toFixed(2),
-                  priceTimestamp: formatDate(new Date(responses[1].t * 1000)),
-                  priceTimestampString: formatDate(
+                  priceTimestamp: this.formatnewLocalDate(
+                    new Date(responses[1].t * 1000)
+                  ),
+                  currentTimeStamp: this.formatnewLocalDate(new Date()),
+                  priceTimestampString: this.formatnewLocalDate(
                     new Date(responses[1].t * 1000)
                   ),
                   change: responses[1].d.toFixed(2),
@@ -202,17 +229,18 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
                   companyPeers: responses[4],
                   chartData: responses[5],
                   walletBalance: responses[6].balance.toFixed(2),
-                  qty: responses[7]?.qty ?? 0,
+                  qty: responses[2]?.qty ?? 0,
                 };
                 this.stockConfig = newStockConfig;
                 this.stockInformationService.stockConfig = newStockConfig;
                 this.resultsFound = true;
-                this.stockInformationService.ticker = ticker!;
               } else {
                 this.resultsFound = false;
                 this.alertService.showAlert(
                   'No data found. Please enter a valid Ticker',
-                  'danger'
+                  'danger',
+                  false,
+                  false
                 );
               }
               this.loading = false;

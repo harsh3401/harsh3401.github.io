@@ -16,7 +16,15 @@
         <div class="fs-4 fw-medium">{{ watchListItem.ticker }}</div>
         <div>{{ watchListItem.corporationName }}</div>
       </div>
-      <div [class]="watchListItem.change > 0 ? ' text-success' : 'text-danger'">
+      <div
+        [class]="
+          watchListItem.change > 0
+            ? ' text-success'
+            : watchListItem.change < 0
+            ? 'text-danger'
+            : ''
+        "
+      >
         <span class="fw-bold fs-5">{{ watchListItem.price.toFixed(2) }}</span>
         <div>
           <span *ngIf="watchListItem.change > 0">

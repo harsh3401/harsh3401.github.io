@@ -83,7 +83,11 @@ export class SearchPageComponent {
         false
       );
     }
-    if (this.inputControl.value) {
+    console.log('here', this.inputControl.value);
+    if (
+      this.inputControl.value !== null &&
+      this.inputControl.value !== undefined
+    ) {
       this.router.navigate([`/search/${this.inputControl.value}`]);
     }
   }

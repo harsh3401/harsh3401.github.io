@@ -20,6 +20,7 @@ export interface StockConfig {
   companyPeers: string;
   chartData: any;
   walletBalance: number;
+  currentTimeStamp: string;
   qty: number;
 }
 export interface news_format {
