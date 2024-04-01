@@ -15,8 +15,14 @@
     {{ newsObject["headline"] }}
   </div>
 
-  <div class="">{{ newsObject["summary"] }}</div>
-  <div class="text-secondary">
+  <div>
+    {{
+      newsObject["summary"]?.length > 300
+        ? newsObject["summary"].slice(0, 300) + "..."
+        : newsObject["summary"]
+    }}
+  </div>
+  <div class="text-secondary mt-1">
     For more details click
     <a target="_blank" href="{{ newsObject['url'] }}">here</a>
   </div>

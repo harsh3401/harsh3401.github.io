@@ -59,14 +59,15 @@ export class TopNewsTabComponent implements OnInit {
 
           updatedNews = updatedNews.map((data: any) => {
             return {
+              ...data,
               datetime: new Intl.DateTimeFormat('en-US', options).format(
                 new Date(data['datetime'] * 1000)
               ),
-              ...data,
             };
           });
 
           this.news = updatedNews;
+          console.log(updatedNews);
           this.stockInformationService.news = updatedNews;
           this.stockInformationService.ticker = ticker!;
         });

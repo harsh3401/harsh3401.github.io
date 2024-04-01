@@ -24,7 +24,7 @@ export interface StockConfig {
   qty: number;
 }
 export interface news_format {
-  [key: string]: String;
+  [key: string]: any;
 }
 export interface WatchListItem {
   ticker: string;

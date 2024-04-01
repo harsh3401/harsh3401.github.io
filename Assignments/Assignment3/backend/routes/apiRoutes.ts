@@ -175,6 +175,7 @@ router.get("/company-earnings", (req: Request, res: Response) => {
 });
 
 router.get("/historical-data", (req: Request, res: Response) => {
+  console.log("new request to polygon");
   const query = String(req.query["ticker"]);
   const range = String(req.query["range"]);
   getQuote(query)
@@ -217,7 +218,9 @@ router.get("/historical-data", (req: Request, res: Response) => {
 
       PREVIOUS_DATE = formatDate(PREVIOUS_DATE);
       NEXT_DATE = formatDate(NEXT_DATE);
-
+      console.log(
+        `${process.env.POLYGON_ENDPOINT}/${query}/range/1/${param}/${PREVIOUS_DATE}/${NEXT_DATE}?adjusted=true&sort=asc&apiKey=${process.env.POLYGON_API_KEY}`
+      );
       axios
         .get(
           `${process.env.POLYGON_ENDPOINT}/${query}/range/1/${param}/${PREVIOUS_DATE}/${NEXT_DATE}?adjusted=true&sort=asc&apiKey=${process.env.POLYGON_API_KEY}`

@@ -2,39 +2,46 @@
   <div class="text-center">
     <h5 class="mt-2">Insider Sentiments</h5>
 
-    <table class="table m-auto w-100 w-lg-50">
-      <tr class="border-bottom h-100 border-secondary">
-        <th>{{ this?.companyName }}</th>
-        <th class="px-1">MSPR</th>
-        <th class="px-1">Change</th>
-      </tr>
-      <tr class="border-bottom h-100 border-secondary">
-        <th>Total</th>
-        <td class="px-1">{{ this?.sentimentData?.mspr?.total!.toFixed(2) }}</td>
-        <td class="px-1">
-          {{ this?.sentimentData?.change?.total!.toFixed(2) }}
-        </td>
-      </tr>
-      <tr class="border-bottom h-100 border-secondary">
-        <th>Positive</th>
-        <td class="px-1">
-          {{ this?.sentimentData?.mspr?.positive!.toFixed(2) }}
-        </td>
-        <td class="px-1">
-          {{ this?.sentimentData?.change?.positive!.toFixed(2) }}
-        </td>
-      </tr>
-      <tr class="border-bottom h-100 border-secondary">
-        <th>Negative</th>
-        <td class="px-1">
-          {{ this?.sentimentData?.mspr?.negative!.toFixed(2) }}
-        </td>
-        <td class="px-1">
-          {{ this?.sentimentData?.change?.negative!.toFixed(2) }}
-        </td>
-      </tr>
-    </table>
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12">
+        <table class="table m-auto w-100">
+          <tr class="border-bottom h-100 border-secondary">
+            <th>{{ this?.companyName }}</th>
+            <th class="px-1">MSPR</th>
+            <th class="px-1">Change</th>
+          </tr>
+          <tr class="border-bottom h-100 border-secondary">
+            <th>Total</th>
+            <td class="px-1">
+              {{ this?.sentimentData?.mspr?.total!.toFixed(2) }}
+            </td>
+            <td class="px-1">
+              {{ this?.sentimentData?.change?.total!.toFixed(2) }}
+            </td>
+          </tr>
+          <tr class="border-bottom h-100 border-secondary">
+            <th>Positive</th>
+            <td class="px-1">
+              {{ this?.sentimentData?.mspr?.positive!.toFixed(2) }}
+            </td>
+            <td class="px-1">
+              {{ this?.sentimentData?.change?.positive!.toFixed(2) }}
+            </td>
+          </tr>
+          <tr class="border-bottom h-100 border-secondary">
+            <th>Negative</th>
+            <td class="px-1">
+              {{ this?.sentimentData?.mspr?.negative!.toFixed(2) }}
+            </td>
+            <td class="px-1">
+              {{ this?.sentimentData?.change?.negative!.toFixed(2) }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
+
   <div class="d-md-flex justify-content-lg-around mt-5 gap-1 mb-2 mb-lg-5">
     <highcharts-chart
       [Highcharts]="highcharts"

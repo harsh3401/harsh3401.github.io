@@ -38,6 +38,7 @@ export class PortfolioPageComponent implements OnInit {
   }
   constructor(private alertService: AlertService) {}
   openStockModal(sell = false, portfolioItem: PortfolioItem) {
+    console.log(portfolioItem);
     this.modalComponent.open(
       portfolioItem.price,
       this.balance,
@@ -57,6 +58,7 @@ export class PortfolioPageComponent implements OnInit {
     });
     this.stockBuyService.getPortfolio().then((data) => {
       this.portfolio = data;
+      console.log(this.portfolio);
 
       if (data.length === 0) {
         this.loading = false;

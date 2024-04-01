@@ -1,0 +1,10 @@
+.summary-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis; /* Add ellipsis at the end */
+  max-height: 10rem;
+
+  height: 10rem;
+}
