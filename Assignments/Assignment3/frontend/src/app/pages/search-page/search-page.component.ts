@@ -43,6 +43,7 @@ export class SearchPageComponent {
   @Input() ticker!: string | undefined;
   inputControl = new FormControl('');
   loading: boolean = false;
+
   filteredList: Observable<StockSearchItem[]> = new Observable<[]>();
   constructor(
     private router: Router,
@@ -52,6 +53,7 @@ export class SearchPageComponent {
 
   async ngOnInit() {
     this.inputControl.setValue(this.ticker!);
+
     this.filteredList = this.inputControl.valueChanges.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -66,15 +68,17 @@ export class SearchPageComponent {
       this.router.navigate([`/search/${event.option.value}`]);
     }
 
-    // Perform any action you want here
+    // Perform any action you want here1
   }
   clearSearch(): void {
     this.inputControl.setValue('');
     this.router.navigate([`/search/home`]);
   }
-  searchTicker(): void {
-    const tickerValue = this.inputControl.value;
-
+  searchTicker(tickerValue: string): void {
+    console.log(tickerValue);
+    if (tickerValue !== null && tickerValue !== undefined) {
+      this.router.navigate([`/search/${this.inputControl.value}`]);
+    }
     if (tickerValue === '' || !this.ticker) {
       this.alertService.showAlert(
         'Please enter a valid Ticker',
@@ -82,13 +86,6 @@ export class SearchPageComponent {
         false,
         false
       );
-    }
-    console.log('here', this.inputControl.value);
-    if (
-      this.inputControl.value !== null &&
-      this.inputControl.value !== undefined
-    ) {
-      this.router.navigate([`/search/${this.inputControl.value}`]);
     }
   }
 }

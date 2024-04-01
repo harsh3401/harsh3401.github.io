@@ -70,7 +70,6 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
   }
   formatnewLocalDate(date: any) {
     var utcDate = new Date(date.toUTCString());
-    utcDate.setHours(utcDate.getHours() - 7);
     var usDate = new Date(utcDate).toISOString().slice(0, 10);
     var usTime = new Date(utcDate).toLocaleTimeString();
     return usDate + ' ' + usTime;
@@ -105,7 +104,7 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
   }
   refetch = (setLoad: boolean = true, ticker: string) => {
     this.loading = setLoad;
-
+    this.alertService.hideAlert();
     this.stockInformationService.getCompanyData(ticker).then((responses) => {
       if (responses[0].hasOwnProperty('ticker')) {
         const newStockConfig: any = {
@@ -138,7 +137,9 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
         this.stockConfig = newStockConfig;
         this.stockInformationService.stockConfig = newStockConfig;
         this.resultsFound = true;
+        console.log(this.resultsFound);
       } else {
+        console.log(this.resultsFound);
         this.resultsFound = false;
         this.alertService.showAlert(
           'No data found. Please enter a valid Ticker',
@@ -153,7 +154,7 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loading = true;
-    this.footerService.setPosition(true);
+    this.alertService.hideAlert();
     this.route.paramMap
       .pipe(
         switchMap((paramMap) => {
@@ -176,6 +177,7 @@ export class SearchResultsInfoComponent implements OnInit, OnDestroy {
             });
         }
         this.loading = true;
+        this.alertService.hideAlert();
 
         if (
           this.stockInformationService.stockConfig?.ticker

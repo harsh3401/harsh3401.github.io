@@ -13,6 +13,9 @@ export class AlertService {
   setAlertComponentRef(ref: CustomAlertComponent | CustomAlertComponent2) {
     this.alertComponentRef = ref;
   }
+  hideAlert() {
+    this.alertComponentRef?.dismissAlert();
+  }
   showAlert(
     message: string,
     type: string,

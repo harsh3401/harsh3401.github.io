@@ -83,7 +83,11 @@
 
     <div style="display: flex; align-items: center; gap: 1rem">
       <label>
-        <input style="display: none" type="submit" (click)="searchTicker()" />
+        <input
+          style="display: none"
+          type="submit"
+          (click)="searchTicker(this.inputControl.value!)"
+        />
         <svg
           width="15px"
           height="15px"

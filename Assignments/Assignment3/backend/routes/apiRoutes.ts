@@ -209,36 +209,10 @@ router.get("/historical-data", (req: Request, res: Response) => {
         } else {
           NEXT_DATE.setDate(marketDate.getDate());
           PREVIOUS_DATE.setDate(marketDate.getDate() - 1);
-          // const day = NEXT_DATE.getDay();
-          // if (2 <= day && day <= 5) {
-          //   if (NEXT_DATE > marketCloseUTC) {
-          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
-          //   }
-          //   if (NEXT_DATE < marketOpenUTC) {
-          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
-          //     NEXT_DATE.setDate(NEXT_DATE.getDate() + 1);
-          //   }
-          // }
-          // if (day === 1) {
-          //   if (NEXT_DATE > marketCloseUTC) {
-          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
-          //   }
-          //   if (NEXT_DATE < marketOpenUTC) {
-          //     PREVIOUS_DATE.setDate(NEXT_DATE.getDate() + 3);
-          //     NEXT_DATE.setDate(NEXT_DATE.getDate() + 4);
-          //   }
-          // }
-          // if (day == 6) {
-          //   PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 2);
-          //   NEXT_DATE.setDate(NEXT_DATE.getDate() - 1);
-          // }
-          // if (day == 0) {
-          //   PREVIOUS_DATE.setDate(NEXT_DATE.getDate() + 4);
-          //   NEXT_DATE.setDate(NEXT_DATE.getDate() + 5);
-          // }
         }
       } else {
-        PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 181);
+        PREVIOUS_DATE.setFullYear(NEXT_DATE.getFullYear() - 2);
+        PREVIOUS_DATE.setDate(NEXT_DATE.getDate() - 1);
       }
 
       PREVIOUS_DATE = formatDate(PREVIOUS_DATE);

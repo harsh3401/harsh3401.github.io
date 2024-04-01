@@ -9,7 +9,6 @@ dotenv.config();
 
 const PORT = process.env.PORT ?? 8080;
 const app: Express = express();
-const path = require("path");
 
 app.use(
   cors({
@@ -21,7 +20,7 @@ app.use(
 );
 
 app.use(bodyParser.json());
-// app.use("/", express.static("browser"));
+app.use("/", express.static("browser"));
 app.use("/api", apiRoutes);
 app.use("/user", userRoutes);
 

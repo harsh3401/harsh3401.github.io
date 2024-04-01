@@ -2,7 +2,7 @@
   <div class="text-center">
     <h5 class="mt-2">Insider Sentiments</h5>
 
-    <table class="table m-auto w-lg-50">
+    <table class="table m-auto w-100 w-lg-50">
       <tr class="border-bottom h-100 border-secondary">
         <th>{{ this?.companyName }}</th>
         <th class="px-1">MSPR</th>
@@ -40,12 +40,14 @@
       [Highcharts]="highcharts"
       [options]="chartOptions?.recommendation!"
       style="height: 400px; display: block"
+      class="mb-4 mb-lg-0"
     >
     </highcharts-chart>
     <highcharts-chart
       [Highcharts]="highcharts"
       [options]="chartOptions?.earnings!"
       style="height: 400px; display: block"
+      class="mb-4 mb-lg-0"
     >
     </highcharts-chart>
   </div>

@@ -75,7 +75,7 @@ export class ChartsTabComponent implements OnInit {
                   enabled: true,
                 },
                 rangeSelector: {
-                  selected: 0,
+                  selected: 2,
                   enabled: true,
 
                   buttons: [

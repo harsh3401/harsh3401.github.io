@@ -5,17 +5,3 @@ td {
 table tr {
   border-bottom: 2px solid #ccc !important;
 }
-
-@media (min-width: 992px) {
-  /* Large devices (desktops, laptops, etc.) */
-  .w-lg-50 {
-    width: 50% !important;
-  }
-}
-
-@media (max-width: 991px) {
-  /* Small devices (tablets, phones, etc.) */
-  .w-lg-50 {
-    width: 100% !important;
-  }
-}
