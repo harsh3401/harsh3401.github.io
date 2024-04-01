@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -50,6 +50,11 @@ export class SearchPageComponent {
     private alertService: AlertService,
     private filterService: StockSearchService
   ) {}
+  @HostListener('document:keydown.enter')
+  handleEnter() {
+    this.searchTicker(this.inputControl.value!);
+    // Perform your action here
+  }
 
   async ngOnInit() {
     this.inputControl.setValue(this.ticker!);
