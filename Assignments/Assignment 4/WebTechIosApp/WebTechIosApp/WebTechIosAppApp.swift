@@ -1,14 +1,14 @@
 //
-//  WebTechIosAppApp.swift
-//  WebTechIosApp
+//  WebTechIOSAppApp.swift
+//  WebTechIOSApp
 //
-//  Created by Harsh Jain on 05/04/24.
+//  Created by Harsh Jain on 09/04/24.
 //
 
 import SwiftUI
 
 @main
-struct WebTechIosAppApp: App {
+struct WebTechIOSAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

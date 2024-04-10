@@ -1,13 +1,13 @@
 //
-//  WebTechIosAppUITestsLaunchTests.swift
-//  WebTechIosAppUITests
+//  WebTechIOSAppUITestsLaunchTests.swift
+//  WebTechIOSAppUITests
 //
-//  Created by Harsh Jain on 05/04/24.
+//  Created by Harsh Jain on 09/04/24.
 //
 
 import XCTest
 
-final class WebTechIosAppUITestsLaunchTests: XCTestCase {
+final class WebTechIOSAppUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

@@ -1,14 +1,14 @@
 //
-//  WebTechIosAppTests.swift
-//  WebTechIosAppTests
+//  WebTechIOSAppTests.swift
+//  WebTechIOSAppTests
 //
-//  Created by Harsh Jain on 05/04/24.
+//  Created by Harsh Jain on 09/04/24.
 //
 
 import XCTest
-@testable import WebTechIosApp
+@testable import WebTechIOSApp
 
-final class WebTechIosAppTests: XCTestCase {
+final class WebTechIOSAppTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

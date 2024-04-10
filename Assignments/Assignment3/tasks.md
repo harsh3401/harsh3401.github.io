@@ -4,12 +4,12 @@
 - [x] Frontend Page Wise Construction
 - [x] Routing
 - [x] DB Connection and persistence features
-- [ ] Live Reloading of Stock Data ( Polling )
-- [ ] Date and Time Config checks and testing
+- [x] Live Reloading of Stock Data ( Polling )
+- [x] Date and Time Config checks and testing
 - [x] Charts and config
-- [ ] Responsive Design
+- [x] Responsive Design
 - [x] Bootstrap Usage and specified points in spec
-- [ ] Stock Market Open setup for polling
+- [x] Stock Market Open setup for polling
 - [x] Service to fetch data from APIs
 
 ## Backend
