@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Highcharts imports -->
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  </head>
+  <body>
+    <div style="width: 300px; margin: auto" id="container"></div>
+    <script>
+      function renderRecommendationChart(ticker, change) {
+        fetch(
+          `http://localhost:8080/api/recommendation-trends?ticker=${ticker}&range=month`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const strongBuy = [];
+            const buy = [];
+            const hold = [];
+            const sell = [];
+            const strongSell = [];
+            const timeSlots = [];
+
+            data.forEach((recommendationObject) => {
+              strongBuy.push(recommendationObject.strongBuy);
+              buy.push(recommendationObject.buy);
+              sell.push(recommendationObject.sell);
+              strongSell.push(recommendationObject.strongSell);
+              hold.push(recommendationObject.hold);
+              timeSlots.push(recommendationObject.period);
+            });
+            console.log(timeSlots);
+            Highcharts.stockChart("container", {
+              rangeSelector: {
+                selected: 1,
+                enabled: false,
+              },
+              navigator: {
+                enabled: false,
+              },
+              scrollbar: {
+                enabled: false,
+              },
+              accessibility: { enabled: false },
+              chart: {
+                type: "column",
+                backgroundColor: "#f2f2f2",
+              },
+              title: {
+                text: "Recommendation Trends",
+              },
+              xAxis: {
+                labels: {
+                  formatter: function () {
+                    const index = this.pos;
+                    return timeSlots[index];
+                  },
+
+                  style: {
+                    fontSize: "10px", // Adjust font size as needed
+                  },
+                },
+              },
+              yAxis: {
+                opposite: false,
+                title: {
+                  text: "#Analysis",
+                },
+                stackLabels: {
+                  enabled: true,
+                },
+              },
+              plotOptions: {
+                column: {
+                  stacking: "normal",
+                  dataLabels: {
+                    enabled: true,
+                  },
+                },
+              },
+              series: [
+                {
+                  type: "column",
+                  name: "Strong Buy",
+                  data: strongBuy,
+                  color: "rgb(50, 100, 61)",
+                },
+                {
+                  type: "column",
+                  name: "Buy",
+                  data: buy,
+                  color: "rgb(85, 173, 91)",
+                },
+                {
+                  type: "column",
+                  name: "Hold",
+                  data: hold,
+                  color: "rgb(169, 129, 59)",
+                },
+                {
+                  type: "column",
+                  name: "Sell",
+                  data: sell,
+                  color: "rgb(224, 88, 82)",
+                },
+                {
+                  type: "column",
+                  name: "Strong Sell",
+                  data: strongSell,
+                  color: "rgb(112, 47, 48)",
+                },
+              ],
+            });
+          })
+          .catch((error) => {
+            console.log("Error fetching data:", error);
+          });
+      }
+
+      renderRecommendationChart("AAPL", 5);
+    </script>
+  </body>
+</html>
