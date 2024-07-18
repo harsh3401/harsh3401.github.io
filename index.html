@@ -2,14 +2,19 @@
 <html lang="en">
   <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9P2JWW52SN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-9P2JWW52SN"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-  gtag('config', 'G-9P2JWW52SN');
-</script>
+      gtag('config', 'G-9P2JWW52SN');
+    </script>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -200,22 +205,122 @@
               I'm a software developer and a Computer Science graduate student
               at the University of Southern California. I enjoy developing end
               to end applications and crafting systems that solve real world
-              problems at scale.
+              problems at scale and drive business impact.
             </p>
 
             <p>
               I love helping people make the world a better place through
               quality software. Previously, I’ve had the privilege of interning
               at Swasthya AI in the healthcare sector and NUDOC Systems in the
-              document processing domain. Beyond work, I'm committed to personal
-              growth and knowledge sharing. When I am not chasing semicolons :)
-              you can find me hiking my way around California ⛰️.
+              document processing domain. Currently I am interning at SARA which
+              is a speech therapy application for families enabled by AI. Beyond
+              work, I'm committed to personal growth and knowledge sharing. When
+              I am not chasing semicolons :) you can find me hiking my way
+              around California ⛰️.
             </p>
           </section>
 
           <!--
           - service
         -->
+
+          <section class="timeline">
+            <div class="title-wrapper">
+              <div class="icon-box">
+                <ion-icon name="book-outline"></ion-icon>
+              </div>
+
+              <h3 class="h3">Professional Experience</h3>
+            </div>
+
+            <ol class="timeline-list">
+              <li class="timeline-item">
+                <h4 class="h4 timeline-item-title">
+                  Speech Articulation Reinforcement App, Los Angeles, California
+                </h4>
+                <p class="timeline-text">Development intern</p>
+
+                <span>May 2024 — Present</span>
+
+                <p class="timeline-text">
+                  • Refactored phonetic word breakdown service with an
+                  IPA-to-orthographic character mapping approach, simplifying
+                  visual pronunciation guides for children and boosting
+                  performance scores by 18%.
+                </p>
+                <p class="timeline-text">
+                  • Devised a service using AWSLambda, AWSPolly, and S3 to
+                  dynamically generate audio instructions for new practice
+                  templates, automating the release process and reducing launch
+                  times by 50%.
+                </p>
+                <p class="timeline-text">
+                  • Implemented gamification with in app rewards and educational
+                  games to address high dropout rates in audio practice
+                  challenges, improving user engagement and increasing user
+                  session times by 20%.
+                </p>
+              </li>
+
+              <li class="timeline-item">
+                <h4 class="h4 timeline-item-title">Swasthya AI, Pune, India</h4>
+                <p class="timeline-text">Web Development intern</p>
+                <span>August 2023 - November 2023</span>
+
+                <p class="timeline-text">
+                  • Enhanced EMR application performance for oncologists in
+                  major Indian hospitals by leveraging MongoDB’s aggrega- tion
+                  pipeline, achieving a 30% API performance boost amidst
+                  scalability challenges from increasing patient data.
+                </p>
+
+                <p class="timeline-text">
+                  • Implemented the first phase of the CRM analytics dashboard
+                  on the MERN Stack to allow for custom task workflow creation
+                  and management for hospital staff thereby removing dependency
+                  from heterogeneous PM tools.
+                </p>
+                <p class="timeline-text">
+                  • Developed a shared Internal Component Library for
+                  client-side React applications & migrated front-end developer
+                  tooling to Vite, reducing code duplication by 20% & improving
+                  initial load performance by 3x for the web application.
+                </p>
+              </li>
+
+              <li class="timeline-item">
+                <h4 class="h4 timeline-item-title">
+                  NUDOC Systems, Mumbai, India
+                </h4>
+                <p class="timeline-text">Software Development intern</p>
+                <span>January 2022 - October 2022</span>
+
+                <p class="timeline-text">
+                  • Executed real-time job queue progress tracking using web
+                  sockets enabling live updates on back-end processing tasks and
+                  improving log transmission by 2x over polling.
+                </p>
+                <p class="timeline-text">
+                  • Optimized PDF archival strategy, duplicating frequently
+                  accessed files to the main server and transferring less fre-
+                  quently used documents to static storage, resulting in a 20%
+                  annual reduction in block storage costs.
+                </p>
+                <p class="timeline-text">
+                  • Devised a React-based PDF management system to combat
+                  sluggish document processing, achieving a 2x reduction in
+                  processing time via automated file organization and
+                  streamlined flows for repetitive processing tasks.
+                </p>
+                <p class="timeline-text">
+                  • Migrated front-end PDF editor processing tasks to a
+                  queue-based system, resulting in a 50% reduction in
+                  application memory usage , faster task processing speed &
+                  expanded hardware compatibility.
+                </p>
+              </li>
+            </ol>
+          </section>
 
           <section class="service">
             <h3 class="h3 service-title">My Skills</h3>
@@ -235,8 +340,7 @@
                   <h4 class="h4 service-item-title">Programming</h4>
 
                   <p class="service-item-text">
-                    Python , Typescript , Java , Javascript , Swift , SQL ,
-                    Shell
+                    Python , Java , Typescript , Swift , SQL , Shell
                   </p>
                 </div>
               </li>
@@ -254,7 +358,7 @@
                   <h4 class="h4 service-item-title">Web development</h4>
 
                   <p class="service-item-text">
-                    <b>Frontend:</b> Angular, React , HTML & CSS
+                    <b>Frontend:</b> Angular, React , HTML & CSS, Javascript
                   </p>
                   <p class="service-item-text">
                     <b>Backend:</b> Django Rest Framework , Node.Js , Flask
@@ -615,15 +719,11 @@
 
             <ol class="timeline-list">
               <li class="timeline-item">
-                <h4 class="h4 timeline-item-title">Creative director</h4>
+                <h4 class="h4 timeline-item-title">Development intern</h4>
 
                 <span>2015 — Present</span>
 
-                <p class="timeline-text">
-                  Nemo enim ipsam voluptatem blanditiis praesentium voluptum
-                  delenit atque corrupti, quos dolores et qvuas molestias
-                  exceptur.
-                </p>
+                <p class="timeline-text">Harsh jain</p>
               </li>
 
               <li class="timeline-item">
